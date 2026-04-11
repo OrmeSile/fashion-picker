@@ -1,0 +1,20 @@
+:host{
+  display: grid;
+  grid-template-columns: minmax(auto, 300px) minmax(auto, 3fr) minmax(auto, 300px);
+  height: auto;
+  width: auto;
+  border: dashed red 1px;
+  @media screen and (max-width: 1000px) {
+    grid-template-columns: 60px minmax(auto, 2fr) 60px;
+  }
+}
+
+.side-panel{
+  border: solid black 1px;
+  background: #55C;
+  min-width: 150px;
+}
+
+.center-panel {
+  min-width: 400px;
+}

@@ -1,0 +1,5 @@
+<div fpDragDropUpload class="drop-zone" (imageUrl)="setImage($event)">
+  @if(imageUrls()){
+    <fp-image-album-grid-preview [imageUrls]="imageUrls()"/>
+  }
+</div>
