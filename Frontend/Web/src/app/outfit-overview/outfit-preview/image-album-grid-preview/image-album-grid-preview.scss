@@ -1,0 +1,41 @@
+:host {
+  overflow-y: auto;
+  background: #555;
+  border-radius: 2rem;
+  scrollbar-color: #CCC transparent;
+}
+
+.container {
+  display: grid;
+  grid-template-columns:repeat(3, 1fr);
+  grid-auto-rows: min-content;
+  gap: 1rem;
+  padding: 1rem;
+  width: 100%;
+  @media screen and (1200px < width < 1400px) {
+    grid-template-columns:repeat(4, 1fr);
+  }
+  @media screen and (1400px < width < 2000px) {
+    grid-template-columns:repeat(5, 1fr);
+  }
+
+  @media screen and (2000px < width < 2400px) {
+    grid-template-columns:repeat(6, 1fr);
+  }
+
+  @media screen and (width >= 2400px) {
+    grid-template-columns:repeat(7, 1fr);
+  }
+
+  scrollbar-width: thin;
+}
+
+
+.active {
+  grid-column: 1/ span 2;
+}
+
+:host {
+  display: flex;
+  justify-content: center;
+}

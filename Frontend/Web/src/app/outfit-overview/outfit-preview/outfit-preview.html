@@ -1,3 +1,29 @@
-<div class="panel side-panel left-panel"></div>
-<fp-outfit-images class="panel center-panel"></fp-outfit-images>
+<div class="panel side-panel left-panel">
+  @if (activeImage()) {
+    <div>{{ activeImage()?.id }}</div>
+    <div>{{ activeImage()?.fileUrl }}</div>
+  }
+</div>
+<div class="panel center-panel" [class.active-selected]="activeImage()">
+  @if (!fileHandler.fileMetadata().length) {
+    <fp-drop-upload class="drop-zone" (files)="handleDataTransfer($event)"/>
+  } @else {
+    @if (activeImage()) {
+      <div class="modal-container">
+        <img class="focused-image" src="{{activeImage()?.fileUrl}}"/>
+      </div>
+    }
+    <fp-image-album-grid-preview class="image-preview">
+      @for (imageMetadata of imagesMetadata(); track imageMetadata.id) {
+        <fp-preview-image
+          [selected]="imageMetadata.id === activeImage()?.id"
+          [imageUrl]="imageMetadata.fileUrl"
+          (removeImage)="removeImage(imageMetadata.id)"
+          (openImageDetails)="setActiveImage(imageMetadata)"
+        />
+      }
+    <fp-drop-upload class="drop-card" (files)="handleDataTransfer($event)"/>
+    </fp-image-album-grid-preview>
+  }
+</div>
 <div class="panel side-panel right-panel"></div>

@@ -1,0 +1,54 @@
+.file-input-label{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.file-input{
+  display: none;
+  border: none;
+  background: none;
+  content: none;
+}
+
+.file-input-label:hover .icon-container{
+  transition: box-shadow 0.1s ease;
+  background: rgba(255,255,255,0.3);
+  box-shadow:0 0 0.5rem 0.5rem rgba(0,200, 255, 0.5);
+}
+
+.drop-zone{
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-container {
+  color: white;
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  max-width: 15rem;
+  border-radius: 1rem;
+  background: rgba(255,255,255,0.2);
+  filter: drop-shadow(rgba(0, 0, 0, 0.3) 0.2rem 0.2rem);
+}
+
+.drop-box {
+  stroke: white;
+}
+
+.icon{
+  filter: drop-shadow(0 0.3rem 0 rgb(60,60,60));
+}
+
+.drag-over {
+  background: rgba(255,255,255,0.3);
+  box-shadow:0 0 0.5rem 1rem rgba(0,200, 255, 0.5), 0 0 0.5rem 0.3rem rgba(0,200, 255, 1);
+}

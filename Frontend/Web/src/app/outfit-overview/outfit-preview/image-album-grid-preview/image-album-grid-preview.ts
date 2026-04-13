@@ -1,11 +1,13 @@
-import {Component, input} from '@angular/core';
+import {Component, output} from '@angular/core';
 
 @Component({
   selector: 'fp-image-album-grid-preview',
-  imports: [],
+  imports: [
+
+  ],
   templateUrl: './image-album-grid-preview.html',
   styleUrl: './image-album-grid-preview.scss',
 })
 export class ImageAlbumGridPreview {
-  imageUrls = input.required<string[]>();
+  removeClick = output<string>();
 }

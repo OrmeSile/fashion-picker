@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OutfitImages } from './outfit-images';
+import { PreviewImage } from './preview-image';
 
-describe('OutfitImages', () => {
-  let component: OutfitImages;
-  let fixture: ComponentFixture<OutfitImages>;
+describe('PreviewImage', () => {
+  let component: PreviewImage;
+  let fixture: ComponentFixture<PreviewImage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OutfitImages],
+      imports: [PreviewImage],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(OutfitImages);
+    fixture = TestBed.createComponent(PreviewImage);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
