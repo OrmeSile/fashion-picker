@@ -1,0 +1,21 @@
+﻿services:
+  db:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+
+  fashionpicker.api:
+    image: fashionpicker.api
+    build:
+      context: .
+      dockerfile: FashionPicker.Api/Dockerfile
+
+volumes:
+  pgdata:
