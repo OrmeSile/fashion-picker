@@ -5,9 +5,6 @@ namespace FashionPicker.Infra.Models;
 public class Outfit
 {
     public Guid Id { get; set; }
-
-    [MaxLength(100)]
-    public required string Name { get; set; }
     [MaxLength(1024)]
     public required string ImageUrl { get; set; }
     public required List<OutfitTag> Tags { get; set; }
