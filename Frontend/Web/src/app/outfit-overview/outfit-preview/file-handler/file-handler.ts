@@ -10,14 +10,7 @@ export class FileHandler {
 
   }
 
-  private files = signal<OutfitFile[]>([]);
-
-  fileMetadata = computed(() => this.files().map(fileData => {
-    return {
-      fileUrl: fileData.fileUrl,
-      id: fileData.id,
-    };
-  }));
+  files = signal<OutfitFile[]>([]);
 
   addFiles(fileList: FileList) {
     for (const file of fileList) {

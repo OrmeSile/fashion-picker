@@ -60,3 +60,50 @@
 .selected{
   filter: drop-shadow(0 0 1rem rgb(0,200, 255)) drop-shadow(0 0 0.5rem rgb(255,255,255));
 }
+
+.tag-cloud {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  row-gap: 0.5rem;
+  column-gap: 0.2rem;
+}
+
+.metadata-form{
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+  position: relative;
+}
+
+.metadata-form>.form-block::after{
+  position: relative;
+  content: '';
+  background: red;
+  width: 100%;
+}
+
+.season-container{
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  border: dashed red 1px;
+}
+.form-block{
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+#season{
+  width: 100%;
+}
+
+.left-panel-header{
+  height: 5rem;
+  background: #CCC;
+}

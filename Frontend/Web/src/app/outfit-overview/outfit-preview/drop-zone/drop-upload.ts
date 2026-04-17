@@ -2,12 +2,12 @@ import {Component, output, signal} from '@angular/core';
 import {DragDropUpload} from '../drag-drop-upload/drag-drop-upload';
 
 @Component({
-  selector: 'fp-drop-upload',
+  selector: 'fp-drop-zone',
   imports: [
     DragDropUpload,
   ],
-  templateUrl: './drop-upload.html',
-  styleUrl: './drop-upload.scss',
+  templateUrl: './drop-zone.html',
+  styleUrl: './drop-zone.scss',
 })
 export class DropUpload {
 

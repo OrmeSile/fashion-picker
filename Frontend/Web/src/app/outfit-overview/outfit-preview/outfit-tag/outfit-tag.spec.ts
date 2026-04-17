@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DropUpload } from './drop-upload';
+import { OutfitTag } from './outfit-tag';
 
-describe('DropUpload', () => {
-  let component: DropUpload;
-  let fixture: ComponentFixture<DropUpload>;
+describe('OutfitTag', () => {
+  let component: OutfitTag;
+  let fixture: ComponentFixture<OutfitTag>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DropUpload],
+      imports: [OutfitTag],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DropUpload);
+    fixture = TestBed.createComponent(OutfitTag);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

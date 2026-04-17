@@ -1,12 +1,37 @@
+<!--suppress AngularForBlockNonIterableVar -->
 <div class="panel side-panel left-panel">
+  <div class="left-panel-header"></div>
   @if (activeImage()) {
-    <div>{{ activeImage()?.id }}</div>
-    <div>{{ activeImage()?.fileUrl }}</div>
+    <form class="metadata-form" (submit)="onSubmit($event)">
+      <div class="form-block season-container">
+        <label for="season">Season</label>
+        <input id="season" [formField]="outfitMetadataForm.season"/>
+      </div>
+      <div class="form-block tag-cloud-container">
+        <label for="tag-cloud">Tags</label>
+        <button (click)="addTag($event)">Add tag...</button>
+        <div id="tag-cloud" class="tag-cloud">
+          @for (tag of outfitMetadataForm.tags; track tag) {
+            <fp-outfit-tag [formField]="tag"/>
+          }
+        </div>
+      </div>
+      <div class="form-block colors-container">
+        <label for="colors">Colors</label>
+        <div id="colors">
+          <button (click)="addColor($event)">Add color...</button>
+          @for (color of outfitMetadataForm.colors; track color) {
+            <input [formField]="color"/>
+          }
+        </div>
+      </div>
+      <input type="submit">
+    </form>
   }
 </div>
 <div class="panel center-panel" [class.active-selected]="activeImage()">
-  @if (!fileHandler.fileMetadata().length) {
-    <fp-drop-upload class="drop-zone" (files)="handleDataTransfer($event)"/>
+  @if (!fileHandler.files().length) {
+    <fp-drop-zone class="drop-zone" (files)="handleDataTransfer($event)"/>
   } @else {
     @if (activeImage()) {
       <div class="modal-container">
@@ -22,7 +47,7 @@
           (openImageDetails)="setActiveImage(imageMetadata)"
         />
       }
-    <fp-drop-upload class="drop-card" (files)="handleDataTransfer($event)"/>
+      <fp-drop-zone class="drop-card" (files)="handleDataTransfer($event)"/>
     </fp-image-album-grid-preview>
   }
 </div>

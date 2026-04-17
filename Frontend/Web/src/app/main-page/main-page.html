@@ -1,0 +1,11 @@
+@for (outfit of outfitStore.outfits(); track $index) {
+  <div class="outfit-container">
+    <div class="image-grid">
+      @for (image of outfit.images; track image) {
+        <div class="image-container">
+          <img class="image" style="{width: 5rem; height: 5rem;}" src="{{image.fileUrl}}" alt=""/>
+        </div>
+      }
+    </div>
+  </div>
+}

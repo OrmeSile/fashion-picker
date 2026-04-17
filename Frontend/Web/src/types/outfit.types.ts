@@ -1,12 +1,13 @@
 import {UUID} from './shared.types';
+import {OutfitFile} from './files.types';
 
 type Outfit = {
-  id: UUID,
-  name: string,
-  description: string,
-  season: string,
-  colors: string[],
-  tags: string[],
+  id?: UUID,
+  imageUrls: string[],
+  season?: string,
+  colors?: string[],
+  tags?: string[],
+  images?: OutfitFile[]
 };
 
 export type {Outfit};
