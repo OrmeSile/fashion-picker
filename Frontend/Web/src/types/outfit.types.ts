@@ -4,10 +4,29 @@ import {OutfitFile} from './files.types';
 type Outfit = {
   id?: UUID,
   imageUrls: string[],
-  season?: string,
+  seasons?: SeasonsFormSelector,
   colors?: string[],
   tags?: string[],
   images?: OutfitFile[]
 };
 
-export type {Outfit};
+
+type OutfitMetadataFormData = {
+  seasons: SeasonsFormSelector;
+  colors: string[];
+  tags: FormTag[];
+}
+
+type FormTag = {
+  id: UUID;
+  value: string;
+}
+
+type Season = 'spring' | 'summer' | 'autumn' | 'winter';
+
+type SeasonsFormSelector = {
+  [TSeason in Season]: boolean;
+};
+
+
+export type {Outfit, OutfitMetadataFormData, FormTag, Season};

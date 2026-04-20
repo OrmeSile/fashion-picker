@@ -1,0 +1,102 @@
+:host{
+  display: grid;
+  grid-template-columns:1fr 1fr;
+  gap: 2rem;
+  max-width: 80rem;
+}
+
+.seasons{
+  display: flex;
+  color: white;
+  filter: drop-shadow(0 0.2rem 0.1rem #000);
+  height: 3rem;
+  position: absolute;
+  top: 0;
+  right: 1rem;
+}
+
+.outfit-container {
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: minmax(100px, auto);
+  border: 1px solid black;
+  border-radius: 2rem;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  width: 100%;
+  height: 100%;
+}
+
+.single-image-grid {
+  grid-template-columns:1fr;
+  grid-template-rows:1fr;
+}
+
+.two-images-grid {
+  grid-template-columns: 50% 50%;
+  grid-template-rows:1fr;
+}
+.three-images-grid {
+  grid-template-rows: 50% 50%;
+  grid-template-columns: 50% 50%;
+}
+
+.image-container {
+  aspect-ratio: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.last-visible {
+  display: flex;
+  position: relative;
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.last-visible > .image {
+}
+
+.stacked-hidden {
+  display: none;
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.last-overlay {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.tag-cloud {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  padding: 1rem;
+  filter: drop-shadow(0 0.1rem 0.1rem #000);
+}
+
+.first-item {
+  grid-row:span 2;
+}

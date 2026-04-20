@@ -1,10 +1,9 @@
 import { Component, signal } from '@angular/core';
 import {RouterLink, RouterOutlet} from '@angular/router';
-import {OutfitPreview} from './outfit-overview/outfit-preview/outfit-preview';
 
 @Component({
   selector: 'fp-root',
-  imports: [RouterOutlet, OutfitPreview, RouterLink],
+  imports: [RouterOutlet, RouterLink],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

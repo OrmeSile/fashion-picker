@@ -1,6 +1,7 @@
 import {Routes} from '@angular/router';
-import {MainPage} from './main-page/main-page';
-import {OutfitPreview} from './outfit-overview/outfit-preview/outfit-preview';
+import {MainPage} from './pages/main-page/main.page';
+import {OutfitPreviewPage} from './pages/outfit-preview-page/outfit-preview.page';
+import {ClothingManagementPage} from './pages/clothing-management-page/clothing-management.page';
 
 export const routes: Routes = [
   {
@@ -9,6 +10,10 @@ export const routes: Routes = [
   },
   {
     path: 'add',
-    component: OutfitPreview
+    component: OutfitPreviewPage
+  },
+  {
+    path: 'clothing',
+    component: ClothingManagementPage
   }
 ];

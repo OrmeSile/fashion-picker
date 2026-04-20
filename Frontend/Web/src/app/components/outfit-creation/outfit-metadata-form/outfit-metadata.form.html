@@ -1,0 +1,35 @@
+<!--suppress AngularForBlockNonIterableVar -->
+<form class="metadata-form" (keydown.enter)="$event.preventDefault()" (submit)="onSubmit($event)">
+  <div class="form-block season-container">
+    <label for="season-group" i18n>Season</label>
+    <div id="season-group">
+      <fp-season-control class="season-checkbox" label="spring" (keyup)="onKeyUp($event)" [formField]="outfitMetadataForm.seasons.spring" season="spring"/>
+      <fp-season-control class="season-checkbox" label="summer" (keyup)="onKeyUp($event)" [formField]="outfitMetadataForm.seasons.summer" season="summer"/>
+      <fp-season-control class="season-checkbox" label="autumn" (keyup)="onKeyUp($event)" [formField]="outfitMetadataForm.seasons.autumn" season="autumn"/>
+      <fp-season-control class="season-checkbox" label="winter" (keyup)="onKeyUp($event)" [formField]="outfitMetadataForm.seasons.winter" season="winter"/>
+    </div>
+  </div>
+  <div class="form-block tag-cloud-container">
+    <input #addTagButton type="button" (click)="addEmptyTag()" value="Add tag..."/>
+    <div class="tag-cloud">
+      @for (tag of outfitMetadataForm.tags; track tag) {
+        <fp-outfit-tag-control
+          [formField]="tag.value"
+          (deleteCalled)="removeTag($index)"
+          (blurredWhenEmpty)="removeTag($index)"
+          (editFinished)="handleEditFinished()"
+        />
+      }
+    </div>
+  </div>
+  <div class="form-block colors-container">
+    <label for="colors" i18n>Colors</label>
+    <div id="colors">
+      <input type="button" (click)="addColor($event)" value="Add color..."/>
+      @for (color of outfitMetadataForm.colors; track color) {
+        <input [formField]="color"/>
+      }
+    </div>
+  </div>
+  <input type="submit">
+</form>
