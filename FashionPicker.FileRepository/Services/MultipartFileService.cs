@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 using FileRepository.Entities;
 using Microsoft.AspNetCore.WebUtilities;
@@ -71,9 +72,10 @@ public class MultipartFileService(IFileStreamManager streamManager, FileReposito
         }));
 
         Task.WaitAll(tasks, cancellationToken);
-
+        var start = Stopwatch.GetTimestamp();
         dbContext.RepositoryFileInformations.AddRange(repositoryFilesInformation);
         await dbContext.SaveChangesAsync(CancellationToken.None);
+        var end = Stopwatch.GetElapsedTime(start);
         return repositoryFilesInformation;
     }
 

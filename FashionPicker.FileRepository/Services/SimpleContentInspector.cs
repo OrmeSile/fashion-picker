@@ -1,10 +1,11 @@
 ﻿using System.Collections.Immutable;
+using FashionPicker.FileRepository.Interfaces;
 using MimeDetective;
 using MimeDetective.Engine;
 
 namespace FileRepository.Services;
 
-public class SimpleContentInspector: IContentInspector
+public class SimpleContentInspector: ISimpleContentInspector
 {
     private readonly IContentInspector _contentInspector;
 
@@ -20,5 +21,12 @@ public class SimpleContentInspector: IContentInspector
     public ImmutableArray<DefinitionMatch> Inspect(ReadOnlySpan<byte> content)
     {
         return _contentInspector.Inspect(content);
+    }
+
+    public ImmutableArray<MimeTypeMatch> Inspect(MemoryStream content)
+    {
+        var results = _contentInspector.Inspect(content);
+        content.Position = 0;
+        return results.ByMimeType();
     }
 }

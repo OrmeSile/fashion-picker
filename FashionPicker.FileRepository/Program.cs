@@ -1,3 +1,4 @@
+using FashionPicker.FileRepository.Interfaces;
 using FileRepository;
 using FileRepository.ConfigurationOptions;
 using FileRepository.Services;
@@ -26,10 +27,10 @@ builder.Services
     .AddSingleton<StaticPathProvider>()
     .AddScoped<IFileStreamManager, FileStreamManager>()
     .AddScoped<MultipartFileService>()
-    .AddScoped<IContentInspector, SimpleContentInspector>()
+    .AddScoped<ISimpleContentInspector, SimpleContentInspector>()
     .AddScoped<RepositoryFileInformationsProvider>()
     .AddScoped<IDataConsistencyChecker, DataConsistencyChecker>()
-    .AddScoped<ImageOptimizer>()
+    .AddScoped<IImageOptimizer, NetVipsImageOptimizer>()
     .AddFileRepositoryDbContext(builder.Configuration.GetConnectionString("FileRepositoryDbContext"));
 
 builder.Services.AddControllers();
