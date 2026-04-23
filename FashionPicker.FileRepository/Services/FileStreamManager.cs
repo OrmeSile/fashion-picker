@@ -14,7 +14,6 @@ public class FileStreamManager : IFileStreamManager
 
     public FileStreamManager(
         ISimpleContentInspector contentInspector,
-        FileRepositoryDbContext dbContext,
         StaticPathProvider staticPathProvider,
         IOptions<FileRepositoryOptions> staticFileOptions,
         IImageOptimizer imageOptimizer
@@ -25,8 +24,6 @@ public class FileStreamManager : IFileStreamManager
         _contentInspector = contentInspector;
         _staticPathProvider = staticPathProvider;
     }
-
-    private const int BUFFER_SIZE = 16 * 64 * 1024;
 
     public async Task<RepositoryFileInformation> SaveFile
     (
@@ -47,6 +44,7 @@ public class FileStreamManager : IFileStreamManager
             throw new NotImplementedException();
 
         var fileName = Guid.NewGuid().ToString("N");
+
         var extension = GetExtensionStringForMimeType(mimeTypeMatches[0].MimeType);
 
         var smallFileName = $"{fileName}-small.{extension}";
@@ -61,62 +59,45 @@ public class FileStreamManager : IFileStreamManager
 
         var resizedImages = _imageOptimizer.ResizeImage(memoryStream);
 
-        List<string> pathList = [smallImageFilePath, mediumImageFilePath, bigImageFilePath, originalImageFIlePath];
-        var fileDict = new Dictionary<string, FileStream>();
-
-        fileDict.Add(originalImageFIlePath, File.Create(originalImageFIlePath));
+        var writeOperations = new List<(string Key, byte[] Data, string Path)>
+        {
+            ("original", resizedImages.Original, originalImageFIlePath)
+        };
 
         if (resizedImages.Small != null)
-            fileDict.Add(smallImageFilePath, File.Create(smallImageFilePath));
+            writeOperations.Add(("small", resizedImages.Small, smallImageFilePath));
 
         if (resizedImages.Medium != null)
-            fileDict.Add(mediumImageFilePath, File.Create(mediumImageFilePath));
+            writeOperations.Add(("medium", resizedImages.Medium, mediumImageFilePath));
 
         if (resizedImages.Big != null)
-            fileDict.Add(bigImageFilePath, File.Create(bigImageFilePath));
+            writeOperations.Add(("big", resizedImages.Big, bigImageFilePath));
 
+        var fileDict = new Dictionary<string, FileStream>();
         var fileCopyCancellationTokenSource = new CancellationTokenSource();
         var fileCopyCancellationToken = fileCopyCancellationTokenSource.Token;
-        var tasks = new List<Task>();
+
         try
         {
-            tasks.Add(Task.Run(async () =>
+            foreach (var operation in writeOperations)
             {
-                using var originalStream = new MemoryStream(resizedImages.Original);
-                await originalStream.CopyToAsync(fileDict[originalImageFIlePath], fileCopyCancellationToken);
-            }, fileCopyCancellationToken));
+                fileDict.Add(operation.Key, File.Create(operation.Path));
+            }
 
-            if (resizedImages.Small != null)
-                tasks.Add(Task.Run(async () =>
-                {
-                    using var stream = new MemoryStream(resizedImages.Small);
-                    await stream.CopyToAsync(fileDict[smallImageFilePath], fileCopyCancellationToken);
-                }, fileCopyCancellationToken));
-
-            if (resizedImages.Medium != null)
-                tasks.Add(Task.Run(async () =>
-                {
-                    using var stream = new MemoryStream(resizedImages.Medium);
-                    await stream.CopyToAsync(fileDict[mediumImageFilePath], fileCopyCancellationToken);
-                }, fileCopyCancellationToken));
-
-            if (resizedImages.Big != null)
-                tasks.Add(Task.Run(async () =>
-                {
-                    using var stream = new MemoryStream(resizedImages.Big);
-                    await stream.CopyToAsync(fileDict[bigImageFilePath], fileCopyCancellationToken);
-                }, fileCopyCancellationToken));
+            await Parallel.ForEachAsync(writeOperations, new ParallelOptions
+            {
+                CancellationToken = fileCopyCancellationToken
+            }, async (operation, token) =>
+            {
+                using var stream = new MemoryStream(operation.Data);
+                await stream.CopyToAsync(fileDict[operation.Key], token);
+            });
         }
         catch (Exception ex)
         {
             await fileCopyCancellationTokenSource.CancelAsync();
             throw new OperationCanceledException(ex.Message);
         }
-
-        await Task.WhenAll(tasks);
-
-        foreach (var keyValuePair in fileDict)
-            keyValuePair.Value.Close();
 
         var repoFileInfo = new RepositoryFileInformation
         {

@@ -1,7 +1,6 @@
 using System.Net.Http.Json;
 using Infrastructure.FileRepository;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
 
 namespace FashionPicker.Core.Infra.Adapters.LocalCMS;
 

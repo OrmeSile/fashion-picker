@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.AddConsole();
 
-builder.Services.AddHttpLogging(o => { });
+builder.Services.AddHttpLogging(_ => { });
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: allowFrontendOrigin, policy =>

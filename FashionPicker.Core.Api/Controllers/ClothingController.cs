@@ -2,7 +2,6 @@ using FashionPicker.Core.Infra.Adapters.LocalCMS;
 using FashionPicker.Core.Infra.Models;
 using FashionPicker.Core.Infra.Providers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
 
 namespace FashionPicker.Core.Api.Controllers;
 

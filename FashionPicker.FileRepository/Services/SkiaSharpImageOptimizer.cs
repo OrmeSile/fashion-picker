@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using FileRepository.Objects;
 using SkiaSharp;
 

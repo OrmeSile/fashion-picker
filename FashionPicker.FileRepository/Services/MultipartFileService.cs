@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Text.Json;
 using FileRepository.Entities;
 using Microsoft.AspNetCore.WebUtilities;
@@ -17,7 +16,6 @@ public class MultipartFileService(IFileStreamManager streamManager, FileReposito
         var ms =  new MemoryStream();
         string? currentFileName = null;
         List<RepositoryFileInformation> repositoryFilesInformation = [];
-
         var tasks =  new List<Task>();
 
         while (await reader.ReadNextSectionAsync(cancellationToken) is { } section)
@@ -42,16 +40,20 @@ public class MultipartFileService(IFileStreamManager streamManager, FileReposito
                 {
                     if (currentFileName != null)
                     {
-                        ms.Position = 0;
+                        var metadata = fileMetadata;
                         var tempStream = new MemoryStream();
+
+                        ms.Position = 0;
                         await ms.CopyToAsync(tempStream, cancellationToken);
                         tempStream.Position = 0;
+
                         await ms.FlushAsync(cancellationToken);
                         ms.Position = 0;
+
                         tasks.Add(Task.Run(async () =>
                         {
                             var entity = await streamManager.SaveFile(tempStream, cancellationToken);
-                            entity.LogicalFileName = fileMetadata?.FileName;
+                            entity.LogicalFileName = metadata?.FileName;
                             repositoryFilesInformation.Add(entity);
                         }, cancellationToken));
                     }
@@ -64,18 +66,17 @@ public class MultipartFileService(IFileStreamManager streamManager, FileReposito
         }
 
         ms.Position = 0;
+
         tasks.Add(Task.Run( async ()=>
         {
             var lastEntity = await streamManager.SaveFile(ms, cancellationToken);
             lastEntity.LogicalFileName = fileMetadata?.FileName;
             repositoryFilesInformation.Add(lastEntity);
-        }));
+        }, cancellationToken));
 
         Task.WaitAll(tasks, cancellationToken);
-        var start = Stopwatch.GetTimestamp();
         dbContext.RepositoryFileInformations.AddRange(repositoryFilesInformation);
         await dbContext.SaveChangesAsync(CancellationToken.None);
-        var end = Stopwatch.GetElapsedTime(start);
         return repositoryFilesInformation;
     }
 

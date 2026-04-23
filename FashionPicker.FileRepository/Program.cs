@@ -2,11 +2,10 @@ using FashionPicker.FileRepository.Interfaces;
 using FileRepository;
 using FileRepository.ConfigurationOptions;
 using FileRepository.Services;
-using MimeDetective;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddHttpLogging(o => { });
+builder.Services.AddHttpLogging(_ => { });
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
