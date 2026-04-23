@@ -1,18 +1,18 @@
-import {Component, computed, input, model} from '@angular/core';
+import {Component, input, model} from '@angular/core';
 import {FormCheckboxControl} from '@angular/forms/signals';
 import {Season} from '../../../../types/outfit.types';
 import {LeafIcon} from '../../icons/leaf-icon/leaf.icon';
-import {SunIcon} from '../../icons/sun-icon/sun.icon';
 import {AutumnLeafIcon} from '../../icons/autumn-leaf.icon/autumn-leaf.icon';
 import {SnowflakeIcon} from '../../icons/snowflake.icon/snowflake.icon';
+import {SummerSunImageIcon} from '../../icons/summer-sun-image.icon/summer-sun-image.icon';
 
 @Component({
   selector: 'fp-season-control',
   imports: [
     LeafIcon,
-    SunIcon,
     AutumnLeafIcon,
-    SnowflakeIcon
+    SnowflakeIcon,
+    SummerSunImageIcon,
   ],
   templateUrl: './season.control.html',
   styleUrl: './season.control.scss',

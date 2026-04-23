@@ -1,16 +1,16 @@
-<div class="tag-input-container">
-  <input
-    #focusTarget
-    [disabled]="disabled()"
-    class="tag-input"
-    type="text"
-    [value]="value()"
-    (input)="handleInput($event)"
-    (keydown.enter)="handleKeydownEnter($event)"
-    (keydown.escape)="handleKeydownEscape($event)"
-    (blur)="handleBlur($event)"
-  />
-  @if(!disabled()){
+
+<input
+  #focusTarget
+  [disabled]="disabled()"
+  class="tag-input"
+  type="text"
+  [value]="value()"
+  (input)="handleInput($event)"
+  (keydown.enter)="handleKeydownEnter($event)"
+  (keydown.escape)="handleKeydownEscape($event)"
+  (blur)="handleBlur($event)"
+/>
+@if (!disabled()) {
   <div class="actions-container">
     <div
       class="icon-container cancel-icon-container"
@@ -26,5 +26,4 @@
       </svg>
     </div>
   </div>
-  }
-</div>
+}

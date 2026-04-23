@@ -8,7 +8,7 @@
     @if (!fileHandler.files().length) {
       <fp-drop-zone class="drop-zone" (files)="handleDataTransfer($event)"/>
     } @else {
-      @if (activeImage()) {
+      @if (activeImage() && imagesMetadata().length) {
         <div class="modal-container">
           <img class="focused-image" src="{{activeImage()?.fileUrl}}"/>
         </div>

@@ -1,35 +1,53 @@
 <!--suppress AngularForBlockNonIterableVar -->
 <form class="metadata-form" (keydown.enter)="$event.preventDefault()" (submit)="onSubmit($event)">
-  <div class="form-block season-container">
-    <label for="season-group" i18n>Season</label>
-    <div id="season-group">
+  <fieldset class="fieldset season-fieldset">
+    <legend class="legend season-legend">season</legend>
+    <div class="season-group">
       <fp-season-control class="season-checkbox" label="spring" (keyup)="onKeyUp($event)" [formField]="outfitMetadataForm.seasons.spring" season="spring"/>
       <fp-season-control class="season-checkbox" label="summer" (keyup)="onKeyUp($event)" [formField]="outfitMetadataForm.seasons.summer" season="summer"/>
       <fp-season-control class="season-checkbox" label="autumn" (keyup)="onKeyUp($event)" [formField]="outfitMetadataForm.seasons.autumn" season="autumn"/>
       <fp-season-control class="season-checkbox" label="winter" (keyup)="onKeyUp($event)" [formField]="outfitMetadataForm.seasons.winter" season="winter"/>
     </div>
-  </div>
-  <div class="form-block tag-cloud-container">
-    <input #addTagButton type="button" (click)="addEmptyTag()" value="Add tag..."/>
+  </fieldset>
+  <fieldset class="fieldset tag-cloud-fieldset">
+    <legend class="legend tags-legend">tags</legend>
     <div class="tag-cloud">
       @for (tag of outfitMetadataForm.tags; track tag) {
         <fp-outfit-tag-control
+          class="tag"
           [formField]="tag.value"
           (deleteCalled)="removeTag($index)"
           (blurredWhenEmpty)="removeTag($index)"
-          (editFinished)="handleEditFinished()"
+          (editFinished)="handleTagEditFinished()"
         />
       }
+      <input #addTagButton class="add-button beveled-button" type="button" (click)="addEmptyTag()" value="Add tag..."/>
     </div>
-  </div>
-  <div class="form-block colors-container">
-    <label for="colors" i18n>Colors</label>
-    <div id="colors">
-      <input type="button" (click)="addColor($event)" value="Add color..."/>
+  </fieldset>
+  <fieldset class="fieldset colors-fieldset">
+    <legend class="legend colors-legend">colors</legend>
+    <div class="color-cloud">
       @for (color of outfitMetadataForm.colors; track color) {
-        <input [formField]="color"/>
+        <fp-outfit-tag-control
+          class="color-tag"
+          [formField]="color.value"
+          (deleteCalled)="removeColor($index)"
+          (blurredWhenEmpty)="removeColor($index)"
+          (editFinished)="handleColorEditFinished()"
+        />
       }
+      <input #addColorButton class="add-button beveled-button" type="button" (click)="addEmptyColor($event)" value="Add color..."/>
     </div>
-  </div>
+  </fieldset>
+  <fieldset class="fieldset">
+    <legend class="legend">modesty</legend>
+    <fp-modesty-slider-control [formField]="outfitMetadataForm.modesty"/>
+  </fieldset>
+  <fieldset class="fieldset">
+    <legend class="legend">Destination</legend>
+    @for(destination of outfitMetadataForm.outfitDestination; track $index){
+      <fp-destination-control class="beveled-button" [formField]="destination[1]" [label]="destination[0]"/>
+    }
+  </fieldset>
   <input type="submit">
 </form>

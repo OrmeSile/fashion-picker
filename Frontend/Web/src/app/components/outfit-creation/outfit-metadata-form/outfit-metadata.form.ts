@@ -1,15 +1,19 @@
 import {Component, ElementRef, output, signal, viewChild} from '@angular/core';
 import {form, FormField} from '@angular/forms/signals';
-import {OutfitMetadataFormData} from '../../../../types/outfit.types';
+import {FormTag, OutfitMetadataFormData} from '../../../../types/outfit.types';
 import {OutfitTagControl} from '../../controls/outfit-tag-control/outfit-tag.control';
 import {SeasonControl} from '../../controls/season-control/season.control';
+import {ModestySliderControl} from '../../controls/modesty-slider.control/modesty-slider.control';
+import {DestinationControl} from '../../controls/destination.control/destination.control';
 
 @Component({
   selector: 'fp-outfit-metadata-form',
   imports: [
     FormField,
     OutfitTagControl,
-    SeasonControl
+    SeasonControl,
+    ModestySliderControl,
+    DestinationControl
   ],
   templateUrl: './outfit-metadata.form.html',
   styleUrl: './outfit-metadata.form.scss',
@@ -19,6 +23,7 @@ export class OutfitMetadataForm {
   submitted = output<OutfitMetadataFormData>();
 
   addTagButtonRef = viewChild<ElementRef<HTMLInputElement>>('addTagButton');
+  addColorButtonRef = viewChild<ElementRef<HTMLInputElement>>('addColorButton');
 
   outfitMetadataModel = signal<OutfitMetadataFormData>({
       seasons: {
@@ -28,7 +33,13 @@ export class OutfitMetadataForm {
         winter: false
       },
       tags: [],
-      colors: []
+      colors: [],
+      modesty: 0,
+      outfitDestination: {
+        outing: false,
+        sport: false
+      }
+
     }
   )
 
@@ -49,35 +60,39 @@ export class OutfitMetadataForm {
       return {
         ...outfitMetadata, tags: [
           ...outfitMetadata.tags.slice(0, index),
-          ...outfitMetadata.tags.slice( index + 1)
+          ...outfitMetadata.tags.slice(index + 1)
         ]
       };
     })
   }
 
-  protected handleEditFinished() {
+  protected handleTagEditFinished() {
     this.addTagButtonRef()
       ?.nativeElement
       .focus();
   }
 
-  protected addColor(event: MouseEvent) {
+  protected addEmptyColor(event: MouseEvent) {
     event.preventDefault();
-    this.outfitMetadataModel.update(model => {
-      return {...model, colors: [...model.colors, '']}
-    })
+    const colorId = crypto.randomUUID();
+    const newColor: FormTag = {id: colorId, value: ''};
+    this.outfitMetadataForm.colors()
+      .value
+      .update(colors =>
+        [...colors, newColor]
+      );
+
   }
 
   protected onSubmit(event: SubmitEvent) {
     event.preventDefault();
 
     const outfitMetadata: OutfitMetadataFormData = {
-      colors: this.outfitMetadataForm.colors()
-        .value(),
-      tags: this.outfitMetadataForm.tags()
-        .value(),
-      seasons: this.outfitMetadataForm.seasons()
-        .value(),
+      colors: this.outfitMetadataForm.colors().value(),
+      tags: this.outfitMetadataForm.tags().value(),
+      seasons: this.outfitMetadataForm.seasons().value(),
+      modesty: this.outfitMetadataForm.modesty().value(),
+      outfitDestination: this.outfitMetadataForm.outfitDestination().value()
     };
 
     this.submitted.emit(outfitMetadata);
@@ -91,4 +106,23 @@ export class OutfitMetadataForm {
   protected readonly console = console;
 
 
+  protected removeColor(index: number) {
+
+    this.outfitMetadataModel.update(outfitMetadata => {
+      return {
+        ...outfitMetadata, colors: [
+          ...outfitMetadata.colors.slice(0, index),
+          ...outfitMetadata.colors.slice(index + 1)
+        ]
+      };
+    })
+  }
+
+  protected handleColorEditFinished() {
+    this.addColorButtonRef()
+      ?.nativeElement
+      .focus();
+  }
+
+  protected readonly Object = Object;
 }

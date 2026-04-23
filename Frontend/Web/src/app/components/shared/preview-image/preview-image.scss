@@ -5,8 +5,11 @@
   align-items: center;
   aspect-ratio: 1;
   overflow: hidden;
-  border-radius: 1rem;
+  border-radius: 0.25rem;
   filter: drop-shadow(rgba(0, 0, 0, 0.3) 0.2rem 0.2rem);
+  @media screen and (pointer: fine){
+    border-radius: 1rem;
+  }
 }
 
 .vignette {
@@ -37,19 +40,33 @@
   justify-content: center;
   align-items: center;
   position: absolute;
-  right: 0.5rem;
-  top: 0.5rem;
   color: red;
   border: none;
   cursor: pointer;
-  height: 2rem;
-  width: 2rem;
+  width: 30%;
+  height: 30%;
+  top: 0.2rem;
+  right: 0.2rem;
+  @media screen and (pointer: fine){
+    height: 2rem;
+    width: 2rem;
+    right: 0.5rem;
+    top: 0.5rem;
+  }
   background: transparent;
 }
 
 :host:hover{
   cursor: pointer;
   filter: drop-shadow(0 0 1rem rgba(0,200, 255, 0.5)) drop-shadow(0 0 0.5rem rgba(255,255,255, 0.5));
+}
+
+:host.selected{
+  filter: drop-shadow(0 0 0.5rem rgb(0,200, 255)) drop-shadow(0 0 0.2rem rgb(255,255,255));
+
+  @media screen and (pointer: fine) {
+    filter: drop-shadow(0 0 1rem rgb(0,200, 255)) drop-shadow(0 0 0.5rem rgb(255,255,255));
+  }
 }
 
 .selected{

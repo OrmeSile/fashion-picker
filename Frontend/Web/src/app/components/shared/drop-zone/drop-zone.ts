@@ -1,10 +1,10 @@
 import {Component, output, signal} from '@angular/core';
-import {DragDroppable} from '../../../shared/directives/drag-droppable.directive';
+import {DragDroppable} from '../../../directives/shared/drag-droppable.directive';
 
 @Component({
   selector: 'fp-drop-zone',
   imports: [
-    DragDroppable,
+    DragDroppable
   ],
   templateUrl: './drop-zone.html',
   styleUrl: './drop-zone.scss',

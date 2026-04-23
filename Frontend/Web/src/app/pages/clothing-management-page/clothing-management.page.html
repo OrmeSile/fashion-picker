@@ -1,1 +1,12 @@
-<div fpDragDroppable (dataTransfer)="handleDataTransfer($event)"></div>
+<h1>Clothing</h1>
+<fp-drop-zone class="drop-zone" (files)="handleDataTransfer($event)"/>
+<fp-image-album-grid-preview class="image-preview">
+  @for(file of files(); track file.id){
+    <fp-preview-image
+      [selected]="file.id === activeImage()?.id"
+      [imageUrl]="file.fileUrl"
+      (removeImage)="removeImage(file.id)"
+      (openImageDetails)="setActiveImage(file)"
+    />
+  }
+</fp-image-album-grid-preview>

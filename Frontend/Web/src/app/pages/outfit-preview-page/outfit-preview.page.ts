@@ -1,14 +1,14 @@
-import {Component, computed, inject, input, signal} from '@angular/core';
-import {PreviewImage} from '../../components/outfit-creation/preview-image/preview-image';
-import {ImageAlbumGridPreview} from '../../components/outfit-creation/image-album-grid-preview/image-album-grid-preview';
-import {DropZone} from '../../components/outfit-creation/drop-zone/drop-zone';
+import {Component, computed, inject, signal} from '@angular/core';
 import {OutfitMetadataForm} from '../../components/outfit-creation/outfit-metadata-form/outfit-metadata.form';
 import {FileHandler} from '../../services/file-handler/file-handler';
-import {TechnicalOutfitMetadata} from '../../../types/files.types';
+import {OutfitFile, TechnicalOutfitMetadata} from '../../../types/files.types';
 import {UUID} from '../../../types/shared.types';
 import {Outfit, OutfitMetadataFormData} from '../../../types/outfit.types';
 import {OutfitStore} from '../../stores/outfit-store/outfit.store';
 import {OutfitApi} from '../../services/api/outfit-api/outfit-api';
+import {DropZone} from '../../components/shared/drop-zone/drop-zone';
+import {ImageAlbumGridPreview} from '../../components/shared/image-album-grid-preview/image-album-grid-preview';
+import {PreviewImage} from '../../components/shared/preview-image/preview-image';
 
 @Component({
   selector: 'fp-outfit-preview-page',
@@ -16,7 +16,8 @@ import {OutfitApi} from '../../services/api/outfit-api/outfit-api';
     ImageAlbumGridPreview,
     PreviewImage,
     DropZone,
-    OutfitMetadataForm
+    OutfitMetadataForm,
+    DropZone
   ],
   providers: [FileHandler],
   templateUrl: './outfit-preview.page.html',
@@ -30,7 +31,7 @@ export class OutfitPreviewPage {
 
   imagesMetadata = computed(() => this.fileHandler.files());
 
-  protected readonly activeImage = signal<TechnicalOutfitMetadata | undefined>(undefined);
+  protected readonly activeImage = signal<OutfitFile | undefined>(undefined);
 
   protected handleDataTransfer($event: FileList) {
     this.fileHandler.addFiles($event);
@@ -44,14 +45,14 @@ export class OutfitPreviewPage {
     }
   }
 
-  protected setActiveImage(metadata: TechnicalOutfitMetadata) {
+  protected setActiveImage(metadata: OutfitFile) {
     this.activeImage.set(metadata);
   }
 
   protected handleSubmitted(outfitMetadata: OutfitMetadataFormData) {
     const newOutfit: Outfit = {
       id: undefined,
-      colors: outfitMetadata.colors,
+      colors: outfitMetadata.colors.map(color => color.value),
       tags: outfitMetadata.tags.map(tag => tag.value),
       seasons: outfitMetadata.seasons,
       imageUrls: this.fileHandler.files().map(file => file.fileUrl),

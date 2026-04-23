@@ -25,3 +25,49 @@ html, body {
 * {
   box-sizing: border-box;
 }
+
+.beveled-button {
+  transform: translateY(-0.1rem);
+  background-color: var(--base-beveled-button-color);
+  background-image: var(--base-beveled-button-background-mask);
+  background-blend-mode: luminosity;
+  box-shadow:
+    0 0.1rem 0 oklch(from var(--base-beveled-button-color) calc(l * 0.7) c h / 1),
+    inset 0.025rem 0.05rem 0 oklch(from var(--base-beveled-button-color) calc(l * 1.5) calc(c * 2) h / 1),
+    0.05rem 0.1rem 1px 0 rgb(0 0 0 /0.9),
+    0.1rem 0.2rem 1px 0 rgb(0 0 0 / 0.5);
+}
+
+.beveled-button:active, .beveled-button:checked{
+  transform: initial;
+  background-color: oklch(from var(--base-beveled-button-color) calc(l * 0.7) c h / 1);
+  background-image: var(--base-beveled-button-background-mask);
+  box-shadow:
+    0.025rem 0.05rem 0 oklch(from var(--base-beveled-button-color) calc(l * 1.5) calc(c * 2) h / 1),
+  inset 0.05rem 0.1rem 1px 0 oklch(from var(--base-beveled-button-color) calc(l * 0.5) c h /0.9),
+  inset 0.1rem 0.2rem 1px 0 oklch(from var(--base-beveled-button-color) calc(l * 0.5) c h / 0.5);
+}
+
+.beveled-button-img {
+  position: relative;
+  z-index: 1000;
+  mask-size: 100%;
+  transform: translateY(-0.1rem);
+  background-blend-mode: luminosity;
+  filter:
+    drop-shadow(-0.2px -0.2px 0 oklch(from var(--base-beveled-button-color) calc(l * 1.5) calc(c * 2) h / 1))
+    drop-shadow(0 0.1rem 0 oklch(from var(--base-beveled-button-color) calc(l * 0.7) c h / 1))
+    drop-shadow(0.05rem 0.05rem 1px rgb(0 0 0 / 0.7))
+    drop-shadow(0.1rem 0.2rem 1px rgb(0 0 0 / 0.2))
+//;
+}
+
+.beveled-button-img:active, .beveled-button-img:checked, input:checked:has(+ label) +label>*:is(.beveled-button-img){
+  transform: initial;
+  stroke: oklch(from var(--base-beveled-button-color) calc(l * 0.7) c h / 1);
+  filter:
+    brightness(110%)
+    drop-shadow(0 0 0.5rem oklch(from var(--base-beveled-button-color) calc(l * 2) c h / 1))
+    drop-shadow(0 0 0.5rem oklch(from var(--base-beveled-button-color) calc(l * 2) calc(c * 0.5) h / 0.5))
+}
+

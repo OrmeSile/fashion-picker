@@ -1,41 +1,34 @@
 :host {
-  overflow-y: auto;
   background: #555;
-  border-radius: 2rem;
-  scrollbar-color: #CCC transparent;
-}
-
-.container {
   display: grid;
-  grid-template-columns:repeat(3, 1fr);
+  gap: 0.5rem;
   grid-auto-rows: min-content;
-  gap: 1rem;
-  padding: 1rem;
+  grid-template-columns: repeat(5, 1fr);
+  overflow-y: auto;
+  scrollbar-color: #CCC transparent;
+  scrollbar-width: thin;
   width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  @media screen and (pointer: fine){
+    grid-template-columns:repeat(3, 1fr);
+    padding: 1rem;
+    border-radius: 1rem;
+  }
   @media screen and (1200px < width < 1400px) {
     grid-template-columns:repeat(4, 1fr);
   }
   @media screen and (1400px < width < 2000px) {
     grid-template-columns:repeat(5, 1fr);
   }
-
   @media screen and (2000px < width < 2400px) {
     grid-template-columns:repeat(6, 1fr);
   }
-
   @media screen and (width >= 2400px) {
     grid-template-columns:repeat(7, 1fr);
   }
-
-  scrollbar-width: thin;
 }
-
 
 .active {
   grid-column: 1/ span 2;
-}
-
-:host {
-  display: flex;
-  justify-content: center;
 }

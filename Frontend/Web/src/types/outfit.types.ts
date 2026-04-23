@@ -13,8 +13,10 @@ type Outfit = {
 
 type OutfitMetadataFormData = {
   seasons: SeasonsFormSelector;
-  colors: string[];
+  colors: FormTag[];
   tags: FormTag[];
+  modesty: number;
+  outfitDestination: OutfitDestinationFormSelector;
 }
 
 type FormTag = {
@@ -28,5 +30,10 @@ type SeasonsFormSelector = {
   [TSeason in Season]: boolean;
 };
 
+type OutfitDestination = 'outing' | 'sport';
+
+type OutfitDestinationFormSelector = {
+  [TOutfitDestination in OutfitDestination]: boolean;
+}
 
 export type {Outfit, OutfitMetadataFormData, FormTag, Season};
