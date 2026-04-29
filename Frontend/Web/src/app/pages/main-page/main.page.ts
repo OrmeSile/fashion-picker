@@ -5,6 +5,8 @@ import {AutumnLeafIcon} from '../../components/icons/autumn-leaf.icon/autumn-lea
 import {SnowflakeIcon} from '../../components/icons/snowflake.icon/snowflake.icon';
 import {OutfitStore} from '../../stores/outfit-store/outfit.store';
 import {SummerSunImageIcon} from '../../components/icons/summer-sun-image.icon/summer-sun-image.icon';
+import {SpringFlowerIcon} from '../../components/icons/spring-flower.icon/spring-flower.icon';
+import {AutumnPumpkinIcon} from '../../components/icons/autumn-pumpkin.icon/autumn-pumpkin.icon';
 
 @Component({
   selector: 'fp-main-page',
@@ -13,7 +15,9 @@ import {SummerSunImageIcon} from '../../components/icons/summer-sun-image.icon/s
     LeafIcon,
     AutumnLeafIcon,
     SnowflakeIcon,
-    SummerSunImageIcon
+    SummerSunImageIcon,
+    SpringFlowerIcon,
+    AutumnPumpkinIcon
   ],
   templateUrl: './main.page.html',
   styleUrl: './main.page.scss',

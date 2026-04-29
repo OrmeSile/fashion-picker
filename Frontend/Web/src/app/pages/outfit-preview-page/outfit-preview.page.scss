@@ -1,13 +1,12 @@
 :host{
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 3fr 2fr;
   gap: 0.5rem;
   height: auto;
   width: auto;
   padding: 0.5rem;
   @media screen and (pointer: fine) {
-    grid-template-columns: minmax(auto, 300px) minmax(auto, 3fr);
+    grid-template-columns: minmax(auto, 30vw) minmax(auto, 3fr);
     grid-template-rows: 1fr;
     height: 100%;
   }
@@ -22,9 +21,8 @@
   grid-row: 1;
   position: relative;
   display: grid;
-  height: 90vh;
+  height: 60vh;
   gap: 0.5rem;
-  grid-template-rows: 3fr 2fr;
   overflow-y: hidden;
   @media screen and (pointer: fine) {
     background: #555;
@@ -54,7 +52,6 @@
   @media screen and (pointer: fine) {
     border-radius: 1rem;
   }
-
 }
 
 .center-panel:has(.active-selected){
@@ -82,13 +79,14 @@
   flex-flow: column nowrap;
   gap: 1rem;
   position: relative;
-}
-
-.metadata-form>.form-block::after{
-  position: relative;
-  content: '';
-  background: red;
   width: 100%;
+  height: auto;
+  background: none;
+  min-width: 300px;
+  @media screen and (pointer: fine) {
+    background: #444;
+    border-radius: 1rem;
+  }
 }
 
 .season-container{
@@ -110,7 +108,3 @@
   width: 100%;
 }
 
-.left-panel-header{
-  height: 5rem;
-  background: #CCC;
-}

@@ -33,5 +33,5 @@
       }
     </div>
   </label>
-  <input id="file-input" class="file-input" type="file" accept="image/*" (change)="handleFileChange($event)" multiple/>
+  <input id="file-input" class="file-input" type="file" accept="image/*" (change)="handleFileChange($event)" [multiple]="multiple()"/>
 </div>

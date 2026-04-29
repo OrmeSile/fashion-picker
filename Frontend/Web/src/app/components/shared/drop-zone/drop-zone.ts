@@ -1,4 +1,4 @@
-import {Component, output, signal} from '@angular/core';
+import {Component, input, output, signal} from '@angular/core';
 import {DragDroppable} from '../../../directives/shared/drag-droppable.directive';
 
 @Component({
@@ -13,6 +13,7 @@ export class DropZone {
 
   files = output<FileList>();
   isDragOver = signal<boolean>(false);
+  protected readonly multiple = input(false);
   protected async handleDataTransfer(dataTransfer: DataTransfer) {
 
     if (!dataTransfer.files || !dataTransfer.files.length) {

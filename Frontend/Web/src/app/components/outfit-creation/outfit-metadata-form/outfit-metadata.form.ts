@@ -3,8 +3,9 @@ import {form, FormField} from '@angular/forms/signals';
 import {FormTag, OutfitMetadataFormData} from '../../../../types/outfit.types';
 import {OutfitTagControl} from '../../controls/outfit-tag-control/outfit-tag.control';
 import {SeasonControl} from '../../controls/season-control/season.control';
-import {ModestySliderControl} from '../../controls/modesty-slider.control/modesty-slider.control';
 import {DestinationControl} from '../../controls/destination.control/destination.control';
+import {StyledFormFieldset} from '../../shared/styled-form-fieldset/styled-form-fieldset';
+import {MoodRadioControl} from '../../controls/modesty-radio.control/mood-radio.control';
 
 @Component({
   selector: 'fp-outfit-metadata-form',
@@ -12,8 +13,9 @@ import {DestinationControl} from '../../controls/destination.control/destination
     FormField,
     OutfitTagControl,
     SeasonControl,
-    ModestySliderControl,
-    DestinationControl
+    DestinationControl,
+    StyledFormFieldset,
+    MoodRadioControl
   ],
   templateUrl: './outfit-metadata.form.html',
   styleUrl: './outfit-metadata.form.scss',
@@ -34,9 +36,8 @@ export class OutfitMetadataForm {
       },
       tags: [],
       colors: [],
-      modesty: 0,
+      mood: 'high',
       outfitDestination: {
-        outing: false,
         sport: false
       }
 
@@ -91,7 +92,7 @@ export class OutfitMetadataForm {
       colors: this.outfitMetadataForm.colors().value(),
       tags: this.outfitMetadataForm.tags().value(),
       seasons: this.outfitMetadataForm.seasons().value(),
-      modesty: this.outfitMetadataForm.modesty().value(),
+      mood: this.outfitMetadataForm.mood().value(),
       outfitDestination: this.outfitMetadataForm.outfitDestination().value()
     };
 

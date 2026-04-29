@@ -3,11 +3,21 @@ import {OutfitFile} from './files.types';
 
 type Outfit = {
   id?: UUID,
-  imageUrls: string[],
+  seasons?: SeasonsFormSelector,
+  images: OutfitFile[],
+  colors?: string[],
+  tags?: string[],
+  mood: Mood,
+  sport: boolean,
+};
+
+type OutfitDTO = {
+  id?: UUID,
   seasons?: SeasonsFormSelector,
   colors?: string[],
   tags?: string[],
-  images?: OutfitFile[]
+  mood: Mood,
+  sport: boolean,
 };
 
 
@@ -15,7 +25,7 @@ type OutfitMetadataFormData = {
   seasons: SeasonsFormSelector;
   colors: FormTag[];
   tags: FormTag[];
-  modesty: number;
+  mood: Mood;
   outfitDestination: OutfitDestinationFormSelector;
 }
 
@@ -24,16 +34,18 @@ type FormTag = {
   value: string;
 }
 
+type Mood = 'low' | 'medium' | 'high';
+
 type Season = 'spring' | 'summer' | 'autumn' | 'winter';
 
 type SeasonsFormSelector = {
   [TSeason in Season]: boolean;
 };
 
-type OutfitDestination = 'outing' | 'sport';
+type OutfitDestination ='sport';
 
 type OutfitDestinationFormSelector = {
   [TOutfitDestination in OutfitDestination]: boolean;
 }
 
-export type {Outfit, OutfitMetadataFormData, FormTag, Season};
+export type {Outfit, OutfitDTO, OutfitMetadataFormData, FormTag, Season, Mood};

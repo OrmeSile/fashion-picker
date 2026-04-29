@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModestySliderControl } from './modesty-slider.control';
+import { AutumnPumpkinIcon } from './autumn-pumpkin.icon';
 
-describe('ModestySliderControl', () => {
-  let component: ModestySliderControl;
-  let fixture: ComponentFixture<ModestySliderControl>;
+describe('AutumnPumpkinIcon', () => {
+  let component: AutumnPumpkinIcon;
+  let fixture: ComponentFixture<AutumnPumpkinIcon>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ModestySliderControl],
+      imports: [AutumnPumpkinIcon],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ModestySliderControl);
+    fixture = TestBed.createComponent(AutumnPumpkinIcon);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

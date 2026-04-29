@@ -1,13 +1,13 @@
 <input class="input" id="season-checkbox-{{label()}}" type="checkbox" [checked]="checked()"/>
 <label class="" [attr.data-season]="season()" [class.checked]="checked()" (click)="toggle()" for="season-checkbox-{{label()}}">
   @if (season() === 'spring') {
-    <svg fp-leaf-icon class="beveled-button-img"/>
+    <fp-spring-flower-icon class="beveled-button-img"/>
   } @else if (season() === 'summer') {
 <!--    <svg fp-summer-sun class="beveled-button-img"/>-->
     <fp-summer-sun-image-icon class="beveled-button-img icon"/>
   } @else if (season() === 'autumn'){
-    <svg fp-autumn-leaf-icon class="beveled-button-img icon"/>
+    <fp-autumn-pumpkin-icon class="beveled-button-img icon"/>
   } @else if (season() === 'winter'){
-    <svg fp-snowflake-icon class="beveled-button-img icon"/>
+    <fp-snowflake-icon class="beveled-button-img icon"/>
   }
 </label>

@@ -1,9 +1,6 @@
-<div class="panel side-panel left-panel">
-  <div class="left-panel-header"></div>
   @if (activeImage()) {
-    <fp-outfit-metadata-form (submitted)="handleSubmitted($event)"/>
+    <fp-outfit-metadata-form class="metadata-form" (submitted)="handleSubmitted($event)"/>
   }
-  </div>
   <div class="panel center-panel" [class.active-selected]="activeImage()">
     @if (!fileHandler.files().length) {
       <fp-drop-zone class="drop-zone" (files)="handleDataTransfer($event)"/>
@@ -13,16 +10,16 @@
           <img class="focused-image" src="{{activeImage()?.fileUrl}}"/>
         </div>
       }
-      <fp-image-album-grid-preview class="image-preview">
-        @for (imageMetadata of imagesMetadata(); track imageMetadata.id) {
-          <fp-preview-image
-            [selected]="imageMetadata.id === activeImage()?.id"
-            [imageUrl]="imageMetadata.fileUrl"
-            (removeImage)="removeImage(imageMetadata.id)"
-            (openImageDetails)="setActiveImage(imageMetadata)"
-          />
-        }
-        <fp-drop-zone class="drop-card" (files)="handleDataTransfer($event)"/>
-      </fp-image-album-grid-preview>
+<!--      <fp-image-album-grid-preview class="image-preview">-->
+<!--        @for (imageMetadata of imagesMetadata(); track imageMetadata.id) {-->
+<!--          <fp-preview-image-->
+<!--            [selected]="imageMetadata.id === activeImage()?.id"-->
+<!--            [imageUrl]="imageMetadata.fileUrl"-->
+<!--            (removeImage)="removeImage(imageMetadata.id)"-->
+<!--            (openImageDetails)="setActiveImage(imageMetadata)"-->
+<!--          />-->
+<!--        }-->
+<!--        <fp-drop-zone class="drop-card" (files)="handleDataTransfer($event)"/>-->
+<!--      </fp-image-album-grid-preview>-->
     }
   </div>

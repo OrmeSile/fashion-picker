@@ -1,0 +1,10 @@
+<input class="input" type="radio" id="label-modesty-{{controlValue()}}" [formField]="field()" [value]="controlValue()"/>
+<label class="label" for="label-modesty-{{controlValue()}}">
+  @if (controlValue() === 'low' ){
+    <img class="icon" src="/icons/angry-eyes.png" alt="low"/>
+  } @else if (controlValue() === 'medium'){
+  <img class="icon" src="/icons/normal-eyes.png" alt="medium"/>
+  }@else{
+    <img class="icon" src="/icons/blinking-eyes.png" alt="high"/>
+  }
+</label>

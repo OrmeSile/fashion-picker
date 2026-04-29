@@ -1,18 +1,18 @@
 import {Component, input, model} from '@angular/core';
 import {FormCheckboxControl} from '@angular/forms/signals';
 import {Season} from '../../../../types/outfit.types';
-import {LeafIcon} from '../../icons/leaf-icon/leaf.icon';
-import {AutumnLeafIcon} from '../../icons/autumn-leaf.icon/autumn-leaf.icon';
 import {SnowflakeIcon} from '../../icons/snowflake.icon/snowflake.icon';
 import {SummerSunImageIcon} from '../../icons/summer-sun-image.icon/summer-sun-image.icon';
+import {SpringFlowerIcon} from '../../icons/spring-flower.icon/spring-flower.icon';
+import {AutumnPumpkinIcon} from '../../icons/autumn-pumpkin.icon/autumn-pumpkin.icon';
 
 @Component({
   selector: 'fp-season-control',
   imports: [
-    LeafIcon,
-    AutumnLeafIcon,
     SnowflakeIcon,
     SummerSunImageIcon,
+    SpringFlowerIcon,
+    AutumnPumpkinIcon,
   ],
   templateUrl: './season.control.html',
   styleUrl: './season.control.scss',

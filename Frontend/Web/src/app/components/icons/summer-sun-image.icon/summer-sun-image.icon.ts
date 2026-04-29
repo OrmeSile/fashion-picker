@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
-import {NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'fp-summer-sun-image-icon',
-  imports: [
-    NgOptimizedImage
-  ],
+  imports: [],
   templateUrl: './summer-sun-image.icon.html',
   styleUrl: './summer-sun-image.icon.scss',
 })
