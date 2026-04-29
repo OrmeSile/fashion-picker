@@ -86,7 +86,8 @@ public class ImageHandler : IFileHandler
         var fileCopyCancellationToken = fileCopyCancellationTokenSource.Token;
         try
         {
-            foreach (var operation in writeOperations) fileDict.Add(operation.Key, File.Create(operation.Value.Path));
+            foreach (var operation in writeOperations)
+                fileDict.Add(operation.Key, File.Create(operation.Value.Path));
 
             await Parallel.ForEachAsync(writeOperations, new ParallelOptions
             {
@@ -95,13 +96,20 @@ public class ImageHandler : IFileHandler
             {
                 using var stream = new MemoryStream(operation.Value.Data);
                 await stream.CopyToAsync(fileDict[operation.Key], token);
-                stream.Close();
             });
         }
         catch (Exception ex)
         {
             await fileCopyCancellationTokenSource.CancelAsync();
             throw new OperationCanceledException(ex.Message);
+        }
+        finally
+        {
+            foreach (var stream in fileDict.Values)
+            {
+                await stream.DisposeAsync();
+            }
+            fileDict.Clear();
         }
     }
 

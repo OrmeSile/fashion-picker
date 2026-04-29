@@ -81,7 +81,8 @@ public class MultipartFileService(IFileStreamManager streamManager, FileReposito
             repositoryFilesInformation.Add(lastEntity);
         }, cancellationToken));
 
-        Task.WaitAll(tasks, cancellationToken);
+        await Task.WhenAll(tasks);
+
         dbContext.RepositoryFileInformations.AddRange(repositoryFilesInformation);
         await dbContext.SaveChangesAsync(CancellationToken.None);
         return repositoryFilesInformation;
