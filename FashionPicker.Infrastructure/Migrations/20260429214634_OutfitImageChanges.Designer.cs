@@ -3,6 +3,7 @@ using System;
 using FashionPicker.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FashionPicker.Infrastructure.Migrations
 {
     [DbContext(typeof(OutfitDbContext))]
-    partial class OutfitDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260429214634_OutfitImageChanges")]
+    partial class OutfitImageChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
