@@ -2,10 +2,23 @@ using FashionPicker.FileRepository.Interfaces;
 using FileRepository;
 using FileRepository.ConfigurationOptions;
 using FileRepository.Services;
+using FileRepository.Services.FileHandlers;
+using Microsoft.AspNetCore.HttpLogging;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddHttpLogging(_ => { });
+#if DEBUG
+builder.Services.AddHttpLogging(logging =>
+{
+
+    logging.LoggingFields = HttpLoggingFields.All;
+    logging.RequestBodyLogLimit = 4096;
+    logging.ResponseBodyLogLimit = 4096;
+    logging.MediaTypeOptions.AddText("multipart/form-data");
+    logging.CombineLogs = true;
+});
+#endif
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -30,6 +43,7 @@ builder.Services
     .AddScoped<RepositoryFileInformationsProvider>()
     .AddScoped<IDataConsistencyChecker, DataConsistencyChecker>()
     .AddScoped<IImageOptimizer, NetVipsImageOptimizer>()
+    .AddScoped<ImageHandler>()
     .AddFileRepositoryDbContext(builder.Configuration.GetConnectionString("FileRepositoryDbContext"));
 
 builder.Services.AddControllers();

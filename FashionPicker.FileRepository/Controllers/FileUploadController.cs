@@ -23,7 +23,6 @@ public class FileUploadController: ControllerBase
     }
 
     [HttpPost("upload")]
-    [Consumes("multipart/form-data")]
     public async Task<Results<Ok<FileUploadUploadResponse>,BadRequest<string>>> Upload()
     {
         if (!Request.ContentType?.StartsWith("multipart/form-data") ?? true)
@@ -36,7 +35,9 @@ public class FileUploadController: ControllerBase
         var cancellationToken = HttpContext.RequestAborted;
 
         var repositoryFileInformation = await _fileService.SaveFiles(boundary, Request.Body, cancellationToken);
-        return TypedResults.Ok(new FileUploadUploadResponse(repositoryFileInformation.Select(fileInformation => fileInformation.ToDto()).ToList()));
+
+        var response = new FileUploadUploadResponse(repositoryFileInformation.Select(f => f.ToDto()).ToList());
+        return TypedResults.Ok(response);
     }
 
     [HttpGet]

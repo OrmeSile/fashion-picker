@@ -1,5 +1,10 @@
 namespace FileRepository;
 
+/// <summary>
+/// Provides a mechanism to retrieve the base path for static files from configuration injected at startup.
+///<br/>
+/// View : <see cref="StaticFileRepositoryOptionsManager"/>
+/// </summary>
 public class StaticPathProvider
 {
 

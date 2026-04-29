@@ -12,6 +12,7 @@ public class NetVipsImageOptimizer : IImageOptimizer
 
     public ResizedResults ResizeImage(MemoryStream originalImage)
     {
+        //TODO Stream is not recognized as an image(mimetype is not matching known data)
         originalImage.Position = 0;
         using var image = Image.NewFromStream(originalImage);
 

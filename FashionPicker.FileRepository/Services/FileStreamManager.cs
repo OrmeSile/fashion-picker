@@ -1,28 +1,21 @@
 using FashionPicker.FileRepository.Interfaces;
-using FileRepository.ConfigurationOptions;
 using FileRepository.Entities;
-using Microsoft.Extensions.Options;
+using FileRepository.Services.FileHandlers;
 
 namespace FileRepository.Services;
 
 public class FileStreamManager : IFileStreamManager
 {
     private readonly ISimpleContentInspector _contentInspector;
-    private readonly StaticPathProvider _staticPathProvider;
-    private readonly IOptions<FileRepositoryOptions> _staticFileOptions;
-    private readonly IImageOptimizer _imageOptimizer;
+    private readonly ImageHandler _imageHandler;
 
     public FileStreamManager(
         ISimpleContentInspector contentInspector,
-        StaticPathProvider staticPathProvider,
-        IOptions<FileRepositoryOptions> staticFileOptions,
-        IImageOptimizer imageOptimizer
+        ImageHandler imageHandler
     )
     {
-        _staticFileOptions = staticFileOptions;
-        _imageOptimizer = imageOptimizer;
         _contentInspector = contentInspector;
-        _staticPathProvider = staticPathProvider;
+        _imageHandler = imageHandler;
     }
 
     public async Task<RepositoryFileInformation> SaveFile
@@ -43,77 +36,8 @@ public class FileStreamManager : IFileStreamManager
         if (!mimeTypeMatches[0].MimeType.StartsWith("image/"))
             throw new NotImplementedException();
 
-        var fileName = Guid.NewGuid().ToString("N");
-
-        var extension = GetExtensionStringForMimeType(mimeTypeMatches[0].MimeType);
-
-        var smallFileName = $"{fileName}-small.{extension}";
-        var mediumFileName = $"{fileName}-medium.{extension}";
-        var bigFileName = $"{fileName}-big.{extension}";
-        var originalFileName = $"{fileName}-original.{extension}";
-
-        var smallImageFilePath = Path.Combine(_staticPathProvider.GetFilePath(), _staticFileOptions.Value.SaveLocation, smallFileName);
-        var mediumImageFilePath = Path.Combine(_staticPathProvider.GetFilePath(), _staticFileOptions.Value.SaveLocation, mediumFileName);
-        var bigImageFilePath = Path.Combine(_staticPathProvider.GetFilePath(), _staticFileOptions.Value.SaveLocation, bigFileName);
-        var originalImageFIlePath = Path.Combine(_staticPathProvider.GetFilePath(), _staticFileOptions.Value.SaveLocation, originalFileName);
-
-        var resizedImages = _imageOptimizer.ResizeImage(memoryStream);
-
-        var writeOperations = new List<(string Key, byte[] Data, string Path)>
-        {
-            ("original", resizedImages.Original, originalImageFIlePath)
-        };
-
-        if (resizedImages.Small != null)
-            writeOperations.Add(("small", resizedImages.Small, smallImageFilePath));
-
-        if (resizedImages.Medium != null)
-            writeOperations.Add(("medium", resizedImages.Medium, mediumImageFilePath));
-
-        if (resizedImages.Big != null)
-            writeOperations.Add(("big", resizedImages.Big, bigImageFilePath));
-
-        var fileDict = new Dictionary<string, FileStream>();
-        var fileCopyCancellationTokenSource = new CancellationTokenSource();
-        var fileCopyCancellationToken = fileCopyCancellationTokenSource.Token;
-
-        try
-        {
-            foreach (var operation in writeOperations)
-            {
-                fileDict.Add(operation.Key, File.Create(operation.Path));
-            }
-
-            await Parallel.ForEachAsync(writeOperations, new ParallelOptions
-            {
-                CancellationToken = fileCopyCancellationToken
-            }, async (operation, token) =>
-            {
-                using var stream = new MemoryStream(operation.Data);
-                await stream.CopyToAsync(fileDict[operation.Key], token);
-            });
-        }
-        catch (Exception ex)
-        {
-            await fileCopyCancellationTokenSource.CancelAsync();
-            throw new OperationCanceledException(ex.Message);
-        }
-
-        var repoFileInfo = new RepositoryFileInformation
-        {
-            Extension = "jpg",
-            MimeType = mimeTypeMatches[0].MimeType,
-            PhysicalFileName = fileName,
-            LogicalFileName = null,
-            Tags = [],
-            PathSmall = $"{_staticFileOptions.Value.SaveLocation}/{smallFileName}",
-            PathMedium = resizedImages.Medium != null ? $"{_staticFileOptions.Value.SaveLocation}/{mediumFileName}" : null,
-            PathBig = resizedImages.Big != null ? $"{_staticFileOptions.Value.SaveLocation}/{bigFileName}" : null,
-            PathOriginal = $"{_staticFileOptions.Value.SaveLocation}/{originalFileName}"
-        };
-        return repoFileInfo;
+        return await _imageHandler.SaveFile(memoryStream, mimeTypeMatches[0].MimeType);
     }
-
 
 
     private string GetExtensionStringForMimeType(string mimeType)

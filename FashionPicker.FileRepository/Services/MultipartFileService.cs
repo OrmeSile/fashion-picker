@@ -7,6 +7,14 @@ namespace FileRepository.Services;
 
 public class MultipartFileService(IFileStreamManager streamManager, FileRepositoryDbContext dbContext)
 {
+
+    public async Task<RepositoryFileInformation> SaveFile(Stream stream, CancellationToken cancellationToken)
+    {
+        var res = await streamManager.SaveFile(stream, cancellationToken);
+        return res;
+    }
+
+
     public async Task<List<RepositoryFileInformation>> SaveFiles(string boundary, Stream contentStream, CancellationToken cancellationToken)
     {
         var reader = new MultipartReader(boundary, contentStream);

@@ -17,6 +17,6 @@ public class RepositoryFileInformationsProvider
     public IEnumerable<RepositoryFileInformation> GetAllFileInformations()
     {
         _dataConsistencyChecker.EnsureDataConsistency<RepositoryFileInformation>();
-        return _context.RepositoryFileInformations;
+        return _context.RepositoryFileInformations.ToList();
     }
 }
