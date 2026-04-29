@@ -1,4 +1,3 @@
-
 namespace FileRepository.Interfaces;
 
 public interface IPhysicalFile

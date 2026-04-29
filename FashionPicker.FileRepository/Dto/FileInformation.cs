@@ -5,4 +5,4 @@ public record FileInformation(
     string Name,
     string MimeType,
     string Path
-    );
+);

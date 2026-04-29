@@ -1,9 +1,7 @@
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using FashionPicker.Core.Adapters;
 using FashionPicker.Core.Objects;
 using Infrastructure.FileRepository;
-using Microsoft.AspNetCore.Http;
 
 namespace FashionPicker.Infrastructure.Adapters.LocalCMS;
 
@@ -28,7 +26,8 @@ public class LocalCmsAdapter : ICmsAdapter
         {
             var responseBody = await successfulResponse.Content.ReadFromJsonAsync<FileUploadUploadResponse>(CancellationToken.None);
             return responseBody?.RepositoryFileInformation[0].ToInternal() ?? throw new ApplicationException("fileInformation is null");
-        }catch(Exception ex)
+        }
+        catch (Exception ex)
         {
             throw new ApplicationException("fileInformation is null", ex);
         }

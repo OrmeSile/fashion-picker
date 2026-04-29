@@ -20,7 +20,7 @@ builder.Services.AddHttpLogging(logging =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: allowFrontendOrigin, policy =>
+    options.AddPolicy(allowFrontendOrigin, policy =>
     {
         policy.WithOrigins("https://localhost:4200")
             .AllowAnyHeader()
@@ -39,10 +39,7 @@ var app = builder.Build();
 
 app.UseHttpLogging();
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+if (app.Environment.IsDevelopment()) app.MapOpenApi();
 
 app.UseCors(allowFrontendOrigin);
 

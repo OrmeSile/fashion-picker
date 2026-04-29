@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionPicker.Infrastructure.DbContexts;
 
-public class OutfitImageConfiguration: IEntityTypeConfiguration<OutfitImage>
+public class OutfitImageConfiguration : IEntityTypeConfiguration<OutfitImage>
 {
     public void Configure(EntityTypeBuilder<OutfitImage> builder)
     {

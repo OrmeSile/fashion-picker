@@ -4,7 +4,7 @@ using MimeDetective.Engine;
 
 namespace FashionPicker.FileRepository.Interfaces;
 
-public interface ISimpleContentInspector: IContentInspector
+public interface ISimpleContentInspector : IContentInspector
 {
     public ImmutableArray<MimeTypeMatch> Inspect(MemoryStream content);
 }

@@ -38,16 +38,6 @@ public class FileStreamManager : IFileStreamManager
 
         return await _imageHandler.SaveFile(memoryStream, mimeTypeMatches[0].MimeType);
     }
-
-
-    private string GetExtensionStringForMimeType(string mimeType)
-    {
-        return mimeType switch
-        {
-            "image/jpeg" => ".jpg",
-            _ => throw new NotSupportedException($"File type is not supported: {mimeType}")
-        };
-    }
 }
 
 public interface IFileStreamManager

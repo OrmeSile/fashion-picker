@@ -9,7 +9,5 @@ public class DataConsistencyCheckEpisode
     public DateTime TimeOfCheck { get; set; }
     public int FilesValidated { get; set; }
     public int FilesDeleted { get; set; }
-    [NotMapped]
-    public int TotalFiles => FilesValidated + FilesDeleted;
-
+    [NotMapped] public int TotalFiles => FilesValidated + FilesDeleted;
 }

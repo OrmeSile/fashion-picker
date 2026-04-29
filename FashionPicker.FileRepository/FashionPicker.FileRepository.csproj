@@ -10,29 +10,29 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.6"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.6">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="10.0.6">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Mime-Detective" Version="25.8.1" />
-        <PackageReference Include="NetVips" Version="3.2.0" />
-        <PackageReference Include="NetVips.Native.win-x64" Version="8.18.2" />
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />
-        <PackageReference Include="SkiaSharp" Version="3.119.2" />
+        <PackageReference Include="Mime-Detective" Version="25.8.1"/>
+        <PackageReference Include="NetVips" Version="3.2.0"/>
+        <PackageReference Include="NetVips.Native.win-x64" Version="8.18.2"/>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1"/>
+        <PackageReference Include="SkiaSharp" Version="3.119.2"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-      <Content Include="obj\FashionPicker.FileRepository.json" />
+        <Content Include="..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
+        <Content Include="obj\FashionPicker.FileRepository.json"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\FashionPicker.FileRepository.Api\FashionPicker.FileRepository.Api.csproj" />
+        <ProjectReference Include="..\FashionPicker.FileRepository.Api\FashionPicker.FileRepository.Api.csproj"/>
     </ItemGroup>
 
 </Project>

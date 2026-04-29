@@ -10,7 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 #if DEBUG
 builder.Services.AddHttpLogging(logging =>
 {
-
     logging.LoggingFields = HttpLoggingFields.All;
     logging.RequestBodyLogLimit = 4096;
     logging.ResponseBodyLogLimit = 4096;
@@ -54,10 +53,7 @@ var app = builder.Build();
 app.UseHttpLogging();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+if (app.Environment.IsDevelopment()) app.MapOpenApi();
 
 app.UseStaticFileRepositoryFiles();
 

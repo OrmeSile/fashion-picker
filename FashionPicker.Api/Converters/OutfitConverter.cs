@@ -16,7 +16,7 @@ internal static class OutfitConverter
                 CreationDate = DateTime.UtcNow,
                 Tags = dto.Tags.Select(tag => tag.ToOutfitTagModel()).ToList(),
                 Mood = dto.Mood.ToMoodModel(),
-                Sport =  dto.Sport
+                Sport = dto.Sport
             };
         }
     }
@@ -26,24 +26,24 @@ internal static class OutfitConverter
         internal OutfitMetadata ToDto()
         {
             return new OutfitMetadata(
-                Tags: model.Tags.Select(outfitTag => outfitTag.ToDto()).ToList(),
-                Seasons: model.Seasons.Select(s => s.ToDto()).ToList(),
-                Colors: model.Colors.Select(c => c.ToDto()).ToList(),
-                Id: null,
-                Mood: model.Mood.ToDto(),
-                Sport: model.Sport
+                model.Tags.Select(outfitTag => outfitTag.ToDto()).ToList(),
+                model.Seasons.Select(s => s.ToDto()).ToList(),
+                model.Colors.Select(c => c.ToDto()).ToList(),
+                null,
+                model.Mood.ToDto(),
+                model.Sport
             );
         }
 
         internal OutfitMetadata ToDtoWithId()
         {
             return new OutfitMetadata(
-                Tags: model.Tags.Select(outfitTag => outfitTag.ToDto()).ToList(),
-                Seasons: model.Seasons.Select(s => s.ToDto()).ToList(),
-                Colors: model.Colors.Select(c => c.ToDto()).ToList(),
-                Id: model.Id,
-                Mood: model.Mood.ToDto(),
-                Sport: model.Sport
+                model.Tags.Select(outfitTag => outfitTag.ToDto()).ToList(),
+                model.Seasons.Select(s => s.ToDto()).ToList(),
+                model.Colors.Select(c => c.ToDto()).ToList(),
+                model.Id,
+                model.Mood.ToDto(),
+                model.Sport
             );
         }
     }
@@ -67,12 +67,15 @@ file static class MoodConverter
 
     extension(Mood model)
     {
-        internal string ToDto() => model switch
+        internal string ToDto()
         {
-            Mood.Low => "low",
-            Mood.Medium => "medium",
-            Mood.High => "high",
-            _ => throw new ArgumentOutOfRangeException(nameof(model), model, null)
-        };
+            return model switch
+            {
+                Mood.Low => "low",
+                Mood.Medium => "medium",
+                Mood.High => "high",
+                _ => throw new ArgumentOutOfRangeException(nameof(model), model, null)
+            };
+        }
     }
 }

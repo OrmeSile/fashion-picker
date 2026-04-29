@@ -1,11 +1,10 @@
-using System.Net.Mime;
 using FileRepository.ConfigurationOptions;
 using FileRepository.Entities;
 using Microsoft.Extensions.Options;
 
 namespace FileRepository.Services.FileHandlers;
 
-public class ImageHandler: IFileHandler
+public class ImageHandler : IFileHandler
 {
     private readonly StaticPathProvider _staticPathProvider;
     private readonly IOptions<FileRepositoryOptions> _staticFileOptions;
@@ -24,7 +23,7 @@ public class ImageHandler: IFileHandler
 
     public async Task<RepositoryFileInformation> SaveFile(MemoryStream memoryStream, string mimeType)
     {
-        if(!memoryStream.CanSeek)
+        if (!memoryStream.CanSeek)
             throw new NotSupportedException($"Stream is not seekable: {memoryStream}");
 
         memoryStream.Position = 0;
@@ -48,10 +47,9 @@ public class ImageHandler: IFileHandler
             PathSmall = fileNames[ImageSize.Small].FileUrl,
             PathMedium = fileNames[ImageSize.Medium].FileUrl,
             PathBig = fileNames[ImageSize.Large].FileUrl,
-            PathOriginal = fileNames[ImageSize.Original].FileUrl,
+            PathOriginal = fileNames[ImageSize.Original].FileUrl
         };
         return repoFileInfo;
-
     }
 
     private (Dictionary<ImageSize, (byte[] Data, string Path)>, Dictionary<ImageSize, (string FullFileName, string FilePath, string FileUrl)>
@@ -88,10 +86,7 @@ public class ImageHandler: IFileHandler
         var fileCopyCancellationToken = fileCopyCancellationTokenSource.Token;
         try
         {
-            foreach (var operation in writeOperations)
-            {
-                fileDict.Add(operation.Key, File.Create(operation.Value.Path));
-            }
+            foreach (var operation in writeOperations) fileDict.Add(operation.Key, File.Create(operation.Value.Path));
 
             await Parallel.ForEachAsync(writeOperations, new ParallelOptions
             {

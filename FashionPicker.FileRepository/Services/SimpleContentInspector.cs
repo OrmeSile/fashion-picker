@@ -5,7 +5,7 @@ using MimeDetective.Engine;
 
 namespace FileRepository.Services;
 
-public class SimpleContentInspector: ISimpleContentInspector
+public class SimpleContentInspector : ISimpleContentInspector
 {
     private readonly IContentInspector _contentInspector;
 
@@ -15,7 +15,7 @@ public class SimpleContentInspector: ISimpleContentInspector
         {
             Definitions = MimeDetective.Definitions.DefaultDefinitions.All()
         };
-        _contentInspector =  builder.Build();
+        _contentInspector = builder.Build();
     }
 
     public ImmutableArray<DefinitionMatch> Inspect(ReadOnlySpan<byte> content)

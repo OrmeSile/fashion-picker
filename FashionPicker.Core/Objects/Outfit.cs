@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace FashionPicker.Core.Objects;
 
 public class Outfit

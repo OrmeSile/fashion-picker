@@ -7,7 +7,6 @@ namespace FileRepository;
 /// </summary>
 public class StaticPathProvider
 {
-
     public static readonly string BASE_PATH_KEY = "FileSaveBasePath";
 
     private readonly IConfiguration _configuration;

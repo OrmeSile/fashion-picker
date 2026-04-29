@@ -24,7 +24,8 @@ public class RepositoryFileInformation
         string? pathMedium,
         string? pathBig,
         string pathOriginal
-    ) {
+    )
+    {
         FileType = fileType;
         MimeType = fileType.GetMimeType();
         PhysicalFileName = physicalFileName;

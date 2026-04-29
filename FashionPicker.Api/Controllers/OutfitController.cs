@@ -4,10 +4,7 @@ using FashionPicker.Api.Dto.Inbound;
 using FashionPicker.Api.Dto.Inbound.Outfit;
 using FashionPicker.Api.Dto.Outbound.Outfit;
 using FashionPicker.Core.Adapters;
-using FashionPicker.Core.Objects;
-using FashionPicker.Infrastructure.Adapters.LocalCMS;
-using FashionPicker.Infrastructure.Providers;
-using FashionPicker.Infrastructure.Repositories;
+using FashionPicker.Core.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
@@ -17,24 +14,24 @@ namespace FashionPicker.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class OutfitController(OutfitRepository outfitRepository, OutfitTagProvider outfitTagProvider, ICmsAdapter cmsAdapter) : ControllerBase
+public class OutfitController(IOutfitRepository outfitRepository, ICmsAdapter cmsAdapter) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<OutfitGetResponse>> Get([FromBody] OutfitGetRequest request)
+    public async Task<Results<Ok<OutfitGetResponse>, NotFound>> Get([FromBody] OutfitGetRequest request)
     {
         var outfit = await outfitRepository.GetById(request.Id);
 
         if (outfit == null)
-            return NotFound();
+            return TypedResults.NotFound();
 
         var response = new OutfitGetResponse(outfit.ToDto());
 
-        return Ok(response);
+        return TypedResults.Ok(response);
     }
 
     [HttpPost]
     [DisableRequestSizeLimit]
-    public async Task<Results<Ok<OutfitPostResponse>, BadRequest<string>>>CreateOutfit()
+    public async Task<Results<Ok<OutfitPostResponse>, BadRequest<string>>> CreateOutfit()
     {
         if (!Request.ContentType?.StartsWith("multipart/form-data") ?? true)
             return TypedResults.BadRequest("the request does not contain multipart/form-data");
@@ -80,7 +77,8 @@ public class OutfitController(OutfitRepository outfitRepository, OutfitTagProvid
                     multipartFormData.Add(streamContent, contentDisposition.Name.ToString(), contentDisposition.FileName.ToString());
                 }
             }
-            if(metadata == null)
+
+            if (metadata == null)
                 throw new InvalidOperationException("missing metadata");
         }
         catch (Exception e)
@@ -91,11 +89,10 @@ public class OutfitController(OutfitRepository outfitRepository, OutfitTagProvid
         var fileInformation = await cmsAdapter.UploadFileAsync(multipartFormData);
         var outfit = metadata.ToModel();
         outfit.AddImages(fileInformation);
-        var savedOutfits = await outfitRepository.AddRange([outfit]);
+        var savedOutfits = await outfitRepository.AddOutfits([outfit]);
 
         return TypedResults.Ok(new OutfitPostResponse(savedOutfits.Select(so => so.ToDtoWithId()).ToList()));
     }
-
 
 
     private async Task<OutfitMetadata?> ParseJsonMetadata(Stream bodySection, CancellationToken cancellationToken)
@@ -108,6 +105,6 @@ public class OutfitController(OutfitRepository outfitRepository, OutfitTagProvid
         return await JsonSerializer.DeserializeAsync<OutfitMetadata>(
             bodySection,
             options,
-            cancellationToken: cancellationToken);
+            cancellationToken);
     }
 }

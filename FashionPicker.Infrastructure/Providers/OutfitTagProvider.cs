@@ -43,7 +43,7 @@ public class OutfitTagProvider(OutfitDbContext context)
         {
             var dbTag = tags.FirstOrDefault(t => t.Value == tag);
             if (dbTag == null)
-                tagDict[tag] = new OutfitTag(){Value = tag};
+                tagDict[tag] = new OutfitTag { Value = tag };
         }
 
         var dbTags = await AddRange(tagDict.Values.ToList());

@@ -17,7 +17,7 @@ public class OutfitRepository(OutfitDbContext outfitContext) : IOutfitRepository
         return await outfitContext.Outfits.FindAsync(id);
     }
 
-    public async Task<List<Outfit>> AddRange(List<Outfit> outfits)
+    public async Task<List<Outfit>> AddOutfits(List<Outfit> outfits)
     {
         var populatedOutfits = outfits.Select(outfit =>
         {

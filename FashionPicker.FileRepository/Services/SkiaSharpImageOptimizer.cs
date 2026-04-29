@@ -22,7 +22,7 @@ public class SkiaSharpImageOptimizer : IImageOptimizer
         var samplingOptions = new SKSamplingOptions(SKFilterMode.Linear);
 
         resizeTasks.Add("small", ResizeAsync(image, smallScalingRatio, samplingOptions));
-        resizeTasks.Add("original",ResizeAsync(image, 1,  samplingOptions));
+        resizeTasks.Add("original", ResizeAsync(image, 1, samplingOptions));
         if (mediumScalingRatio != 0)
             resizeTasks.Add("medium", ResizeAsync(image, mediumScalingRatio, samplingOptions));
         if (bigScalingRatio != 0)

@@ -6,11 +6,17 @@ internal static class OutfitTagConverter
 {
     extension(string dto)
     {
-        public OutfitTag ToOutfitTagModel() => new OutfitTag{Value = dto};
+        public OutfitTag ToOutfitTagModel()
+        {
+            return new OutfitTag { Value = dto };
+        }
     }
 
     extension(OutfitTag model)
     {
-        public string ToDto() => model.Value;
+        public string ToDto()
+        {
+            return model.Value;
+        }
     }
 }

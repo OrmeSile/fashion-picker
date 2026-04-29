@@ -4,7 +4,7 @@ using Microsoft.Extensions.FileProviders;
 
 namespace FileRepository;
 
-public class StaticFileRepositoryOptions: StaticFileOptions
+public class StaticFileRepositoryOptions : StaticFileOptions
 {
     public StaticFileRepositoryOptions(string path)
     {
@@ -21,7 +21,7 @@ public static class StaticFileRepositoryOptionsManager
     private static string? FullFilePath { get; set; }
     private static string? BasePath { get; set; }
 
-    public static IApplicationBuilder UseStaticFileRepositoryFiles(this IApplicationBuilder app )
+    public static IApplicationBuilder UseStaticFileRepositoryFiles(this IApplicationBuilder app)
     {
         var path = FullFilePath ?? throw new Exception("Default save path is missing and was not created at startup.");
         var provider = new StaticFileRepositoryOptions(path);
@@ -69,7 +69,7 @@ public static class StaticFileRepositoryOptionsManager
     {
         builder.Configuration.AddInMemoryCollection(new Dictionary<string, string?>
         {
-            {StaticPathProvider.BASE_PATH_KEY, path}
+            { StaticPathProvider.BASE_PATH_KEY, path }
         });
     }
 }

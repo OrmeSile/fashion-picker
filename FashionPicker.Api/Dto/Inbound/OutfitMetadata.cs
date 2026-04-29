@@ -7,6 +7,6 @@ public record OutfitMetadata(
     Guid? Id,
     string Mood,
     bool Sport
-    );
+);
 
 public record ColorDto(string Value);

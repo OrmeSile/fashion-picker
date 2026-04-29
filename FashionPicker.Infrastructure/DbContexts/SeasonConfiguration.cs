@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionPicker.Infrastructure.DbContexts;
 
-public class SeasonsConfiguration: IEntityTypeConfiguration<Season>
+public class SeasonsConfiguration : IEntityTypeConfiguration<Season>
 {
     public void Configure(EntityTypeBuilder<Season> builder)
     {

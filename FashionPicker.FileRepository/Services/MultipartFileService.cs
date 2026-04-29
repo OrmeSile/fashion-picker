@@ -7,7 +7,6 @@ namespace FileRepository.Services;
 
 public class MultipartFileService(IFileStreamManager streamManager, FileRepositoryDbContext dbContext)
 {
-
     public async Task<RepositoryFileInformation> SaveFile(Stream stream, CancellationToken cancellationToken)
     {
         var res = await streamManager.SaveFile(stream, cancellationToken);
@@ -21,10 +20,10 @@ public class MultipartFileService(IFileStreamManager streamManager, FileReposito
 
         FileMetadata? fileMetadata = null;
 
-        var ms =  new MemoryStream();
+        var ms = new MemoryStream();
         string? currentFileName = null;
         List<RepositoryFileInformation> repositoryFilesInformation = [];
-        var tasks =  new List<Task>();
+        var tasks = new List<Task>();
 
         while (await reader.ReadNextSectionAsync(cancellationToken) is { } section)
         {
@@ -33,7 +32,7 @@ public class MultipartFileService(IFileStreamManager streamManager, FileReposito
             if (contentDisposition == null || !contentDisposition.IsFileDisposition())
                 throw new InvalidOperationException("missing content disposition.");
 
-            if(!MediaTypeHeaderValue.TryParse(section.ContentType, out var sectionType))
+            if (!MediaTypeHeaderValue.TryParse(section.ContentType, out var sectionType))
                 throw new InvalidOperationException("Invalid content type in section " + section.ContentType);
 
             if (sectionType.MediaType == "application/json")
@@ -44,7 +43,7 @@ public class MultipartFileService(IFileStreamManager streamManager, FileReposito
             }
             else
             {
-                if (contentDisposition.Name != currentFileName )
+                if (contentDisposition.Name != currentFileName)
                 {
                     if (currentFileName != null)
                     {
@@ -75,7 +74,7 @@ public class MultipartFileService(IFileStreamManager streamManager, FileReposito
 
         ms.Position = 0;
 
-        tasks.Add(Task.Run( async ()=>
+        tasks.Add(Task.Run(async () =>
         {
             var lastEntity = await streamManager.SaveFile(ms, cancellationToken);
             lastEntity.LogicalFileName = fileMetadata?.FileName;

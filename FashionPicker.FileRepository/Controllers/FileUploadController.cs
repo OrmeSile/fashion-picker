@@ -8,7 +8,7 @@ namespace FileRepository;
 
 [ApiController]
 [Route("")]
-public class FileUploadController: ControllerBase
+public class FileUploadController : ControllerBase
 {
     private readonly MultipartFileService _fileService;
     private readonly RepositoryFileInformationsProvider _repositoryFileInformationsProvider;
@@ -16,20 +16,20 @@ public class FileUploadController: ControllerBase
     public FileUploadController(
         MultipartFileService fileService,
         RepositoryFileInformationsProvider repositoryFileInformationsProvider
-        )
+    )
     {
         _fileService = fileService;
         _repositoryFileInformationsProvider = repositoryFileInformationsProvider;
     }
 
     [HttpPost("upload")]
-    public async Task<Results<Ok<FileUploadUploadResponse>,BadRequest<string>>> Upload()
+    public async Task<Results<Ok<FileUploadUploadResponse>, BadRequest<string>>> Upload()
     {
         if (!Request.ContentType?.StartsWith("multipart/form-data") ?? true)
-            return TypedResults.BadRequest( "the request does not contain multipart/form-data");
+            return TypedResults.BadRequest("the request does not contain multipart/form-data");
 
         var boundary = HeaderUtilities.RemoveQuotes(MediaTypeHeaderValue.Parse(Request.ContentType).Boundary).Value;
-        if(string.IsNullOrWhiteSpace(boundary))
+        if (string.IsNullOrWhiteSpace(boundary))
             return TypedResults.BadRequest("Missing boundary header");
 
         var cancellationToken = HttpContext.RequestAborted;
@@ -45,11 +45,9 @@ public class FileUploadController: ControllerBase
     {
         return TypedResults.Ok(new FileUploadGetResponse
             (
-                Data: _repositoryFileInformationsProvider.GetAllFileInformations()
+                _repositoryFileInformationsProvider.GetAllFileInformations()
                     .Select(x => x.ToDto())
-                )
+            )
         );
     }
 }
-
-

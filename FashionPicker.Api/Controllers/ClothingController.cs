@@ -1,19 +1,17 @@
-using FashionPicker.Core.Adapters;
 using FashionPicker.Core.Objects;
 using FashionPicker.Infrastructure.Providers;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FashionPicker.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ClothingController(ClothingProvider clothingProvider, ICmsAdapter _): ControllerBase
+public class ClothingController(ClothingProvider clothingProvider) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<List<Clothing>>> GetAllClothing()
+    public async Task<Results<Ok<List<Clothing>>, BadRequest<string>>> GetAllClothing()
     {
-         return Ok(await clothingProvider.GetAll());
+        return TypedResults.Ok(await clothingProvider.GetAll());
     }
-
-
 }

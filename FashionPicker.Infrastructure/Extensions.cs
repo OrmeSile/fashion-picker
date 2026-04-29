@@ -1,4 +1,5 @@
 using FashionPicker.Core.Adapters;
+using FashionPicker.Core.Repositories;
 using FashionPicker.Infrastructure.Adapters.LocalCMS;
 using FashionPicker.Infrastructure.DbContexts;
 using FashionPicker.Infrastructure.Providers;
@@ -24,41 +25,11 @@ public static class Extensions
         public IServiceCollection AddInfraServices(IConfiguration configuration)
         {
             return services
-                .AddScoped<OutfitRepository>()
+                .AddScoped<IOutfitRepository, OutfitRepository>()
                 .AddScoped<ClothingProvider>()
                 .AddScoped<OutfitTagProvider>()
                 .AddScoped<ICmsAdapter, LocalCmsAdapter>();
         }
-    }
-
-    // https://medium.com/@vosarat1995/proxy-http-requests-in-net-9-like-a-pro-a238a7b261f7
-    extension(HttpRequestMessage requestMessage)
-    {
-        public void AddHeaders(IEnumerable<HttpHeader> headers)
-        {
-            foreach (var header in headers)
-            {
-                requestMessage.AddHeader(header);
-            }
-        }
-
-        public HttpHeader? AddHeader(HttpHeader header)
-        {
-            return requestMessage.AddRequestHeader(header) ?? requestMessage.AddContentHeader(header);
-        }
-
-        public HttpHeader? AddRequestHeader(HttpHeader candidate)
-        {
-            var success = requestMessage.Headers.TryAddWithoutValidation(candidate.Key, candidate.Value);
-            return success ? candidate : null;
-        }
-
-        public HttpHeader? AddContentHeader(HttpHeader candidate)
-        {
-            var success = requestMessage.Content?.Headers.TryAddWithoutValidation(candidate.Key, candidate.Value) ?? false;
-            return success ? new HttpHeader(candidate.Key, candidate.Value) : null;
-        }
-
     }
 
     extension(IHeaderDictionary headers)
@@ -87,10 +58,12 @@ public static class Extensions
             await stream.CopyToAsync(httpResponse.Body);
         }
     }
-
 }
 
 public record HttpHeader(string Key, IEnumerable<string> Value)
 {
-    public static implicit operator HttpHeader(KeyValuePair<string, StringValues> header) => new(header.Key, header.Value);
+    public static implicit operator HttpHeader(KeyValuePair<string, StringValues> header)
+    {
+        return new HttpHeader(header.Key, header.Value);
+    }
 }

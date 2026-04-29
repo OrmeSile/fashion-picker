@@ -1,4 +1,3 @@
-using FashionPicker.Api.Dto.Inbound;
 using FashionPicker.Core.Objects;
 
 namespace FashionPicker.Api.Converters;
@@ -7,7 +6,10 @@ internal static class OutfitColorConverter
 {
     extension(IEnumerable<string> dtos)
     {
-        public IEnumerable<OutfitColor> ToColorModels() => dtos.Select(ToColorModel);
+        public IEnumerable<OutfitColor> ToColorModels()
+        {
+            return dtos.Select(ToColorModel);
+        }
     }
 
     extension(string dto)
@@ -16,14 +18,17 @@ internal static class OutfitColorConverter
         {
             return new OutfitColor
             {
-                Value = dto,
+                Value = dto
             };
         }
     }
 
     extension(IEnumerable<OutfitColor> models)
     {
-        internal IEnumerable<string> ToDtos() => models.Select(ToDto);
+        internal IEnumerable<string> ToDtos()
+        {
+            return models.Select(ToDto);
+        }
     }
 
     extension(OutfitColor model)

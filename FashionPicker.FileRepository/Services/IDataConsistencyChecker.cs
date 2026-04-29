@@ -16,7 +16,7 @@ public class DataConsistencyChecker : IDataConsistencyChecker
     public DataConsistencyChecker(
         FileRepositoryDbContext context,
         StaticPathProvider staticPathProvider
-        )
+    )
     {
         _context = context;
         _staticPathProvider = staticPathProvider;
@@ -28,15 +28,16 @@ public class DataConsistencyChecker : IDataConsistencyChecker
 
         var episode = new DataConsistencyCheckEpisode();
         foreach (var file in _context.Set<TSet>())
-        {
             if (File.Exists(Path.Combine(basePath, file.PathOriginal)))
+            {
                 episode.FilesValidated++;
+            }
             else
             {
                 _context.Set<TSet>().Remove(file);
                 episode.FilesDeleted++;
             }
-        }
+
         _context.SaveChanges();
     }
 }
