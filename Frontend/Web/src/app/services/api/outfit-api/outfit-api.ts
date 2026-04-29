@@ -9,7 +9,8 @@ import {Outfit, OutfitDTO} from '../../../../types/outfit.types';
 })
 export class OutfitApi {
 
-  private apiUrl = environment.fileRepositoryUrl;
+  private apiUrl = environment.backendUrl;
+  private cmsUrl = environment.fileRepositoryUrl;
   private http = inject(HttpClient);
 
   uploadClothing(files: File[]) {
