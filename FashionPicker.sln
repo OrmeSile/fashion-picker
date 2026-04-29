@@ -5,13 +5,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		compose.yaml = compose.yaml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionPicker.Core.Api", "FashionPicker.Core.Api\FashionPicker.Core.Api.csproj", "{B83C9121-434C-43E1-89AE-E94ECFCC15FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionPicker.Api", "FashionPicker.Api\FashionPicker.Api.csproj", "{B83C9121-434C-43E1-89AE-E94ECFCC15FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionPicker.Core.Infra", "FashionPicker.Core.Infra\FashionPicker.Core.Infra.csproj", "{FBF4CF5D-CACB-44FE-9A9E-C515BD8A8A08}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionPicker.Infrastructure", "FashionPicker.Infrastructure\FashionPicker.Infrastructure.csproj", "{FBF4CF5D-CACB-44FE-9A9E-C515BD8A8A08}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionPicker.FileRepository", "FashionPicker.FileRepository\FashionPicker.FileRepository.csproj", "{334D1E9D-8A9A-47CF-B3A5-9EDC6E23477A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionPicker.FileRepository.Api", "FashionPicker.FileRepository.Api\FashionPicker.FileRepository.Api.csproj", "{0082BFD0-AC18-47A9-AC1B-AE26D2E15437}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionPicker.Core", "FashionPicker.Core\FashionPicker.Core.csproj", "{41D4D9B2-6683-4158-98F3-A99C9BC2A1F0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FileRepository", "FileRepository", "{09DD639E-F2BD-45AE-A57C-37B39263006A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{480AD564-1F97-4655-8114-550146600D46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,5 +41,16 @@ Global
 		{0082BFD0-AC18-47A9-AC1B-AE26D2E15437}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0082BFD0-AC18-47A9-AC1B-AE26D2E15437}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0082BFD0-AC18-47A9-AC1B-AE26D2E15437}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41D4D9B2-6683-4158-98F3-A99C9BC2A1F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41D4D9B2-6683-4158-98F3-A99C9BC2A1F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41D4D9B2-6683-4158-98F3-A99C9BC2A1F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41D4D9B2-6683-4158-98F3-A99C9BC2A1F0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{334D1E9D-8A9A-47CF-B3A5-9EDC6E23477A} = {09DD639E-F2BD-45AE-A57C-37B39263006A}
+		{0082BFD0-AC18-47A9-AC1B-AE26D2E15437} = {09DD639E-F2BD-45AE-A57C-37B39263006A}
+		{B83C9121-434C-43E1-89AE-E94ECFCC15FF} = {480AD564-1F97-4655-8114-550146600D46}
+		{41D4D9B2-6683-4158-98F3-A99C9BC2A1F0} = {480AD564-1F97-4655-8114-550146600D46}
+		{FBF4CF5D-CACB-44FE-9A9E-C515BD8A8A08} = {480AD564-1F97-4655-8114-550146600D46}
 	EndGlobalSection
 EndGlobal
