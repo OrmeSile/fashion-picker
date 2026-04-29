@@ -39,16 +39,18 @@ export class OutfitPreviewPage {
   }
 
   protected handleSubmitted(outfitMetadata: OutfitMetadataFormData) {
-    const outfitDTO: OutfitDTO = {
+
+    const outfit: Outfit = {
       id: undefined,
       colors: outfitMetadata.colors.map(color => color.value),
       tags: outfitMetadata.tags.map(tag => tag.value),
       seasons: outfitMetadata.seasons,
       mood: outfitMetadata.mood,
-      sport: outfitMetadata.outfitDestination.sport
+      sport: outfitMetadata.outfitDestination.sport,
+      images: this.fileHandler.files()
     }
 
-    this.outfitApi.uploadOutfit(outfitDTO, this.fileHandler.files().map(outfitFile => outfitFile.file))
+    this.outfitApi.uploadOutfit(outfit)
       .subscribe(res => console.log(res));
     // this.outfitStore.addOutfit(outfitDTO);
   }

@@ -22,11 +22,22 @@ export class OutfitApi {
     return this.http.post(`${this.apiUrl}/outfit`, formData, {headers: headers});
   }
 
-  uploadOutfit(outfit: OutfitDTO, files: File[]) {
+  uploadOutfit(outfit: Outfit) {
+    const outfitDto: OutfitDTO = {
+      id: outfit.id,
+      colors: outfit.colors,
+      seasons: outfit.seasons
+               ? Object.entries(outfit.seasons)
+                 .reduce<string[]>((acc, [k, v]) => v ? [k, ...acc] : acc, [])
+               : [],
+      mood: outfit.mood,
+      sport: outfit.sport,
+      tags: outfit.tags,
+    }
     const formData = new FormData();
-    formData.append('outfit', new Blob([JSON.stringify(outfit)], {type: 'application/json'}));
-    files.forEach((file, index) => {
-      formData.append(`file-${index}`, file);
+    formData.append('outfit', new Blob([JSON.stringify(outfitDto)], {type: 'application/json'}));
+    outfit.images.forEach((file, index) => {
+      formData.append(`file-${index}`, file.file);
     })
     const headers = new HttpHeaders({"enctype": "multipart/form-data"});
     return this.http.post(`${this.apiUrl}/outfit`, formData, {headers: headers});

@@ -13,9 +13,9 @@
     </div>
     <div
       class="image-grid"
-      [class.single-image-grid]="outfit.images?.length === 1"
-      [class.two-images-grid]="outfit.images?.length === 2"
-      [class.three-images-grid]="outfit.images?.length === 3"
+      [class.single-image-grid]="outfit.images.length === 1"
+      [class.two-images-grid]="outfit.images.length === 2"
+      [class.three-images-grid]="outfit.images.length === 3"
     >
       @for (image of outfit.images; let i = $index, c = $count; track image) {
         <div

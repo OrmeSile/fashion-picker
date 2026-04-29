@@ -13,7 +13,7 @@ type Outfit = {
 
 type OutfitDTO = {
   id?: UUID,
-  seasons?: SeasonsFormSelector,
+  seasons?: string[],
   colors?: string[],
   tags?: string[],
   mood: Mood,
