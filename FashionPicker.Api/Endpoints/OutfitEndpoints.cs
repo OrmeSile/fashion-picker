@@ -5,43 +5,57 @@ using FashionPicker.Api.Dto.Outbound.Outfit;
 using FashionPicker.Core.Adapters;
 using FashionPicker.Core.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Net.Http.Headers;
 
-namespace FashionPicker.Api.Controllers;
+namespace FashionPicker.Api.Endpoints;
 
-[ApiController]
-[Route("[controller]")]
-public class OutfitController(IOutfitRepository outfitRepository, ICmsAdapter cmsAdapter) : ControllerBase
+public static class OutfitEndpoints
 {
-    [HttpGet]
-    public async Task<Results<Ok<OutfitGetResponse>, NotFound>> Get([FromBody] OutfitGetRequest request)
+
+    extension(WebApplication app)
     {
-        var outfit = await outfitRepository.GetById(request.Id);
+        public void MapOutfitApiGroup()
+        {
+            app.MapGroup("outfit").MapOutfitEndpoints();
+        }
+    }
 
-        if (outfit == null)
-            return TypedResults.NotFound();
+    extension(RouteGroupBuilder group)
+    {
+        private RouteGroupBuilder MapOutfitEndpoints()
+        {
+            group.MapGet("/",  GetAllOutfits);
+            group.MapPost("/", CreateOutfit);
+            return group;
+        }
+    }
 
-        var response = new OutfitGetResponse(outfit.ToDto());
-
+    private static async Task<Results<Ok<OutfitGetResponse>, NotFound>> GetAllOutfits(IOutfitRepository outfitRepository)
+    {
+        var outfits = await outfitRepository.GetAll();
+        var outfitDtos = outfits.Select(outfit => outfit.ToDto()).ToList();
+        var response = new OutfitGetResponse(outfitDtos);
         return TypedResults.Ok(response);
     }
 
-    [HttpPost]
-    [DisableRequestSizeLimit]
-    public async Task<Results<Ok<OutfitMetadataResponse>, BadRequest<string>>> CreateOutfit()
+    private static async Task<Results<Ok<OutfitMetadataResponse>, BadRequest<string>>> CreateOutfit(
+        HttpRequest request,
+        HttpContext httpContext,
+        ICmsAdapter cmsAdapter,
+        IOutfitRepository outfitRepository
+        )
     {
-        if (!Request.ContentType?.StartsWith("multipart/form-data") ?? true)
+        if (!request.ContentType?.StartsWith("multipart/form-data") ?? true)
             return TypedResults.BadRequest("the request does not contain multipart/form-data");
 
-        var boundary = HeaderUtilities.RemoveQuotes(MediaTypeHeaderValue.Parse(Request.ContentType).Boundary).Value;
+        var boundary = HeaderUtilities.RemoveQuotes(MediaTypeHeaderValue.Parse(request.ContentType).Boundary).Value;
         if (string.IsNullOrWhiteSpace(boundary))
             return TypedResults.BadRequest("Missing boundary header");
 
-        var reader = new MultipartReader(boundary, Request.Body);
+        var reader = new MultipartReader(boundary, request.Body);
 
-        var cancellationToken = HttpContext.RequestAborted;
+        var cancellationToken = httpContext.RequestAborted;
 
         var multipartFormData = new MultipartFormDataContent();
 
@@ -92,8 +106,7 @@ public class OutfitController(IOutfitRepository outfitRepository, ICmsAdapter cm
         return TypedResults.Ok(savedOutfit.ToDto());
     }
 
-
-    private async Task<OutfitPostRequestMetadata?> ParseInboundJsonMetadata(Stream bodySection, CancellationToken cancellationToken)
+    private static async Task<OutfitPostRequestMetadata?> ParseInboundJsonMetadata(Stream bodySection, CancellationToken cancellationToken)
     {
         var options = new JsonSerializerOptions
         {

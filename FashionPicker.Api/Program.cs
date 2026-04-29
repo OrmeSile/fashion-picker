@@ -1,3 +1,4 @@
+using FashionPicker.Api.Endpoints;
 using FashionPicker.Infrastructure;
 using Microsoft.AspNetCore.HttpLogging;
 
@@ -32,7 +33,6 @@ builder.Services
     .AddOutfitContextPool(builder.Configuration)
     .AddInfraServices(builder.Configuration);
 
-builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -45,8 +45,6 @@ app.UseCors(allowFrontendOrigin);
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
-app.MapControllers();
+app.MapOutfitApiGroup();
 
 app.Run();
