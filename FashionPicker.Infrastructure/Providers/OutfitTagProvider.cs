@@ -1,8 +1,8 @@
-using FashionPicker.Core.Infra.DbContexts;
-using FashionPicker.Core.Infra.Models;
+using FashionPicker.Core.Objects;
+using FashionPicker.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 
-namespace FashionPicker.Core.Infra.Providers;
+namespace FashionPicker.Infrastructure.Providers;
 
 public class OutfitTagProvider(OutfitDbContext context)
 {
@@ -38,7 +38,7 @@ public class OutfitTagProvider(OutfitDbContext context)
             return null;
         var tags = await GetRangeByValues(stringTags);
 
-        var tagDict = new Dictionary<string, Core.Infra.Models.OutfitTag>();
+        var tagDict = new Dictionary<string, OutfitTag>();
         foreach (var tag in stringTags)
         {
             var dbTag = tags.FirstOrDefault(t => t.Value == tag);

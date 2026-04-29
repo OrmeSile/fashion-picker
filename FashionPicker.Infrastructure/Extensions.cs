@@ -1,13 +1,15 @@
-using FashionPicker.Core.Infra.Adapters.LocalCMS;
-using FashionPicker.Core.Infra.DbContexts;
-using FashionPicker.Core.Infra.Providers;
+using FashionPicker.Core.Adapters;
+using FashionPicker.Infrastructure.Adapters.LocalCMS;
+using FashionPicker.Infrastructure.DbContexts;
+using FashionPicker.Infrastructure.Providers;
+using FashionPicker.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
 using Microsoft.AspNetCore.Http;
 
-namespace FashionPicker.Core.Infra;
+namespace FashionPicker.Infrastructure;
 
 public static class Extensions
 {
@@ -22,7 +24,7 @@ public static class Extensions
         public IServiceCollection AddInfraServices(IConfiguration configuration)
         {
             return services
-                .AddScoped<OutfitProvider>()
+                .AddScoped<OutfitRepository>()
                 .AddScoped<ClothingProvider>()
                 .AddScoped<OutfitTagProvider>()
                 .AddScoped<ICmsAdapter, LocalCmsAdapter>();

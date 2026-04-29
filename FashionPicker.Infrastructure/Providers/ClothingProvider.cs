@@ -1,8 +1,8 @@
-using FashionPicker.Core.Infra.DbContexts;
-using FashionPicker.Core.Infra.Models;
+using FashionPicker.Core.Objects;
+using FashionPicker.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 
-namespace FashionPicker.Core.Infra.Providers;
+namespace FashionPicker.Infrastructure.Providers;
 
 public class ClothingProvider(OutfitDbContext context)
 {

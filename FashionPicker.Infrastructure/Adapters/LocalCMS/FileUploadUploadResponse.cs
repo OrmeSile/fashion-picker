@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-using FashionPicker.Core.Infra.Adapters.LocalCMS;
+using FashionPicker.Infrastructure.Adapters.LocalCMS;
 
 namespace Infrastructure.FileRepository;
 

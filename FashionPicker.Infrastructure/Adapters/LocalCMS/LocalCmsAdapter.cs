@@ -1,9 +1,11 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using FashionPicker.Core.Adapters;
+using FashionPicker.Core.Objects;
 using Infrastructure.FileRepository;
 using Microsoft.AspNetCore.Http;
 
-namespace FashionPicker.Core.Infra.Adapters.LocalCMS;
+namespace FashionPicker.Infrastructure.Adapters.LocalCMS;
 
 public class LocalCmsAdapter : ICmsAdapter
 {

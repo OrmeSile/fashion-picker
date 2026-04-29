@@ -1,7 +1,7 @@
-using FashionPicker.Core.Infra.Models;
+using FashionPicker.Core.Objects;
 using Microsoft.EntityFrameworkCore;
 
-namespace FashionPicker.Core.Infra.DbContexts;
+namespace FashionPicker.Infrastructure.DbContexts;
 
 public class OutfitDbContext(DbContextOptions<OutfitDbContext> options): DbContext(options)
 {
@@ -9,11 +9,10 @@ public class OutfitDbContext(DbContextOptions<OutfitDbContext> options): DbConte
     public DbSet<OutfitTag> OutfitTags { get; set; }
     public DbSet<Clothing> Clothing { get; set; }
 
+
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder
-            .Entity<Clothing>()
-            .Property(c => c.Type)
-            .HasConversion<string>();
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(OutfitDbContext).Assembly);
     }
 }

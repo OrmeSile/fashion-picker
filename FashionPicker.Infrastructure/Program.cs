@@ -1,4 +1,4 @@
-namespace FashionPicker.Core.Infra;
+namespace FashionPicker.Infrastructure;
 
 //Necessary for executing migrations from this project
 public class Program

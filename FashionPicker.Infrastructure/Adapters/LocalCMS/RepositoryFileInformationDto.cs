@@ -1,5 +1,6 @@
+using FashionPicker.Core.Objects;
 
-namespace FashionPicker.Core.Infra.Adapters.LocalCMS;
+namespace FashionPicker.Infrastructure.Adapters.LocalCMS;
 
 internal record RepositoryFileInformationDto(
     string MimeType,
