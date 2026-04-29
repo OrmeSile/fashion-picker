@@ -14,9 +14,15 @@ public class Outfit
 
     public void AddImages(RepositoryFileInformation fileInformation)
     {
-        Images.Add(new OutfitImage
+        var outfitImage = new OutfitImage
         {
-            Url = fileInformation.PathOriginal
-        });
+            MimeType = fileInformation.MimeType,
+            SmallSizeUrl = fileInformation.PathSmall,
+            MediumSizeUrl = fileInformation.PathMedium,
+            BigSizeUrl = fileInformation.PathBig,
+            OriginalSizeUrl = fileInformation.PathOriginal
+        };
+
+        Images.Add(outfitImage);
     }
 }

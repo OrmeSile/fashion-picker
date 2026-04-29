@@ -2,4 +2,4 @@ using FashionPicker.Api.Dto.Inbound;
 
 namespace FashionPicker.Api.Dto.Outbound.Outfit;
 
-public record OutfitPutResponse(OutfitMetadata outfit);
+public record OutfitPutResponse(OutfitMetadataResponse Outfit);

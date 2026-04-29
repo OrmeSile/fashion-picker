@@ -10,7 +10,7 @@ namespace FashionPicker.Api.Controllers;
 public class ClothingController(ClothingProvider clothingProvider) : ControllerBase
 {
     [HttpGet]
-    public async Task<Results<Ok<List<Clothing>>, BadRequest<string>>> GetAllClothing()
+    internal async Task<Results<Ok<List<Clothing>>, BadRequest<string>>> GetAllClothing()
     {
         return TypedResults.Ok(await clothingProvider.GetAll());
     }

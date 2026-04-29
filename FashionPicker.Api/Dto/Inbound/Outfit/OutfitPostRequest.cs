@@ -1,15 +1,10 @@
 namespace FashionPicker.Api.Dto.Inbound.Outfit;
 
-public record OutfitPostRequestMetadataBody(
-    Guid? Id,
-    Seasons Seasons,
-    List<string> Colors,
+public record OutfitPostRequestMetadata(
     List<string> Tags,
+    List<string> Seasons,
+    List<string> Colors,
+    Guid? Id,
     string Mood,
-    bool Sport);
-
-public record Seasons(
-    bool Spring,
-    bool Summer,
-    bool Autumn,
-    bool Winter);
+    bool Sport
+);

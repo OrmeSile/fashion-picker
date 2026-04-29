@@ -1,11 +1,12 @@
-using FashionPicker.Api.Dto.Inbound;
+using FashionPicker.Api.Dto.Inbound.Outfit;
+using FashionPicker.Api.Dto.Outbound.Outfit;
 using FashionPicker.Core.Objects;
 
 namespace FashionPicker.Api.Converters;
 
 internal static class OutfitConverter
 {
-    extension(OutfitMetadata dto)
+    extension(OutfitPostRequestMetadata dto)
     {
         internal Outfit ToModel()
         {
@@ -23,34 +24,37 @@ internal static class OutfitConverter
 
     extension(Outfit model)
     {
-        internal OutfitMetadata ToDto()
+        internal OutfitMetadataResponse ToDto()
         {
-            return new OutfitMetadata(
-                model.Tags.Select(outfitTag => outfitTag.ToDto()).ToList(),
-                model.Seasons.Select(s => s.ToDto()).ToList(),
-                model.Colors.Select(c => c.ToDto()).ToList(),
-                null,
-                model.Mood.ToDto(),
-                model.Sport
-            );
-        }
-
-        internal OutfitMetadata ToDtoWithId()
-        {
-            return new OutfitMetadata(
+            return new OutfitMetadataResponse(
                 model.Tags.Select(outfitTag => outfitTag.ToDto()).ToList(),
                 model.Seasons.Select(s => s.ToDto()).ToList(),
                 model.Colors.Select(c => c.ToDto()).ToList(),
                 model.Id,
                 model.Mood.ToDto(),
-                model.Sport
+                model.Sport,
+                model.Images.Select(modelImage => modelImage.ToDto()).ToList()
             );
         }
     }
 }
 
-file static class MoodConverter
+file static class LocalConverters
 {
+    extension(OutfitImage model)
+    {
+        internal ImageDto ToDto()
+        {
+            return new ImageDto(
+                model.SmallSizeUrl,
+                model.MediumSizeUrl,
+                model.BigSizeUrl,
+                model.OriginalSizeUrl,
+                model.MimeType
+            );
+        }
+    }
+
     extension(string dto)
     {
         internal Mood ToMoodModel()

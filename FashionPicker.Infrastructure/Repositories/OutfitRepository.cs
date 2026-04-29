@@ -17,28 +17,24 @@ public class OutfitRepository(OutfitDbContext outfitContext) : IOutfitRepository
         return await outfitContext.Outfits.FindAsync(id);
     }
 
-    public async Task<List<Outfit>> AddOutfits(List<Outfit> outfits)
+    public async Task<Outfit> AddOutfit(Outfit outfit)
     {
-        var populatedOutfits = outfits.Select(outfit =>
-        {
-            var dbTags = outfitContext.OutfitTags
-                .Where(dbTag =>
-                    outfit.Tags
-                        .Select(t => t.Value)
-                        .Contains(dbTag.Value)
-                ).ToList();
+        var dbTags = outfitContext.OutfitTags
+            .Where(dbTag =>
+                outfit.Tags
+                    .Select(t => t.Value)
+                    .Contains(dbTag.Value)
+            ).ToList();
 
-            var combinedTags = outfit.Tags
-                .Select(tag =>
-                    dbTags.FirstOrDefault(dbTag => dbTag.Value == tag.Value) ?? tag
-                ).ToList();
+        var combinedTags = outfit.Tags
+            .Select(tag =>
+                dbTags.FirstOrDefault(dbTag => dbTag.Value == tag.Value) ?? tag
+            ).ToList();
 
-            outfit.Tags = combinedTags;
+        outfit.Tags = combinedTags;
 
-            return outfit;
-        });
-        await outfitContext.Outfits.AddRangeAsync(populatedOutfits);
+        await outfitContext.Outfits.AddRangeAsync(outfit);
         await outfitContext.SaveChangesAsync();
-        return outfits;
+        return outfit;
     }
 }

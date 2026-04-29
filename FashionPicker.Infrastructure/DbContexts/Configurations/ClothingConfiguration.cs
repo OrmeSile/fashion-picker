@@ -2,7 +2,7 @@ using FashionPicker.Core.Objects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FashionPicker.Infrastructure.DbContexts;
+namespace FashionPicker.Infrastructure.DbContexts.Configurations;
 
 internal class ClothingConfiguration : IEntityTypeConfiguration<Clothing>
 {

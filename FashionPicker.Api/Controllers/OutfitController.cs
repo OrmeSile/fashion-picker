@@ -1,6 +1,5 @@
 using System.Text.Json;
 using FashionPicker.Api.Converters;
-using FashionPicker.Api.Dto.Inbound;
 using FashionPicker.Api.Dto.Inbound.Outfit;
 using FashionPicker.Api.Dto.Outbound.Outfit;
 using FashionPicker.Core.Adapters;
@@ -31,7 +30,7 @@ public class OutfitController(IOutfitRepository outfitRepository, ICmsAdapter cm
 
     [HttpPost]
     [DisableRequestSizeLimit]
-    public async Task<Results<Ok<OutfitPostResponse>, BadRequest<string>>> CreateOutfit()
+    public async Task<Results<Ok<OutfitMetadataResponse>, BadRequest<string>>> CreateOutfit()
     {
         if (!Request.ContentType?.StartsWith("multipart/form-data") ?? true)
             return TypedResults.BadRequest("the request does not contain multipart/form-data");
@@ -46,7 +45,7 @@ public class OutfitController(IOutfitRepository outfitRepository, ICmsAdapter cm
 
         var multipartFormData = new MultipartFormDataContent();
 
-        OutfitMetadata? metadata = null;
+        var metadataStream = new MemoryStream();
         try
         {
             while (await reader.ReadNextSectionAsync(cancellationToken) is { } section)
@@ -60,11 +59,8 @@ public class OutfitController(IOutfitRepository outfitRepository, ICmsAdapter cm
                     throw new InvalidOperationException("Invalid content type in section: " + section.ContentType);
                 if (sectionType.MediaType == "application/json")
                 {
-                    var metadataStream = new MemoryStream();
                     await section.Body.CopyToAsync(metadataStream, cancellationToken);
                     metadataStream.Position = 0;
-
-                    metadata = await ParseJsonMetadata(metadataStream, cancellationToken) ?? throw new InvalidOperationException("missing metadata");
                 }
                 else
                 {
@@ -77,32 +73,34 @@ public class OutfitController(IOutfitRepository outfitRepository, ICmsAdapter cm
                     multipartFormData.Add(streamContent, contentDisposition.Name.ToString(), contentDisposition.FileName.ToString());
                 }
             }
-
-            if (metadata == null)
-                throw new InvalidOperationException("missing metadata");
         }
+
         catch (Exception e)
         {
             return TypedResults.BadRequest(e.Message);
         }
 
+        var metadata = await ParseInboundJsonMetadata(metadataStream, cancellationToken) ?? throw new InvalidOperationException("missing metadata");
+
         var fileInformation = await cmsAdapter.UploadFileAsync(multipartFormData);
+
         var outfit = metadata.ToModel();
         outfit.AddImages(fileInformation);
-        var savedOutfits = await outfitRepository.AddOutfits([outfit]);
 
-        return TypedResults.Ok(new OutfitPostResponse(savedOutfits.Select(so => so.ToDtoWithId()).ToList()));
+        var savedOutfit = await outfitRepository.AddOutfit(outfit);
+
+        return TypedResults.Ok(savedOutfit.ToDto());
     }
 
 
-    private async Task<OutfitMetadata?> ParseJsonMetadata(Stream bodySection, CancellationToken cancellationToken)
+    private async Task<OutfitPostRequestMetadata?> ParseInboundJsonMetadata(Stream bodySection, CancellationToken cancellationToken)
     {
         var options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         };
 
-        return await JsonSerializer.DeserializeAsync<OutfitMetadata>(
+        return await JsonSerializer.DeserializeAsync<OutfitPostRequestMetadata>(
             bodySection,
             options,
             cancellationToken);
