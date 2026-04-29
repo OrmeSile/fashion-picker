@@ -2,15 +2,15 @@ namespace FashionPicker.Core.Objects;
 
 public class Outfit
 {
-    public Guid Id { get; set; }
-    public required List<OutfitTag> Tags { get; set; }
-    public required DateTime CreationDate { get; set; }
-    public string? Description { get; set; }
-    public List<OutfitImage> Images { get; set; } = [];
-    public List<Season> Seasons { get; set; } = [];
-    public List<OutfitColor> Colors { get; set; } = [];
-    public Mood Mood { get; set; }
-    public bool Sport { get; set; }
+    public Guid Id { get; init; }
+    public required List<OutfitTag> Tags { get; init; }
+    public required DateTime CreationDate { get; init; }
+    public string? Description { get; init; }
+    public List<OutfitImage> Images { get; init; } = [];
+    public List<Season> Seasons { get; init; } = [];
+    public List<OutfitColor> Colors { get; init; } = [];
+    public Mood Mood { get; init; }
+    public bool Sport { get; init; }
 
     public void AddImages(RepositoryFileInformation fileInformation)
     {
@@ -24,5 +24,10 @@ public class Outfit
         };
 
         Images.Add(outfitImage);
+    }
+
+    public void AddTags(IEnumerable<OutfitTag> combinedTags)
+    {
+        Tags.AddRange(combinedTags);
     }
 }
