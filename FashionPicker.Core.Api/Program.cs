@@ -1,4 +1,5 @@
 using FashionPicker.Core.Infra;
+using Microsoft.AspNetCore.HttpLogging;
 
 var allowFrontendOrigin = "_allowFrontendOrigin";
 
@@ -6,7 +7,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.AddConsole();
 
-builder.Services.AddHttpLogging(_ => { });
+#if DEBUG
+builder.Services.AddHttpLogging(logging =>
+{
+    logging.LoggingFields = HttpLoggingFields.All;
+    logging.RequestBodyLogLimit = 4096;
+    logging.ResponseBodyLogLimit = 4096;
+    logging.MediaTypeOptions.AddText("multipart/form-data");
+    logging.CombineLogs = true;
+});
+#endif
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: allowFrontendOrigin, policy =>

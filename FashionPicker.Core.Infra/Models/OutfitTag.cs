@@ -10,4 +10,6 @@ public class OutfitTag
 
     [MaxLength(100)]
     public required string Value { get; set; }
+
+    public List<Outfit> Outfits { get; } = [];
 }

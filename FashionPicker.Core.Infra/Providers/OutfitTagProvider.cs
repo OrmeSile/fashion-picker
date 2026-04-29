@@ -21,10 +21,33 @@ public class OutfitTagProvider(OutfitDbContext context)
         return await context.OutfitTags.FirstOrDefaultAsync(t => t.Value == value);
     }
 
+    public async Task<List<OutfitTag>> GetRangeByValues(List<string> values)
+    {
+        return await context.OutfitTags.Where(t => values.Contains(t.Value)).ToListAsync();
+    }
+
     public async Task<List<OutfitTag>> AddRange(List<OutfitTag> outfitTags)
     {
         await context.OutfitTags.AddRangeAsync(outfitTags);
-        await context.SaveChangesAsync();
         return outfitTags;
+    }
+
+    public async Task<List<OutfitTag>?> GetOrCreateOutfitTags(List<string>? stringTags)
+    {
+        if (stringTags == null)
+            return null;
+        var tags = await GetRangeByValues(stringTags);
+
+        var tagDict = new Dictionary<string, Core.Infra.Models.OutfitTag>();
+        foreach (var tag in stringTags)
+        {
+            var dbTag = tags.FirstOrDefault(t => t.Value == tag);
+            if (dbTag == null)
+                tagDict[tag] = new OutfitTag(){Value = tag};
+        }
+
+        var dbTags = await AddRange(tagDict.Values.ToList());
+        await context.SaveChangesAsync();
+        return [..dbTags, ..tags];
     }
 }

@@ -6,7 +6,7 @@ public static class OutfitConverter
 {
     extension(OutfitMetadata dto)
     {
-        public Core.Infra.Models.Outfit toModel()
+        public Core.Infra.Models.Outfit ToModel()
         {
             return new Core.Infra.Models.Outfit
             {
@@ -20,9 +20,9 @@ public static class OutfitConverter
         }
     }
 
-    extension(Core.Infra.Models.Outfit model)
+    extension(Infra.Models.Outfit model)
     {
-        public OutfitMetadata toDto()
+        public OutfitMetadata ToDto()
         {
             return new OutfitMetadata(
                 model.Id,

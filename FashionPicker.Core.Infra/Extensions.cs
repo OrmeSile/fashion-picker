@@ -24,7 +24,8 @@ public static class Extensions
             return services
                 .AddScoped<OutfitProvider>()
                 .AddScoped<ClothingProvider>()
-                .AddScoped<LocalCmsAdapter>();
+                .AddScoped<OutfitTagProvider>()
+                .AddScoped<ICmsAdapter, LocalCmsAdapter>();
         }
     }
 

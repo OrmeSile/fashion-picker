@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using FashionPicker.Core.Infra.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FashionPicker.Core.Infra.Migrations
 {
     [DbContext(typeof(OutfitDbContext))]
-    partial class OutfitDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260429022805_TagManyToMany")]
+    partial class TagManyToMany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
