@@ -18,5 +18,6 @@ internal class OutfitConfiguration : IEntityTypeConfiguration<Outfit>
         builder.HasMany(x => x.Colors).WithMany(x => x.Outfits);
         builder.HasMany(x => x.Seasons).WithMany(x => x.Outfits);
         builder.HasMany(x => x.Tags).WithMany(x => x.Outfits);
+        builder.HasMany(x => x.Clothing).WithMany(x => x.Outfits);
     }
 }

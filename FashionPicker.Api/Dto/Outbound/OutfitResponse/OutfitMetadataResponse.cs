@@ -1,7 +1,6 @@
 using FashionPicker.Api.Converters;
-using FashionPicker.Api.Dto.Inbound;
 
-namespace FashionPicker.Api.Dto.Outbound.Outfit;
+namespace FashionPicker.Api.Dto.Outbound.OutfitResponse;
 
 public record OutfitMetadataResponse(
     List<string> Tags,

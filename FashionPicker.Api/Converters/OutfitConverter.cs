@@ -1,5 +1,5 @@
-using FashionPicker.Api.Dto.Inbound.Outfit;
-using FashionPicker.Api.Dto.Outbound.Outfit;
+using FashionPicker.Api.Dto.Inbound.OutfitRequest;
+using FashionPicker.Api.Dto.Outbound.OutfitResponse;
 using FashionPicker.Core.Objects;
 
 namespace FashionPicker.Api.Converters;
@@ -41,20 +41,6 @@ internal static class OutfitConverter
 
 file static class LocalConverters
 {
-    extension(OutfitImage model)
-    {
-        internal ImageDto ToDto()
-        {
-            return new ImageDto(
-                model.SmallSizeUrl,
-                model.MediumSizeUrl,
-                model.BigSizeUrl,
-                model.OriginalSizeUrl,
-                model.MimeType
-            );
-        }
-    }
-
     extension(string dto)
     {
         internal Mood ToMoodModel()

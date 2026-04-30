@@ -12,4 +12,12 @@ type FileInformation = {
   extension: string;
 }
 
-export type { UUID, FileInformation };
+type ImageDto = {
+  small: string,
+  medium?: string,
+  large?: string,
+  original: string,
+  mimeType: string,
+}
+
+export type { UUID, FileInformation, ImageDto };

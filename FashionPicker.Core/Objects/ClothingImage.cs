@@ -2,7 +2,12 @@ namespace FashionPicker.Core.Objects;
 
 public class ClothingImage
 {
-    public Guid Id { get; init; }
-    public required string Url { get; init; }
-    public required Clothing Clothing { get; init; }
+    public Guid Id { get; set; }
+    public required string SmallSizeUrl { get; init; }
+    public string? MediumSizeUrl { get; init; }
+    public string? BigSizeUrl { get; init; }
+    public required string OriginalSizeUrl { get; init; }
+    public required string MimeType { get; init; }
+    public Clothing Clothing { get; set; } = null!;
+
 }

@@ -1,4 +1,4 @@
-import {UUID} from './shared.types';
+import {ImageDto, UUID} from './shared.types';
 import {OutfitFile} from './files.types';
 
 type LocalOutfit = {
@@ -41,13 +41,7 @@ type OutfitPostResponse = {
   images: ImageDto[]
 }
 
-type ImageDto = {
-  small: string,
-  medium?: string,
-  large?: string,
-  original: string,
-  mimeType: string,
-}
+
 
 type FormTag = {
   id: UUID;

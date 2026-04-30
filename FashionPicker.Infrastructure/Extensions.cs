@@ -2,7 +2,6 @@ using FashionPicker.Core.Adapters;
 using FashionPicker.Core.Repositories;
 using FashionPicker.Infrastructure.Adapters.LocalCMS;
 using FashionPicker.Infrastructure.DbContexts;
-using FashionPicker.Infrastructure.Providers;
 using FashionPicker.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -26,8 +25,7 @@ public static class Extensions
         {
             return services
                 .AddScoped<IOutfitRepository, OutfitRepository>()
-                .AddScoped<ClothingProvider>()
-                .AddScoped<OutfitTagProvider>()
+                .AddScoped<IClothingRepository, ClothingRepository>()
                 .AddScoped<ICmsAdapter, LocalCmsAdapter>();
         }
     }

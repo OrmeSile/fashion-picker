@@ -1,7 +1,7 @@
 using System.Text.Json;
 using FashionPicker.Api.Converters;
-using FashionPicker.Api.Dto.Inbound.OutfitRequest;
-using FashionPicker.Api.Dto.Outbound.OutfitResponse;
+using FashionPicker.Api.Dto.Inbound.ClothingRequest;
+using FashionPicker.Api.Dto.Outbound.ClothingResponse;
 using FashionPicker.Core.Adapters;
 using FashionPicker.Core.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -10,39 +10,39 @@ using Microsoft.Net.Http.Headers;
 
 namespace FashionPicker.Api.Endpoints;
 
-public static class OutfitEndpoints
+public static class ClothingEndpoints
 {
     extension(WebApplication app)
     {
-        public void MapOutfitApiGroup()
+        public void MapClothingApiGroup()
         {
-            app.MapGroup("outfit").MapOutfitEndpoints();
+            app.MapGroup("clothing").MapClothingEndpoints();
         }
     }
 
     extension(RouteGroupBuilder group)
     {
-        private RouteGroupBuilder MapOutfitEndpoints()
+        private RouteGroupBuilder MapClothingEndpoints()
         {
-            group.MapGet("/", GetAllOutfits);
-            group.MapPost("/", CreateOutfit);
+            group.MapGet("/", GetAllClothing);
+            group.MapPost("/", CreateClothing);
             return group;
         }
     }
 
-    private static async Task<Results<Ok<OutfitGetResponse>, NotFound>> GetAllOutfits(IOutfitRepository outfitRepository)
+    private static async Task<Results<Ok<ClothingGetResponse>, NotFound>> GetAllClothing(IClothingRepository clothingRepository)
     {
-        var outfits = await outfitRepository.GetAll();
-        var outfitDtos = outfits.Select(outfit => outfit.ToDto()).ToList();
-        var response = new OutfitGetResponse(outfitDtos);
+        var clothing = await clothingRepository.GetAll();
+        var outfitDtos = clothing.Select(c => c.ToDto()).ToList();
+        var response = new ClothingGetResponse(outfitDtos);
         return TypedResults.Ok(response);
     }
 
-    private static async Task<Results<Ok<OutfitMetadataResponse>, BadRequest<string>>> CreateOutfit(
+    private static async Task<Results<Ok<ClothingMetadataResponse>, BadRequest<string>>> CreateClothing(
         HttpRequest request,
         HttpContext httpContext,
         ICmsAdapter cmsAdapter,
-        IOutfitRepository outfitRepository
+        IClothingRepository clothingRepository
     )
     {
         if (!request.ContentType?.StartsWith("multipart/form-data") ?? true)
@@ -97,22 +97,22 @@ public static class OutfitEndpoints
 
         var fileInformation = await cmsAdapter.UploadFileAsync(multipartFormData);
 
-        var outfit = metadata.ToModel();
-        outfit.AddImages(fileInformation);
+        var clothing = metadata.ToModel();
+        clothing.AddImages(fileInformation);
 
-        var savedOutfit = await outfitRepository.AddOutfit(outfit);
+        var savedClothing = await clothingRepository.AddClothing(clothing);
 
-        return TypedResults.Ok(savedOutfit.ToDto());
+        return TypedResults.Ok(savedClothing.ToDto());
     }
 
-    private static async Task<OutfitPostRequestMetadata?> ParseInboundJsonMetadata(Stream bodySection, CancellationToken cancellationToken)
+    private static async Task<ClothingPostRequestMetadata?> ParseInboundJsonMetadata(Stream bodySection, CancellationToken cancellationToken)
     {
         var options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         };
 
-        return await JsonSerializer.DeserializeAsync<OutfitPostRequestMetadata>(
+        return await JsonSerializer.DeserializeAsync<ClothingPostRequestMetadata>(
             bodySection,
             options,
             cancellationToken);

@@ -14,6 +14,9 @@ internal class ClothingConfiguration : IEntityTypeConfiguration<Clothing>
 
         builder
             .HasMany(clothing => clothing.Images)
-            .WithOne(image => image.Clothing);
+            .WithOne(image => image.Clothing).HasForeignKey("ClothingId");
+
+        builder.HasMany(clothing => clothing.Outfits)
+            .WithMany(outfit => outfit.Clothing);
     }
 }

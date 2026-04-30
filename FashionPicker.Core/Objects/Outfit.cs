@@ -11,6 +11,7 @@ public class Outfit
     public List<OutfitColor> Colors { get; init; } = [];
     public Mood Mood { get; init; }
     public bool Sport { get; init; }
+    public List<Clothing> Clothing { get; init; } = [];
 
     public void AddImages(RepositoryFileInformation fileInformation)
     {

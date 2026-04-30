@@ -46,5 +46,6 @@ app.UseCors(allowFrontendOrigin);
 app.UseHttpsRedirection();
 
 app.MapOutfitApiGroup();
+app.MapClothingApiGroup();
 
 app.Run();

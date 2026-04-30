@@ -1,4 +1,4 @@
-namespace FashionPicker.Api.Dto.Inbound.Outfit;
+namespace FashionPicker.Api.Dto.Inbound.OutfitRequest;
 
 public record OutfitPostRequestMetadata(
     List<string> Tags,
