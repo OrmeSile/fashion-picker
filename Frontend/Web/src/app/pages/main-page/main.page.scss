@@ -1,18 +1,18 @@
-:host{
+:host {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.outfit-grid {
   display: grid;
   grid-template-columns:1fr 1fr;
   gap: 2rem;
-  max-width: 80rem;
-}
-
-.seasons{
-  display: flex;
-  color: white;
-  filter: drop-shadow(0 0.1rem 0.1rem #000);
-  height: 3rem;
-  position: absolute;
-  top: 0;
-  right: 1rem;
+  height: auto;
+  @media screen and (pointer: fine) and (min-width: 1200px) {
+    grid-template-columns:repeat(4, 1fr);
+  }
 }
 
 .outfit-container {
@@ -20,9 +20,19 @@
   grid-auto-rows: minmax(100px, auto);
   border: 1px solid black;
   border-radius: 1rem;
-  width: 100%;
+  max-width: 20rem;
   overflow: hidden;
   position: relative;
+}
+
+.seasons {
+  display: flex;
+  color: white;
+  filter: drop-shadow(0 0.1rem 0.1rem #000);
+  height: 3rem;
+  position: absolute;
+  top: 0;
+  right: 1rem;
 }
 
 .image-grid {
@@ -42,6 +52,7 @@
   grid-template-columns: 50% 50%;
   grid-template-rows:1fr;
 }
+
 .three-images-grid {
   grid-template-rows: 50% 50%;
   grid-template-columns: 50% 50%;
@@ -98,5 +109,6 @@
 }
 
 .first-item {
-  grid-row:span 2;
+  grid-row: span 2;
 }
+
