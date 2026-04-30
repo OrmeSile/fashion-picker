@@ -106,9 +106,7 @@ public class ImageHandler : IFileHandler
         finally
         {
             foreach (var stream in fileDict.Values)
-            {
                 await stream.DisposeAsync();
-            }
             fileDict.Clear();
         }
     }
@@ -149,8 +147,6 @@ public class ImageHandler : IFileHandler
         return $"{saveLocationFolder}/{fileName}";
     }
 }
-
-public record ResizedImage(ImageSize size, byte[] image);
 
 public enum ImageSize
 {

@@ -9,7 +9,12 @@ public class OutfitRepository(OutfitDbContext outfitContext) : IOutfitRepository
 {
     public async Task<List<Outfit>> GetAll()
     {
-        return await outfitContext.Outfits.ToListAsync();
+        return await outfitContext.Outfits
+            .Include(x => x.Tags)
+            .Include(x => x.Images)
+            .Include(x => x.Colors)
+            .Include(x => x.Seasons)
+            .ToListAsync();
     }
 
     public async Task<Outfit?> GetById(Guid id)

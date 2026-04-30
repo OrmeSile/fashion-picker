@@ -12,7 +12,6 @@ namespace FashionPicker.Api.Endpoints;
 
 public static class OutfitEndpoints
 {
-
     extension(WebApplication app)
     {
         public void MapOutfitApiGroup()
@@ -25,7 +24,7 @@ public static class OutfitEndpoints
     {
         private RouteGroupBuilder MapOutfitEndpoints()
         {
-            group.MapGet("/",  GetAllOutfits);
+            group.MapGet("/", GetAllOutfits);
             group.MapPost("/", CreateOutfit);
             return group;
         }
@@ -44,7 +43,7 @@ public static class OutfitEndpoints
         HttpContext httpContext,
         ICmsAdapter cmsAdapter,
         IOutfitRepository outfitRepository
-        )
+    )
     {
         if (!request.ContentType?.StartsWith("multipart/form-data") ?? true)
             return TypedResults.BadRequest("the request does not contain multipart/form-data");
