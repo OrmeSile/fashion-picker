@@ -51,10 +51,7 @@ export class OutfitPreviewPage {
 
     this.outfitApi.uploadOutfit(outfit)
       .subscribe(res => {
-          const outfit: Outfit = {
-            ...res
-          };
-          this.outfitStore.addOutfit(outfit);
+          this.outfitStore.addOutfit(res);
         }
       );
   }

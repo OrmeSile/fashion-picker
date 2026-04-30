@@ -2,8 +2,8 @@ import {inject, Injectable} from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {UUID} from '../../../../types/shared.types';
-import {LocalOutfit, OutfitDTO, OutfitPostResponse} from '../../../../types/outfit.types';
-import {map} from 'rxjs';
+import {LocalOutfit, Outfit, OutfitDTO, OutfitPostResponse} from '../../../../types/outfit.types';
+import {map, Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +23,7 @@ export class OutfitApi {
     return this.http.post(`${this.apiUrl}/outfit`, formData, {headers: headers});
   }
 
-  uploadOutfit(outfit: LocalOutfit) {
+  uploadOutfit(outfit: LocalOutfit): Observable<Outfit> {
     const outfitDto: OutfitDTO = {
       id: outfit.id,
       colors: outfit.colors,
@@ -44,21 +44,41 @@ export class OutfitApi {
     return this.http.post<OutfitPostResponse>(`${this.apiUrl}/outfit`, formData, {headers: headers})
       .pipe(
         map(value => {
-          console.log(value)
           const cmsUrl = environment.fileRepositoryUrl;
           return ({
             ...value,
-              images: value.images.map(image => {
-                return {
-                  ...image,
-                  small: `${cmsUrl}${image.small}`,
-                  medium: image.medium ? `${cmsUrl}${image.medium}`: image.medium,
-                  large: image.large ? `${cmsUrl}${image.large}` : image.large,
-                  original: `${cmsUrl}${image.original}`,
-                }
-              })
-            } as OutfitPostResponse)
+            images: value.images.map(image => {
+              return {
+                ...image,
+                small: `${cmsUrl}${image.small}`,
+                medium: image.medium ? `${cmsUrl}${image.medium}` : image.medium,
+                large: image.large ? `${cmsUrl}${image.large}` : image.large,
+                original: `${cmsUrl}${image.original}`,
+              }
+            })
+          } as Outfit)
         }));
+  }
+
+  getOutfits(): Observable<Outfit[]> {
+    return this.http.get<{outfits: OutfitPostResponse[]}>(`${this.apiUrl}/outfit`)
+      .pipe(map(res => res.outfits.map(outfitResponse => this.ConvertDtoToOutfit(outfitResponse))));
+  }
+
+  private ConvertDtoToOutfit(outfit: OutfitPostResponse): Outfit {
+    const cmsUrl = environment.fileRepositoryUrl;
+    return ({
+      ...outfit,
+      images: outfit.images.map(image => {
+        return {
+          ...image,
+          small: `${cmsUrl}${image.small}`,
+          medium: image.medium ? `${cmsUrl}${image.medium}` : image.medium,
+          large: image.large ? `${cmsUrl}${image.large}` : image.large,
+          original: `${cmsUrl}${image.original}`,
+        }
+      })
+    } as Outfit)
   }
 }
 
