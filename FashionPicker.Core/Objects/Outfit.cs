@@ -26,8 +26,9 @@ public class Outfit
         Images.Add(outfitImage);
     }
 
-    public void AddTags(IEnumerable<OutfitTag> combinedTags)
+    public void ReplaceTags(IEnumerable<OutfitTag> combinedTags)
     {
+        Tags.Clear();
         Tags.AddRange(combinedTags);
     }
 }

@@ -36,7 +36,7 @@ public class OutfitRepository(OutfitDbContext outfitContext) : IOutfitRepository
                 dbTags.FirstOrDefault(dbTag => dbTag.Value == tag.Value) ?? tag
             ).ToList();
 
-        outfit.AddTags(combinedTags);
+        outfit.ReplaceTags(combinedTags);
 
         await outfitContext.Outfits.AddRangeAsync(outfit);
         await outfitContext.SaveChangesAsync();
