@@ -1,7 +1,7 @@
 import {UUID} from './shared.types';
 import {OutfitFile} from './files.types';
 
-type Outfit = {
+type LocalOutfit = {
   id?: UUID,
   seasons?: SeasonsFormSelector,
   images: OutfitFile[],
@@ -10,6 +10,8 @@ type Outfit = {
   mood: Mood,
   sport: boolean,
 };
+
+type Outfit = OutfitPostResponse & {};
 
 type OutfitDTO = {
   id?: UUID,
@@ -29,6 +31,24 @@ type OutfitMetadataFormData = {
   outfitDestination: OutfitDestinationFormSelector;
 }
 
+type OutfitPostResponse = {
+  tags: string[],
+  seasons: string[],
+  colors: string[],
+  id: UUID,
+  mood: Mood,
+  sport: boolean,
+  images: ImageDto[]
+}
+
+type ImageDto = {
+  small: string,
+  medium?: string,
+  large?: string,
+  original: string,
+  mimeType: string,
+}
+
 type FormTag = {
   id: UUID;
   value: string;
@@ -42,10 +62,10 @@ type SeasonsFormSelector = {
   [TSeason in Season]: boolean;
 };
 
-type OutfitDestination ='sport';
+type OutfitDestination = 'sport';
 
 type OutfitDestinationFormSelector = {
   [TOutfitDestination in OutfitDestination]: boolean;
 }
 
-export type {Outfit, OutfitDTO, OutfitMetadataFormData, FormTag, Season, Mood};
+export type {Outfit, LocalOutfit, OutfitDTO, OutfitMetadataFormData, FormTag, Season, Mood, OutfitPostResponse};

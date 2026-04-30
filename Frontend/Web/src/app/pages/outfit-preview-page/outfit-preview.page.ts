@@ -2,8 +2,7 @@ import {Component, computed, inject, signal} from '@angular/core';
 import {OutfitMetadataForm} from '../../components/outfit-creation/outfit-metadata-form/outfit-metadata.form';
 import {FileHandler} from '../../services/file-handler/file-handler';
 import {OutfitFile} from '../../../types/files.types';
-import {UUID} from '../../../types/shared.types';
-import {Outfit, OutfitDTO, OutfitMetadataFormData} from '../../../types/outfit.types';
+import {LocalOutfit, Outfit, OutfitMetadataFormData} from '../../../types/outfit.types';
 import {OutfitStore} from '../../stores/outfit-store/outfit.store';
 import {OutfitApi} from '../../services/api/outfit-api/outfit-api';
 import {DropZone} from '../../components/shared/drop-zone/drop-zone';
@@ -40,7 +39,7 @@ export class OutfitPreviewPage {
 
   protected handleSubmitted(outfitMetadata: OutfitMetadataFormData) {
 
-    const outfit: Outfit = {
+    const outfit: LocalOutfit = {
       id: undefined,
       colors: outfitMetadata.colors.map(color => color.value),
       tags: outfitMetadata.tags.map(tag => tag.value),
@@ -51,7 +50,12 @@ export class OutfitPreviewPage {
     }
 
     this.outfitApi.uploadOutfit(outfit)
-      .subscribe(res => console.log(res));
-    // this.outfitStore.addOutfit(outfitDTO);
+      .subscribe(res => {
+          const outfit: Outfit = {
+            ...res
+          };
+          this.outfitStore.addOutfit(outfit);
+        }
+      );
   }
 }

@@ -12,7 +12,6 @@ export class OutfitStore {
   outfits = computed(() => this.outfitsInternal());
 
   addOutfit(outfit: Outfit) {
-    console.log(outfit);
     this.outfitsInternal.update(outfits => [...outfits, outfit]);
   }
 }

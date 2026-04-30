@@ -1,14 +1,16 @@
 @for (outfit of outfitStore.outfits(); track $index) {
   <div class="outfit-container">
     <div class="seasons">
-      @if (outfit.seasons?.spring) {
+      @for (season of outfit.seasons; track season){
+      @if (season === 'spring') {
         <fp-spring-flower-icon/>
-      } @if (outfit.seasons?.summer) {
+      } @if (season === 'summer') {
         <fp-summer-sun-image-icon/>
-      } @if (outfit.seasons?.autumn) {
+      } @if (season === 'autumn') {
       <fp-autumn-pumpkin-icon/>
-      } @if (outfit.seasons?.winter) {
+      } @if (season === 'winter') {
       <fp-snowflake-icon/>
+      }
       }
     </div>
     <div
@@ -29,7 +31,12 @@
               {{ c - i - 1 }}+
             </div>
           }
-          <img class="image" src="{{image.fileUrl}}" alt=""/>
+          <img
+            class="image"
+            srcset="{{image.small}} 225w, {{image.medium}} 450w, {{image.large}} 900w"
+            sizes="(width < 900px) 225px, (min-width: 900px) 450px, 900px"
+            src="{{image.large}}"
+            alt=""/>
         </div>
       }
     </div>

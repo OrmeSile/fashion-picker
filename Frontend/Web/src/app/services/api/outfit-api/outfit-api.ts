@@ -1,8 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {FileInformation, UUID} from '../../../../types/shared.types';
-import {Outfit, OutfitDTO} from '../../../../types/outfit.types';
+import {UUID} from '../../../../types/shared.types';
+import {LocalOutfit, OutfitDTO, OutfitPostResponse} from '../../../../types/outfit.types';
+import {map} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,6 @@ import {Outfit, OutfitDTO} from '../../../../types/outfit.types';
 export class OutfitApi {
 
   private apiUrl = environment.backendUrl;
-  private cmsUrl = environment.fileRepositoryUrl;
   private http = inject(HttpClient);
 
   uploadClothing(files: File[]) {
@@ -23,7 +23,7 @@ export class OutfitApi {
     return this.http.post(`${this.apiUrl}/outfit`, formData, {headers: headers});
   }
 
-  uploadOutfit(outfit: Outfit) {
+  uploadOutfit(outfit: LocalOutfit) {
     const outfitDto: OutfitDTO = {
       id: outfit.id,
       colors: outfit.colors,
@@ -41,7 +41,24 @@ export class OutfitApi {
       formData.append(`file-${index}`, file.file);
     })
     const headers = new HttpHeaders({"enctype": "multipart/form-data"});
-    return this.http.post(`${this.apiUrl}/outfit`, formData, {headers: headers});
+    return this.http.post<OutfitPostResponse>(`${this.apiUrl}/outfit`, formData, {headers: headers})
+      .pipe(
+        map(value => {
+          console.log(value)
+          const cmsUrl = environment.fileRepositoryUrl;
+          return ({
+            ...value,
+              images: value.images.map(image => {
+                return {
+                  ...image,
+                  small: `${cmsUrl}${image.small}`,
+                  medium: image.medium ? `${cmsUrl}${image.medium}`: image.medium,
+                  large: image.large ? `${cmsUrl}${image.large}` : image.large,
+                  original: `${cmsUrl}${image.original}`,
+                }
+              })
+            } as OutfitPostResponse)
+        }));
   }
 }
 
