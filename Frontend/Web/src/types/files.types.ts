@@ -11,8 +11,8 @@ type CustomisableOutfitMetadata = {
 
 type OutfitMetadata = TechnicalOutfitMetadata & CustomisableOutfitMetadata;
 
-type OutfitFile = TechnicalOutfitMetadata & {
+type ImageFile = TechnicalOutfitMetadata & {
   file: File;
 };
 
-export type { TechnicalOutfitMetadata, CustomisableOutfitMetadata, OutfitMetadata, OutfitFile };
+export type { TechnicalOutfitMetadata, CustomisableOutfitMetadata, OutfitMetadata, ImageFile };

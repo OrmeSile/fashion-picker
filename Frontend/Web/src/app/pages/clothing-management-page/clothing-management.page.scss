@@ -1,4 +1,35 @@
+:host{
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  overflow: auto;
+  @media screen and (pointer: fine) {
+    min-height: 100%;
+    height: fit-content;
+    padding: 0 10%;
+  }
+}
+
 .drop-zone{
   display: flex;
-  height: 20rem;
+  height: 10rem;
+}
+.select-clothing-type{
+  width: 100%;
+}
+
+.clothing-preview-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  padding: 1rem;
+  @media screen and (pointer: fine){
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+
+.preview-card {
+
 }

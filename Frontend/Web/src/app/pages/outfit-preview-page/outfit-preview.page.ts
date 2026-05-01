@@ -1,7 +1,7 @@
 import {Component, computed, inject, signal} from '@angular/core';
 import {OutfitMetadataForm} from '../../components/outfit-creation/outfit-metadata-form/outfit-metadata.form';
 import {FileHandler} from '../../services/file-handler/file-handler';
-import {OutfitFile} from '../../../types/files.types';
+import {ImageFile} from '../../../types/files.types';
 import {LocalOutfit, Outfit, OutfitMetadataFormData} from '../../../types/outfit.types';
 import {OutfitStore} from '../../stores/outfit-store/outfit.store';
 import {OutfitApi} from '../../services/api/outfit-api/outfit-api';
@@ -26,14 +26,14 @@ export class OutfitPreviewPage {
 
   imagesMetadata = computed(() => this.fileHandler.files());
 
-  protected readonly activeImage = signal<OutfitFile | undefined>(undefined);
+  protected readonly activeImage = signal<ImageFile | undefined>(undefined);
 
   protected handleDataTransfer($event: FileList) {
     this.fileHandler.addFiles($event);
     this.setActiveImage(this.imagesMetadata()[0]);
   }
 
-  protected setActiveImage(metadata: OutfitFile) {
+  protected setActiveImage(metadata: ImageFile) {
     this.activeImage.set(metadata);
   }
 

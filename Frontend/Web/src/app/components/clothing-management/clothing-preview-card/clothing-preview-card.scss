@@ -1,0 +1,58 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  background: rgb(255 255 255 / 0.3);
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  align-items: center;
+}
+
+.image-container {
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: smooth;
+}
+
+.clothing-form {
+
+  padding: 0.5rem;
+  gap: 0.5rem;
+  display: flex;
+  width: 100%;
+  flex-flow: column nowrap;
+
+  .select-clothing-type, .input {
+    height: 42px;
+  }
+
+  .input {
+    border-radius: 1rem;
+    border: none;
+  }
+
+  @media screen and (pointer: fine) {
+    align-items: center;
+    max-width: 15rem;
+
+    .select-clothing-type {
+      min-width: 100%;
+    }
+
+    .input {
+      max-width: 10rem;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+    }
+
+    .select-clothing-type, .input {
+      height: initial;
+    }
+  }
+}

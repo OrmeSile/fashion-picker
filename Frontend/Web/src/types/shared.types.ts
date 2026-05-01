@@ -1,3 +1,5 @@
+import {WritableSignal} from '@angular/core';
+
 type UUID = ReturnType<typeof crypto.randomUUID>;
 
 type FileInformation = {
@@ -19,5 +21,4 @@ type ImageDto = {
   original: string,
   mimeType: string,
 }
-
-export type { UUID, FileInformation, ImageDto };
+export type {UUID, FileInformation, ImageDto };

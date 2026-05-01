@@ -15,7 +15,5 @@ public class ClothingImageConfiguration: IEntityTypeConfiguration<ClothingImage>
         builder.Property(x => x.MimeType).IsRequired();
         builder.Property(x => x.MediumSizeUrl).HasMaxLength(500);
         builder.Property(x => x.BigSizeUrl).HasMaxLength(500);
-
-        throw new NotImplementedException();
     }
 }

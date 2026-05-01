@@ -1,3 +1,9 @@
+:host{
+  display: grid;
+  grid-template-rows: 1fr max-content;
+  justify-items: center;
+}
+
 .container {
   position: relative;
   display: flex;
@@ -69,6 +75,9 @@
   }
 }
 
-.selected{
-  border: dashed red 10px;
+.additional-content{
+  width: 90%;
+  border-radius: 0 0 0.5rem 0.5rem;
+  padding: 1rem;
+  background: #fff;
 }

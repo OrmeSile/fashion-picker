@@ -1,12 +1,12 @@
 import {computed, Injectable, signal} from '@angular/core';
-import {OutfitFile} from '../../../types/files.types';
+import {ImageFile} from '../../../types/files.types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FileHandler {
 
-  files = signal<OutfitFile[]>([]);
+  files = signal<ImageFile[]>([]);
 
   addFiles(fileList: FileList) {
     for (const file of fileList) {

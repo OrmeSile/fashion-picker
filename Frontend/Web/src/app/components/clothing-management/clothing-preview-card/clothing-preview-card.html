@@ -1,0 +1,14 @@
+<div class="image-container">
+  <img alt="" class="image" [src]="file()?.fileUrl"/>
+</div>
+<form class="clothing-form" (submit)="onSubmit($event)">
+  <select id="select-clothing-type" [formField]="form.clothingType" class="select-clothing-type">
+    <option value = ""></option>
+    <option value="top">Top</option>
+    <option value="bottom">Bottom</option>
+    <option value="shoes">Shoes</option>
+    <option value="jewelry">Jewelry</option>
+    <option value="fullbody">Full body</option>
+  </select>
+  <input class="input" type="submit"/>
+</form>

@@ -17,8 +17,10 @@ public class ClothingRepository(OutfitDbContext outfitDbContext) : IClothingRepo
         return await outfitDbContext.Clothing.Include(c => c.Outfits).ToListAsync();
     }
 
-    public Task<Clothing> AddClothing(Clothing clothing)
+    public async Task<Clothing> AddClothing(Clothing clothing)
     {
-        throw new NotImplementedException();
+        await outfitDbContext.Clothing.AddAsync(clothing);
+        await outfitDbContext.SaveChangesAsync();
+        return clothing;
     }
 }

@@ -1,10 +1,10 @@
 import {ImageDto, UUID} from './shared.types';
-import {OutfitFile} from './files.types';
+import {ImageFile} from './files.types';
 
 type LocalOutfit = {
   id?: UUID,
   seasons?: SeasonsFormSelector,
-  images: OutfitFile[],
+  images: ImageFile[],
   colors?: string[],
   tags?: string[],
   mood: Mood,
