@@ -7,12 +7,20 @@ import {ImageFile} from '../../../../types/files.types';
   imports: [
     FormField
   ],
+  host: {
+    '[style.background]':'loading() ? "yellow" : success() ? "green" : "#333"'
+  },
   templateUrl: './clothing-preview-card.html',
   styleUrl: './clothing-preview-card.scss',
 })
 export class ClothingPreviewCard {
+
   file = input<ImageFile>();
+  loading = input(false);
+  success = input(false);
+
   clothingTypeSelected = output<string>();
+
 
   private clothingTypeModel = signal({
     clothingType: ""
@@ -22,6 +30,7 @@ export class ClothingPreviewCard {
 
   protected onSubmit(event: SubmitEvent) {
     event.preventDefault();
-    this.clothingTypeSelected.emit(this.clothingTypeModel().clothingType)
+
+    this.clothingTypeSelected.emit(this.clothingTypeModel().clothingType);
   }
 }

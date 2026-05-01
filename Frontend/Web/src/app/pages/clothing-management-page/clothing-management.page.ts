@@ -1,4 +1,4 @@
-import {Component, computed, inject, signal} from '@angular/core';
+import {Component, computed, inject, linkedSignal, signal} from '@angular/core';
 import {DropZone} from '../../components/shared/drop-zone/drop-zone';
 import {FileHandler} from '../../services/file-handler/file-handler';
 import {ImageFile} from '../../../types/files.types';
@@ -25,19 +25,30 @@ export class ClothingManagementPage {
   clothingApi = inject(ClothingApi);
 
   savedClothing = this.clothingStore.state;
-  files = computed(() => this.fileHandler.files());
+
+  fileStates = linkedSignal<FileState[],FileState[]>({
+    source: computed(() => this.fileHandler.files().map(file => ({file, loading: false, success: false}))),
+    computation: (curr, prev) => {
+      return curr.reduce((acc: FileState[], current) => {
+        const previousStateValue = prev?.value.find(fileState => fileState.file.id === current.file.id);
+        return [...acc, {...current, loading: previousStateValue?.loading ?? false, success: previousStateValue?.success ?? false}];
+      }, []);
+    }
+  });
+
+
   activeImage = signal<ImageFile | undefined>(undefined);
 
   protected removeImage(id: UUID) {
     this.fileHandler.removeFile(id);
     if (this.activeImage()?.id === id) {
-      this.activeImage.set(this.files()[0]);
+      this.activeImage.set(this.fileStates()[0].file);
     }
   }
 
   protected handleDataTransfer($event: FileList) {
     this.fileHandler.addFiles($event);
-    this.setActiveImage(this.files()[0]);
+    this.setActiveImage(this.fileStates()[0].file);
   }
 
   protected setActiveImage(outfitFile: ImageFile) {
@@ -45,16 +56,20 @@ export class ClothingManagementPage {
   }
 
   protected handleClothingTypeSelected(event: { selected: string; id: UUID}) {
-    const imageFile = this.files().find(file => file.id === event.id);
+    const imageFile = this.fileStates().find(file => file.file.id === event.id);
     if(!imageFile)
       return;
     const localClothing: LocalClothing = {
       clothingType: event.selected,
-      files: [imageFile.file]
+      files: [imageFile.file.file]
     }
+    this.fileStates.update(states => states.map(state => state.file.id === event.id ? {...state, loading: true} : state));
     this.clothingApi.uploadClothing(localClothing)
       .subscribe(res => {
         this.clothingStore.dispatch({type: 'ADD_CLOTHING', payload: [res]})
+        this.fileStates.update(states => states.map(state => state.file.id === event.id ? {...state, loading: false, success: true} : state));
       });
   }
 }
+
+type FileState = {file: ImageFile, loading: boolean, success: boolean};

@@ -1,10 +1,12 @@
-<fp-drop-zone class="drop-zone" (files)="handleDataTransfer($event)"/>
+<fp-drop-zone class="drop-zone" (files)="handleDataTransfer($event)" [multiple]="true"/>
 <div class="clothing-preview-grid">
-@for (file of files(); track file.id) {
+@for (state of fileStates(); track state.file.id) {
   <fp-clothing-preview-card
     class="preview-card"
-    [file]="file"
-    (clothingTypeSelected)="handleClothingTypeSelected({selected: $event, id: file.id})"
+    [file]="state.file"
+    [loading]="state.loading"
+    [success]="state.success"
+    (clothingTypeSelected)="handleClothingTypeSelected({selected: $event, id: state.file.id})"
   />
 }
 </div>

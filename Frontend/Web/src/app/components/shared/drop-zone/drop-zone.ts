@@ -11,7 +11,7 @@ export class DropZone {
 
   files = output<FileList>();
   isDragOver = signal<boolean>(false);
-  protected readonly multiple = input(false);
+  readonly multiple = input(false);
 
   protected async handleDataTransfer(dataTransfer: DataTransfer) {
 
