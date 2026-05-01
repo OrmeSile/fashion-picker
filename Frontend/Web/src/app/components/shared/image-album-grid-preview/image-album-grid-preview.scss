@@ -1,3 +1,5 @@
+@use "content-breakpoints" as *;
+
 :host {
   background: #555;
   display: grid;
@@ -10,22 +12,23 @@
   width: 100%;
   padding: 0.5rem;
   border-radius: 0.5rem;
+
   @media screen and (pointer: fine){
     grid-template-columns:repeat(3, 1fr);
     padding: 1rem;
     border-radius: 1rem;
-  }
-  @media screen and (1200px < width < 1400px) {
-    grid-template-columns:repeat(4, 1fr);
-  }
-  @media screen and (1400px < width < 2000px) {
-    grid-template-columns:repeat(5, 1fr);
-  }
-  @media screen and (2000px < width < 2400px) {
-    grid-template-columns:repeat(6, 1fr);
-  }
-  @media screen and (width >= 2400px) {
-    grid-template-columns:repeat(7, 1fr);
+    @media ($sm-break < min-width <= $md-break) {
+      grid-template-columns:repeat(4, 1fr);
+    }
+    @media ($md-break < min-width <= $lg-break) {
+      grid-template-columns:repeat(5, 1fr);
+    }
+    @media ($md-break < min-width <= $xl-break){
+      grid-template-columns:repeat(6, 1fr);
+    }
+    @media (min-width > $xl-break) {
+      grid-template-columns:repeat(7, 1fr);
+    }
   }
 }
 

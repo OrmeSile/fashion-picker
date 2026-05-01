@@ -1,3 +1,5 @@
+@use "content-breakpoints" as *;
+
 :host {
   width: 100%;
   height: auto;
@@ -10,9 +12,23 @@
   grid-template-columns:1fr 1fr;
   gap: 2rem;
   height: auto;
-  @media screen and (pointer: fine) and (min-width: 1200px) {
-    grid-template-columns:repeat(4, 1fr);
+
+  @media screen and (pointer: fine) {
+    padding: 1rem;
+    border-radius: 1rem;
   }
+    @media ($sm-break < width <= $md-break) {
+      grid-template-columns:repeat(4, 1fr);
+    }
+    @media ($md-break < width <= $lg-break) {
+      grid-template-columns:repeat(5, 1fr);
+    }
+    @media ($lg-break < width <= $xl-break){
+      grid-template-columns:repeat(6, 1fr);
+    }
+    @media (width > $xl-break) {
+      grid-template-columns:repeat(7, 1fr);
+   }
 }
 
 .outfit-container {
