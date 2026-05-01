@@ -22,11 +22,10 @@ public static class OutfitEndpoints
 
     extension(RouteGroupBuilder group)
     {
-        private RouteGroupBuilder MapOutfitEndpoints()
+        private void MapOutfitEndpoints()
         {
             group.MapGet("/", GetAllOutfits);
             group.MapPost("/", CreateOutfit);
-            return group;
         }
     }
 
