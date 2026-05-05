@@ -1,15 +1,14 @@
 import {Component, input, output, signal} from '@angular/core';
-import {form, FormField} from '@angular/forms/signals';
+import {disabled, form, FormField} from '@angular/forms/signals';
 import {ImageFile} from '../../../../types/files.types';
+import {TitleCasePipe} from '@angular/common';
 
 @Component({
   selector: 'fp-clothing-preview-card',
   imports: [
-    FormField
+    FormField,
+    TitleCasePipe
   ],
-  host: {
-    '[style.background]':'loading() ? "yellow" : success() ? "green" : "#333"'
-  },
   templateUrl: './clothing-preview-card.html',
   styleUrl: './clothing-preview-card.scss',
 })
@@ -21,12 +20,15 @@ export class ClothingPreviewCard {
 
   clothingTypeSelected = output<string>();
 
+  protected clothingOptions = ['top', 'bottom', 'shoes', 'jewelry', 'fullbody'];
 
   private clothingTypeModel = signal({
-    clothingType: ""
+    clothingType: "top"
   });
 
-  protected form = form(this.clothingTypeModel);
+  protected form = form(this.clothingTypeModel, (schemaPath) => {
+    disabled(schemaPath.clothingType, () => this.loading())
+  });
 
   protected onSubmit(event: SubmitEvent) {
     event.preventDefault();
