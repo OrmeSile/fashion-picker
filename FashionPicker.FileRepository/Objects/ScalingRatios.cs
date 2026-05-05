@@ -1,4 +1,4 @@
-namespace FileRepository.Objects;
+namespace FashionPicker.FileRepository.Objects;
 
 public struct ScalingRatios
 {

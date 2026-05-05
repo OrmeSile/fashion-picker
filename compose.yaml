@@ -16,14 +16,23 @@
       context: .
       dockerfile: FashionPicker.Api/Dockerfile
     ports:
-      - "5000:5000"
+      - "8080:8080"
+      - "8081:8081"
+    env_file:
+      - ./secrets/fashion-picker.env
 
   fashionpicker.filerepository:
     build:
       context: .
       dockerfile: FashionPicker.FileRepository/Dockerfile
+    ports:
+      - "8090:8080"
+      - "8091:8081"
+    env_file:
+      - ./secrets/file-repository.env
     volumes:
       - frdata:/var/lib/filerepository
+
 volumes:
   pgdata:
   frdata:

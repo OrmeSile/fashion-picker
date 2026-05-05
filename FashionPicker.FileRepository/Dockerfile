@@ -20,7 +20,7 @@ RUN dotnet publish "./FashionPicker.FileRepository.csproj" -c $BUILD_CONFIGURATI
 FROM base AS final
 USER root
 RUN mkdir /var/lib/filerepository
-RUN chmod 660 /var/lib/filerepository
+RUN chmod 770 /var/lib/filerepository
 RUN chown $APP_UID:$APP_UID /var/lib/filerepository
 WORKDIR /app
 COPY --from=publish /app/publish .

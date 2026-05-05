@@ -1,7 +1,8 @@
-using FileRepository.Entities;
-using FileRepository.Interfaces;
+using FashionPicker.FileRepository.Entities;
+using FashionPicker.FileRepository.Interfaces;
+using FashionPicker.FileRepository.Providers;
 
-namespace FileRepository.Services;
+namespace FashionPicker.FileRepository.Services;
 
 public interface IDataConsistencyChecker
 {

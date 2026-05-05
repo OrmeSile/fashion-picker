@@ -1,7 +1,7 @@
-using FileRepository.Entities;
-using FileRepository.Services;
+using FashionPicker.FileRepository.Entities;
+using FashionPicker.FileRepository.Services;
 
-namespace FileRepository;
+namespace FashionPicker.FileRepository.Providers;
 
 public class RepositoryFileInformationsProvider
 {

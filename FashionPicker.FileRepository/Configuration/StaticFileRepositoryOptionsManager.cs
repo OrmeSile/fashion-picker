@@ -1,9 +1,8 @@
 using System.Runtime.InteropServices;
-using System.Security.Principal;
-using FileRepository.ConfigurationOptions;
+using FashionPicker.FileRepository.Providers;
 using Microsoft.Extensions.FileProviders;
 
-namespace FileRepository;
+namespace FashionPicker.FileRepository.Configuration;
 
 public class StaticFileRepositoryOptions : StaticFileOptions
 {
@@ -52,7 +51,7 @@ public static class StaticFileRepositoryOptionsManager
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             Directory.CreateDirectory(FullFilePath);
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            Directory.CreateDirectory(FullFilePath, UnixFileMode.UserRead | UnixFileMode.UserWrite| UnixFileMode.GroupWrite | UnixFileMode.GroupRead);
+            Directory.CreateDirectory(FullFilePath, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute | UnixFileMode.GroupWrite | UnixFileMode.GroupRead);
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             throw new NotImplementedException("No OSX Support.");
 

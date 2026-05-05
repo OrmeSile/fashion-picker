@@ -1,8 +1,10 @@
-using FileRepository.ConfigurationOptions;
-using FileRepository.Entities;
+using FashionPicker.FileRepository.Configuration;
+using FashionPicker.FileRepository.Entities;
+using FashionPicker.FileRepository.Interfaces;
+using FashionPicker.FileRepository.Providers;
 using Microsoft.Extensions.Options;
 
-namespace FileRepository.Services.FileHandlers;
+namespace FashionPicker.FileRepository.Services.FileHandlers;
 
 public class ImageHandler : IFileHandler
 {

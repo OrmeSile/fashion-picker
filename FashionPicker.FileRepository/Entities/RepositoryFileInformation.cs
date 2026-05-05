@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using FileRepository.Interfaces;
+using FashionPicker.FileRepository.Interfaces;
 
-namespace FileRepository.Entities;
+namespace FashionPicker.FileRepository.Entities;
 
 public class RepositoryFileInformation : IPhysicalFile
 {

@@ -1,7 +1,7 @@
-using FileRepository.Entities;
+using FashionPicker.FileRepository.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace FileRepository;
+namespace FashionPicker.FileRepository;
 
 public static class DbContextProvider
 {

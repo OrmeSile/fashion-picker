@@ -2,17 +2,19 @@ using System.Net.Http.Json;
 using FashionPicker.Core.Adapters;
 using FashionPicker.Core.Objects;
 using Infrastructure.FileRepository;
+using Microsoft.Extensions.Configuration;
 
 namespace FashionPicker.Infrastructure.Adapters.LocalCMS;
 
 public class LocalCmsAdapter : ICmsAdapter
 {
-    private static readonly HttpClient httpClient;
+    private readonly HttpClient httpClient;
 
-    static LocalCmsAdapter()
+    public LocalCmsAdapter(IConfiguration config)
     {
         httpClient = new HttpClient();
-        httpClient.BaseAddress = new Uri("https://localhost:7043");
+        var fileRepositoryUrl = config["FileRepositoryUrl"] ?? throw new ApplicationException("FileRepositoryUrl is null");
+        httpClient.BaseAddress = new Uri(fileRepositoryUrl);
     }
 
     public async Task<RepositoryFileInformation> UploadFileAsync(MultipartFormDataContent formDataContent)

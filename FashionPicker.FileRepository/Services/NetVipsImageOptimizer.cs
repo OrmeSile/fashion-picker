@@ -1,7 +1,8 @@
-using FileRepository.Objects;
+using FashionPicker.FileRepository.Interfaces;
+using FashionPicker.FileRepository.Objects;
 using NetVips;
 
-namespace FileRepository.Services;
+namespace FashionPicker.FileRepository.Services;
 
 public class NetVipsImageOptimizer : IImageOptimizer
 {

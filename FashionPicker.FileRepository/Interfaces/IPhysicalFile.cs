@@ -1,4 +1,4 @@
-namespace FileRepository.Interfaces;
+namespace FashionPicker.FileRepository.Interfaces;
 
 public interface IPhysicalFile
 {

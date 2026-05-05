@@ -1,8 +1,8 @@
+using FashionPicker.FileRepository.Entities;
 using FashionPicker.FileRepository.Interfaces;
-using FileRepository.Entities;
-using FileRepository.Services.FileHandlers;
+using FashionPicker.FileRepository.Services.FileHandlers;
 
-namespace FileRepository.Services;
+namespace FashionPicker.FileRepository.Services;
 
 public class FileStreamManager : IFileStreamManager
 {

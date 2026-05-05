@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace FileRepository.Entities;
+namespace FashionPicker.FileRepository.Entities;
 
 public class FileRepositoryDbContext(DbContextOptions<FileRepositoryDbContext> options) : DbContext(options)
 {

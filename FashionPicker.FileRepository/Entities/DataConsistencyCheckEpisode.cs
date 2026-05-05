@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FileRepository.Entities;
+namespace FashionPicker.FileRepository.Entities;
 
 public class DataConsistencyCheckEpisode
 {

@@ -1,6 +1,6 @@
-using FileRepository.Entities;
+using FashionPicker.FileRepository.Entities;
 
-namespace FileRepository.Services.FileHandlers;
+namespace FashionPicker.FileRepository.Services.FileHandlers;
 
 public interface IFileHandler
 {

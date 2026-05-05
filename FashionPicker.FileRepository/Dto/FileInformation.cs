@@ -1,4 +1,4 @@
-namespace FileRepository.Dto;
+namespace FashionPicker.FileRepository.Dto;
 
 public record FileInformation(
     FileType Type,

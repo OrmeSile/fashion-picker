@@ -1,4 +1,4 @@
-namespace FileRepository.ConfigurationOptions;
+namespace FashionPicker.FileRepository.Configuration;
 
 public class FileRepositoryOptions
 {

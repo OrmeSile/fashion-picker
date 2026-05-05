@@ -1,7 +1,7 @@
+using FashionPicker.FileRepository.Entities;
 using FileRepository.Api;
-using FileRepository.Entities;
 
-namespace FileRepository;
+namespace FashionPicker.FileRepository.Converters;
 
 public static class RepositoryFileInformationExtensions
 {

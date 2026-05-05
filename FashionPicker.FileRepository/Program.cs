@@ -1,8 +1,9 @@
+using FashionPicker.FileRepository;
+using FashionPicker.FileRepository.Configuration;
 using FashionPicker.FileRepository.Interfaces;
-using FileRepository;
-using FileRepository.ConfigurationOptions;
-using FileRepository.Services;
-using FileRepository.Services.FileHandlers;
+using FashionPicker.FileRepository.Providers;
+using FashionPicker.FileRepository.Services;
+using FashionPicker.FileRepository.Services.FileHandlers;
 using Microsoft.AspNetCore.HttpLogging;
 
 var builder = WebApplication.CreateBuilder(args);

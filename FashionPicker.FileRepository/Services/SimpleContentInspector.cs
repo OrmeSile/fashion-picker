@@ -3,7 +3,7 @@ using FashionPicker.FileRepository.Interfaces;
 using MimeDetective;
 using MimeDetective.Engine;
 
-namespace FileRepository.Services;
+namespace FashionPicker.FileRepository.Services;
 
 public class SimpleContentInspector : ISimpleContentInspector
 {

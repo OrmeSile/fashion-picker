@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{86CDE894-D530-471A-9274-CC5C90A493D2}"
 	ProjectSection(SolutionItems) = preProject
 		compose.yaml = compose.yaml
+		secrets\fashion-picker.env = secrets\fashion-picker.env
+		secrets\file-repository.env = secrets\file-repository.env
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionPicker.Api", "FashionPicker.Api\FashionPicker.Api.csproj", "{B83C9121-434C-43E1-89AE-E94ECFCC15FF}"

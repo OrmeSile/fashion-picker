@@ -1,4 +1,6 @@
-namespace FileRepository;
+using FashionPicker.FileRepository.Configuration;
+
+namespace FashionPicker.FileRepository.Providers;
 
 /// <summary>
 /// Provides a mechanism to retrieve the base path for static files from configuration injected at startup.

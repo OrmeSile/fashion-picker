@@ -1,10 +1,12 @@
+using FashionPicker.FileRepository.Converters;
+using FashionPicker.FileRepository.Providers;
+using FashionPicker.FileRepository.Services;
 using FileRepository.Api;
-using FileRepository.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 
-namespace FileRepository;
+namespace FashionPicker.FileRepository.Controllers;
 
 [ApiController]
 [Route("")]

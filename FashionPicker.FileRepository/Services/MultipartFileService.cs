@@ -1,9 +1,9 @@
 using System.Text.Json;
-using FileRepository.Entities;
+using FashionPicker.FileRepository.Entities;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Net.Http.Headers;
 
-namespace FileRepository.Services;
+namespace FashionPicker.FileRepository.Services;
 
 public class MultipartFileService(IFileStreamManager streamManager, FileRepositoryDbContext dbContext)
 {

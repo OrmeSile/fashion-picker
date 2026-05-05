@@ -1,6 +1,6 @@
-using FileRepository.Objects;
+using FashionPicker.FileRepository.Objects;
 
-namespace FileRepository.Services;
+namespace FashionPicker.FileRepository.Interfaces;
 
 public interface IImageOptimizer
 {
