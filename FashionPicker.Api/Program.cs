@@ -37,7 +37,9 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+#if DEBUG
 app.UseHttpLogging();
+#endif
 
 if (app.Environment.IsDevelopment()) app.MapOpenApi();
 

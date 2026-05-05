@@ -19,7 +19,8 @@
         </PackageReference>
         <PackageReference Include="Mime-Detective" Version="25.8.1"/>
         <PackageReference Include="NetVips" Version="3.2.0"/>
-        <PackageReference Include="NetVips.Native.win-x64" Version="8.18.2"/>
+        <PackageReference Include="NetVips.Native.linux-x64" Version="8.18.2" Condition="'$(RuntimeIdentifier)'=='linux-x64'"/>
+        <PackageReference Include="NetVips.Native.win-x64" Version="8.18.2" Condition="'$(RuntimeIdentifier)'=='win-x64'"/>
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1"/>
         <PackageReference Include="SkiaSharp" Version="3.119.2"/>
     </ItemGroup>

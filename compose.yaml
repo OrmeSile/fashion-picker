@@ -12,10 +12,18 @@
       POSTGRES_PASSWORD: password
 
   fashionpicker.api:
-    image: fashionpicker.api
     build:
       context: .
       dockerfile: FashionPicker.Api/Dockerfile
+    ports:
+      - "5000:5000"
 
+  fashionpicker.filerepository:
+    build:
+      context: .
+      dockerfile: FashionPicker.FileRepository/Dockerfile
+    volumes:
+      - frdata:/var/lib/filerepository
 volumes:
   pgdata:
+  frdata:

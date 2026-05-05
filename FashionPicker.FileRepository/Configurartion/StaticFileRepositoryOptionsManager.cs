@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 using FileRepository.ConfigurationOptions;
 using Microsoft.Extensions.FileProviders;
 
@@ -28,10 +29,8 @@ public static class StaticFileRepositoryOptionsManager
         return app.UseStaticFiles(provider);
     }
 
-    /// <summary>
+    /// <summaryd
     /// Creates the necessary directory structure for the static file repository if it does not already exist.
-    /// <br/>
-    /// By default, creates the folder structure in the <b>Documents</b> folder, independent of the system type.
     /// </summary>
     /// <param name="builder">The WebApplicationBuilder instance used to configure services.</param>
     /// <returns>The WebApplicationBuilder instance, allowing method chaining.</returns>
@@ -39,7 +38,7 @@ public static class StaticFileRepositoryOptionsManager
     {
         BasePath = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
             ? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-            : builder.Environment.WebRootPath;
+            : "/var/lib/filerepository";
 
         builder.RegisterPathInConfiguration(BasePath);
 
@@ -53,7 +52,7 @@ public static class StaticFileRepositoryOptionsManager
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             Directory.CreateDirectory(FullFilePath);
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            Directory.CreateDirectory(FullFilePath, UnixFileMode.GroupWrite | UnixFileMode.GroupRead);
+            Directory.CreateDirectory(FullFilePath, UnixFileMode.UserRead | UnixFileMode.UserWrite| UnixFileMode.GroupWrite | UnixFileMode.GroupRead);
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             throw new NotImplementedException("No OSX Support.");
 

@@ -50,7 +50,9 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+#if DEBUG
 app.UseHttpLogging();
+#endif
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment()) app.MapOpenApi();
