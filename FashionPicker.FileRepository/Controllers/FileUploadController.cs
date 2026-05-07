@@ -52,4 +52,13 @@ public class FileUploadController : ControllerBase
             )
         );
     }
+
+    [HttpGet("{fileIdentifier:guid}")]
+    public async Task<Results<Ok<FileUploadGetFileIdentifierResponse>, NotFound>> Get(Guid fileIdentifier)
+    {
+        var fileInformation = await _repositoryFileInformationsProvider.GetFileInformationById(fileIdentifier);
+        if(fileInformation == null)
+            return TypedResults.NotFound();
+        return TypedResults.Ok(new FileUploadGetFileIdentifierResponse(fileInformation.ToDto()));
+    }
 }

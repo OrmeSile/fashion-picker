@@ -33,18 +33,19 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.CreateStaticFileFolderIfNotExists();
-
 builder.Services
     .Configure<FileRepositoryOptions>(builder.Configuration.GetSection(FileRepositoryOptions.Section))
+    .AddFileRepositoryDbContext(builder.Configuration.GetConnectionString("FileRepositoryDbContext"))
     .AddSingleton<StaticPathProvider>()
+    .AddHostedService<DataConsistencyCheckerBackgroundServiceConsumer>()
+    .AddScoped<IDataConsistencyChecker, DataConsistencyChecker>()
     .AddScoped<IFileStreamManager, FileStreamManager>()
     .AddScoped<MultipartFileService>()
     .AddScoped<ISimpleContentInspector, SimpleContentInspector>()
     .AddScoped<RepositoryFileInformationsProvider>()
-    .AddScoped<IDataConsistencyChecker, DataConsistencyChecker>()
     .AddScoped<IImageOptimizer, NetVipsImageOptimizer>()
-    .AddScoped<ImageHandler>()
-    .AddFileRepositoryDbContext(builder.Configuration.GetConnectionString("FileRepositoryDbContext"));
+    .AddScoped<ImageHandler>();
+
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();

@@ -1,0 +1,3 @@
+namespace FileRepository.Api;
+
+public record FileUploadGetFileIdentifierResponse(RepositoryFileInformationDto fileInformation);

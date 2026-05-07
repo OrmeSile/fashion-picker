@@ -1,10 +1,9 @@
 ﻿services:
   db:
+    container_name: db
     image: postgres
     restart: always
     shm_size: 128mb
-    ports:
-      - '5432:5432'
     volumes:
       - pgdata:/var/lib/postgresql
     environment:
@@ -12,27 +11,35 @@
       POSTGRES_PASSWORD: password
 
   fashionpicker.api:
+    container_name: api
     build:
       context: .
       dockerfile: FashionPicker.Api/Dockerfile
-    ports:
-      - "8080:8080"
-      - "8081:8081"
     env_file:
       - ./secrets/fashion-picker.env
 
   fashionpicker.filerepository:
+    container_name: file-repository
     build:
       context: .
       dockerfile: FashionPicker.FileRepository/Dockerfile
-    ports:
-      - "8090:8080"
-      - "8091:8081"
     env_file:
       - ./secrets/file-repository.env
+
     volumes:
-      - frdata:/var/lib/filerepository
+      - type: bind
+        source: "${STATIC_HOST_PATH}"
+        target: /var/lib/filerepository
+
+  fashionpicker.reverseproxy:
+    container_name: reverse-proxy
+    build:
+      context: .
+      dockerfile: Fashionpicker.ReverseProxy/Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - "${REVERSE_PROXY_ENV}"
 
 volumes:
   pgdata:
-  frdata:

@@ -3,8 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{86CDE894-D530-471A-9274-CC5C90A493D2}"
 	ProjectSection(SolutionItems) = preProject
 		compose.yaml = compose.yaml
-		secrets\fashion-picker.env = secrets\fashion-picker.env
-		secrets\file-repository.env = secrets\file-repository.env
+		compose.development.yaml = compose.development.yaml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionPicker.Api", "FashionPicker.Api\FashionPicker.Api.csproj", "{B83C9121-434C-43E1-89AE-E94ECFCC15FF}"
@@ -20,6 +19,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FileRepository", "FileRepository", "{09DD639E-F2BD-45AE-A57C-37B39263006A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{480AD564-1F97-4655-8114-550146600D46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fashionpicker.ReverseProxy", "Fashionpicker.ReverseProxy\Fashionpicker.ReverseProxy.csproj", "{B5C88E0A-203A-4794-8213-296D5D8EF244}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReverseProxy", "ReverseProxy", "{6C4EBAB6-257F-4229-A216-9BC829D92592}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +50,10 @@ Global
 		{41D4D9B2-6683-4158-98F3-A99C9BC2A1F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41D4D9B2-6683-4158-98F3-A99C9BC2A1F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41D4D9B2-6683-4158-98F3-A99C9BC2A1F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5C88E0A-203A-4794-8213-296D5D8EF244}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5C88E0A-203A-4794-8213-296D5D8EF244}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5C88E0A-203A-4794-8213-296D5D8EF244}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5C88E0A-203A-4794-8213-296D5D8EF244}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{334D1E9D-8A9A-47CF-B3A5-9EDC6E23477A} = {09DD639E-F2BD-45AE-A57C-37B39263006A}
@@ -54,5 +61,6 @@ Global
 		{B83C9121-434C-43E1-89AE-E94ECFCC15FF} = {480AD564-1F97-4655-8114-550146600D46}
 		{41D4D9B2-6683-4158-98F3-A99C9BC2A1F0} = {480AD564-1F97-4655-8114-550146600D46}
 		{FBF4CF5D-CACB-44FE-9A9E-C515BD8A8A08} = {480AD564-1F97-4655-8114-550146600D46}
+		{B5C88E0A-203A-4794-8213-296D5D8EF244} = {6C4EBAB6-257F-4229-A216-9BC829D92592}
 	EndGlobalSection
 EndGlobal

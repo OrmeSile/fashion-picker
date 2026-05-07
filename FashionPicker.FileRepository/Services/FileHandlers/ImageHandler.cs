@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using FashionPicker.FileRepository.Configuration;
 using FashionPicker.FileRepository.Entities;
 using FashionPicker.FileRepository.Interfaces;
@@ -35,6 +36,7 @@ public class ImageHandler : IFileHandler
 
         var fileName = Guid.NewGuid().ToString("N");
 
+
         var (writeOperations, fileNames) = PrepareFile(memoryStream, fileName, extension);
 
         await SaveFileToDisk(writeOperations);
@@ -57,9 +59,13 @@ public class ImageHandler : IFileHandler
     private (Dictionary<ImageSize, (byte[] Data, string Path)>, Dictionary<ImageSize, (string FullFileName, string FilePath, string FileUrl)>
         ) PrepareFile(MemoryStream originalImage, string fileName, string extension)
     {
+        var absoluteBasePath = _staticPathProvider.GetFilePath();
+        var saveLocationFolder = Path.Combine(absoluteBasePath, _staticFileOptions.Value.SaveLocation, fileName);
+
+        Directory.CreateDirectory(saveLocationFolder);
         var fileNames = Enum.GetValues<ImageSize>().Select(size =>
         {
-            var (fullFileName, filePath, fileUrl) = GenerateFileInformation(size, fileName, extension);
+            var (fullFileName, filePath, fileUrl) = GenerateFileInformation(size, fileName, extension, saveLocationFolder);
             return (size, fullFileName, filePath, fileUrl);
         }).ToDictionary(k => k.size, v => (v.fullFileName, v.filePath, v.fileUrl));
 
@@ -113,14 +119,11 @@ public class ImageHandler : IFileHandler
         }
     }
 
-    private (string fullFileName, string filePath, string fileUrl) GenerateFileInformation(ImageSize size, string fileIdentifier, string fileExtension)
+    private (string fullFileName, string filePath, string fileUrl) GenerateFileInformation(ImageSize size, string fileIdentifier, string fileExtension, string saveLocationFolder)
     {
         var fullFileName = GenerateFullFileName(size, fileIdentifier, fileExtension);
-
-        var absoluteBasePath = _staticPathProvider.GetFilePath();
-        var saveLocationFolder = _staticFileOptions.Value.SaveLocation;
-        var filePath = GenerateFilePath(absoluteBasePath, saveLocationFolder, fullFileName);
-        var fileUrl = GenerateFileUrl(saveLocationFolder, fullFileName);
+        var filePath = GenerateFilePath(saveLocationFolder, fullFileName);
+        var fileUrl = GenerateFileUrl( fileIdentifier, fullFileName);
 
         return (fullFileName, filePath, fileUrl);
     }
@@ -139,14 +142,14 @@ public class ImageHandler : IFileHandler
         return $"{fileIdentifier}-{size.ToString().ToLowerInvariant()}{extension}";
     }
 
-    private string GenerateFilePath(string absoluteBasePath, string saveLocationFolder, string fileName)
+    private string GenerateFilePath(string saveLocationFolder, string fileName)
     {
-        return Path.Combine(absoluteBasePath, saveLocationFolder, fileName);
+        return Path.Combine(saveLocationFolder, fileName);
     }
 
-    private string GenerateFileUrl(string saveLocationFolder, string fileName)
+    private string GenerateFileUrl(string fileIdentifier, string fileName)
     {
-        return $"{saveLocationFolder}/{fileName}";
+        return $"{_staticFileOptions.Value.SaveLocation}/{fileIdentifier}/{fileName}";
     }
 }
 

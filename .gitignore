@@ -486,3 +486,8 @@ FodyWeavers.xsd
 *.sln.iml
 
 secrets/
+.env*
+
+!.env.template
+!.env.template.*
+!.env.*.template

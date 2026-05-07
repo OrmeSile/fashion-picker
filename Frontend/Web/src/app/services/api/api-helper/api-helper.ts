@@ -6,15 +6,15 @@ import {environment} from '../../../../environments/environment';
   providedIn: 'root',
 })
 export class ApiHelper {
-  private readonly cmsUrl = environment.fileRepositoryUrl;
+  private readonly backendUrl = environment.cmsUrl;
 
   hydrateImageDto(dto: ImageDto): ImageDto {
     return {
       ...dto,
-      small: `${this.cmsUrl}${dto.small}`,
-      medium: dto.medium ? `${this.cmsUrl}${dto.medium}` : dto.medium,
-      large: dto.large ? `${this.cmsUrl}${dto.large}` : dto.large,
-      original: `${this.cmsUrl}${dto.original}`,
+      small: `${this.backendUrl}/${dto.small}`,
+      medium: dto.medium ? `${this.backendUrl}/${dto.medium}` : dto.medium,
+      large: dto.large ? `${this.backendUrl}/${dto.large}` : dto.large,
+      original: `${this.backendUrl}/${dto.original}`,
     }
   }
 }
