@@ -22,7 +22,7 @@ public class DataConsistencyCheckerBackgroundServiceConsumer: BackgroundService
         using var scope = Services.CreateScope();
         var dataConsistencyChecker = scope.ServiceProvider.GetRequiredService<IDataConsistencyChecker>();
 
-        _timer = new Timer(dataConsistencyChecker.EnsureDataConsistency<RepositoryFileInformation>, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+        _timer = new Timer(dataConsistencyChecker.EnsureDataConsistency<RepositoryFileInformation>, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
         return Task.CompletedTask;
     }
 

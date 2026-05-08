@@ -1,5 +1,4 @@
 using FashionPicker.FileRepository.Entities;
-using FashionPicker.FileRepository.Services;
 
 namespace FashionPicker.FileRepository.Providers;
 
@@ -7,7 +6,7 @@ public class RepositoryFileInformationsProvider
 {
     private readonly FileRepositoryDbContext _context;
 
-    public RepositoryFileInformationsProvider(FileRepositoryDbContext context, IDataConsistencyChecker dataConsistencyChecker)
+    public RepositoryFileInformationsProvider(FileRepositoryDbContext context)
     {
         _context = context;
     }

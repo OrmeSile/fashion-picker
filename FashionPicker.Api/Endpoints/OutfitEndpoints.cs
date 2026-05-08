@@ -1,4 +1,5 @@
 using System.Text.Json;
+using FashionPicker.Api.Configuration;
 using FashionPicker.Api.Converters;
 using FashionPicker.Api.Dto.Inbound.OutfitRequest;
 using FashionPicker.Api.Dto.Outbound.OutfitResponse;
@@ -106,14 +107,10 @@ public static class OutfitEndpoints
 
     private static async Task<OutfitPostRequestMetadata?> ParseInboundJsonMetadata(Stream bodySection, CancellationToken cancellationToken)
     {
-        var options = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        };
 
         return await JsonSerializer.DeserializeAsync<OutfitPostRequestMetadata>(
             bodySection,
-            options,
+            JsonSerializerConfigurations.CaseInsensitive,
             cancellationToken);
     }
 }
