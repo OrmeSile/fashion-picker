@@ -46,7 +46,8 @@ export class OutfitPreviewPage {
       seasons: outfitMetadata.seasons,
       mood: outfitMetadata.mood,
       sport: outfitMetadata.outfitDestination.sport,
-      images: this.fileHandler.files()
+      images: this.fileHandler.files(),
+      clothing: []
     }
 
     this.outfitApi.uploadOutfit(outfit)

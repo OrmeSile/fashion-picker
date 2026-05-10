@@ -1,5 +1,6 @@
 import {ImageDto, UUID} from './shared.types';
 import {ImageFile} from './files.types';
+import {Clothing, ClothingDto} from './clothing.types';
 
 type LocalOutfit = {
   id?: UUID,
@@ -9,6 +10,7 @@ type LocalOutfit = {
   tags?: string[],
   mood: Mood,
   sport: boolean,
+  clothing: Clothing[]
 };
 
 type Outfit = OutfitPostResponse & {};
@@ -20,6 +22,7 @@ type OutfitDTO = {
   tags?: string[],
   mood: Mood,
   sport: boolean,
+  clothing: UUID[]
 };
 
 
@@ -38,7 +41,8 @@ type OutfitPostResponse = {
   id: UUID,
   mood: Mood,
   sport: boolean,
-  images: ImageDto[]
+  images: ImageDto[],
+  clothing: ClothingDto[],
 }
 
 

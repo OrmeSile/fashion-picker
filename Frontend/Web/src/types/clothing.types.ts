@@ -11,11 +11,12 @@ type LocalClothing = {
   files: File[];
 };
 
-type ClothingPostResponse = {
-  id: UUID;
-  clothingType: string;
-  images: ImageDto[];
+type ClothingDto = Clothing & {}
 
+type OutfitClothingPostResponse = {
+  id: UUID;
 }
 
-export type {Clothing, LocalClothing, ClothingPostResponse}
+type ClothingGetAllResponse = {clothing: ClothingDto[]}
+
+export type {Clothing, LocalClothing, ClothingDto, OutfitClothingPostResponse, ClothingGetAllResponse}

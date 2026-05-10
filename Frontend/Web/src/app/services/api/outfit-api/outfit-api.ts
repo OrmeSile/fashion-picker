@@ -25,6 +25,7 @@ export class OutfitApi {
       mood: outfit.mood,
       sport: outfit.sport,
       tags: outfit.tags,
+      clothing: outfit.clothing.map(c => c.id),
     }
     const formData = new FormData();
     formData.append('outfit', new Blob([JSON.stringify(outfitDto)], {type: 'application/json'}));
@@ -44,7 +45,8 @@ export class OutfitApi {
   private convertDtoToOutfit(outfit: OutfitPostResponse): Outfit {
     return ({
       ...outfit,
-      images: outfit.images.map(image => this.apiHelper.hydrateImageDto(image))
+      images: outfit.images.map(image => this.apiHelper.hydrateImageDto(image)),
+      clothing: outfit.clothing.map(c => ({...c, images: c.images.map(i => this.apiHelper.hydrateImageDto(i))})),
     } as Outfit)
   }
 }

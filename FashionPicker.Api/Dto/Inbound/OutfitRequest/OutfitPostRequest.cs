@@ -6,5 +6,6 @@ public record OutfitPostRequestMetadata(
     List<string> Colors,
     Guid? Id,
     string Mood,
-    bool Sport
+    bool Sport,
+    List<Guid> ClothingIds
 );
