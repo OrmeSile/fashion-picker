@@ -29,15 +29,15 @@ public static class ClothingEndpoints
         }
     }
 
-    private static async Task<Results<Ok<ClothingGetResponse>, NotFound>> GetAllClothing(IClothingRepository clothingRepository)
+    private static async Task<Results<Ok<ClothingGetAllResponse>, NotFound>> GetAllClothing(IClothingRepository clothingRepository)
     {
         var clothing = await clothingRepository.GetAll();
         var outfitDtos = clothing.Select(c => c.ToDto()).ToList();
-        var response = new ClothingGetResponse(outfitDtos);
+        var response = new ClothingGetAllResponse(outfitDtos);
         return TypedResults.Ok(response);
     }
 
-    private static async Task<Results<Ok<ClothingMetadataResponse>, BadRequest<string>>> CreateClothing(
+    private static async Task<Results<Ok<ClothingMetadataResponse>, BadRequest<string>, InternalServerError>> CreateClothing(
         HttpRequest request,
         HttpContext httpContext,
         ICmsAdapter cmsAdapter,
@@ -47,17 +47,21 @@ public static class ClothingEndpoints
         if (!request.ContentType?.StartsWith("multipart/form-data") ?? true)
             return TypedResults.BadRequest("the request does not contain multipart/form-data");
 
-        var boundary = HeaderUtilities.RemoveQuotes(MediaTypeHeaderValue.Parse(request.ContentType).Boundary).Value;
-        if (string.IsNullOrWhiteSpace(boundary))
-            return TypedResults.BadRequest("Missing boundary header");
+        if (!MediaTypeHeaderValue.TryParse(request.ContentType, out var mediaType))
+            return TypedResults.BadRequest("missing or malformed content type in request");
+
+        var boundary = HeaderUtilities.RemoveQuotes(mediaType.Boundary).Value;
+        if(boundary == null)
+            return TypedResults.BadRequest("missing or malformed content type in request");
 
         var reader = new MultipartReader(boundary, request.Body);
 
         var cancellationToken = httpContext.RequestAborted;
 
-        var multipartFormData = new MultipartFormDataContent();
+        using var multipartFormData = new MultipartFormDataContent();
 
-        var metadataStream = new MemoryStream();
+        using var metadataStream = new MemoryStream();
+
         try
         {
             while (await reader.ReadNextSectionAsync(cancellationToken) is { } section)
@@ -86,8 +90,15 @@ public static class ClothingEndpoints
                 }
             }
         }
-
-        catch (Exception e)
+        catch (InvalidOperationException e)
+        {
+            return TypedResults.BadRequest(e.Message);
+        }
+        catch (IOException _)
+        {
+            return TypedResults.InternalServerError();
+        }
+        catch (OperationCanceledException e)
         {
             return TypedResults.BadRequest(e.Message);
         }
