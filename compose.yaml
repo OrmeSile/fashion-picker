@@ -16,7 +16,7 @@
       context: .
       dockerfile: FashionPicker.Api/Dockerfile
     env_file:
-      - ./secrets/fashion-picker.env
+      - ./secrets/.env.fashion-picker
 
   fashionpicker.filerepository:
     container_name: file-repository
@@ -24,22 +24,29 @@
       context: .
       dockerfile: FashionPicker.FileRepository/Dockerfile
     env_file:
-      - ./secrets/file-repository.env
+      - ./secrets/.env.file-repository
 
     volumes:
       - type: bind
         source: "${STATIC_HOST_PATH}"
         target: /var/lib/filerepository
 
-  fashionpicker.reverseproxy:
-    container_name: reverse-proxy
+  fashionpicker.api-gateway:
+    container_name: api-gateway
     build:
       context: .
-      dockerfile: Fashionpicker.ReverseProxy/Dockerfile
+      dockerfile: Fashionpicker.ApiGateway/Dockerfile
     ports:
       - "8080:8080"
     env_file:
       - "${REVERSE_PROXY_ENV}"
 
+  reverse-proxy:
+    build:
+      context: Frontend/Web
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
 volumes:
   pgdata:

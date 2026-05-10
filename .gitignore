@@ -491,3 +491,5 @@ secrets/
 !.env.template
 !.env.template.*
 !.env.*.template
+
+nginx*.conf

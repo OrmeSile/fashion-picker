@@ -9,7 +9,9 @@ public class ClothingRepository(OutfitDbContext outfitDbContext) : IClothingRepo
 {
     public async Task<List<Clothing>> GetAll()
     {
-        return await outfitDbContext.Clothing.ToListAsync();
+        return await outfitDbContext.Clothing
+            .Include(c => c.Images)
+            .ToListAsync();
     }
 
     public async Task<List<Clothing>> GetAllWithOutfits(string clothingId)

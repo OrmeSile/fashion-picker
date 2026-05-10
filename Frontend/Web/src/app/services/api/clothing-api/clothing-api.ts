@@ -1,11 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Clothing, ClothingPostResponse, LocalClothing} from '../../../../types/clothing.types';
+import {Clothing, ClothingDto, ClothingGetAllResponse, LocalClothing} from '../../../../types/clothing.types';
 import {map} from 'rxjs';
 import {ApiHelper} from '../api-helper/api-helper';
-
-
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +24,7 @@ export class ClothingApi {
       formData.append(`file-${index}`, file);
     })
     const headers = new HttpHeaders({"enctype": "multipart/form-data"});
-    return this.http.post<ClothingPostResponse>(`${this.apiUrl}/clothing`, formData, {headers: headers})
+    return this.http.post<ClothingDto>(`${this.apiUrl}/clothing`, formData, {headers: headers})
       .pipe(map((res) => {
         return {
           ...res,
@@ -34,5 +32,9 @@ export class ClothingApi {
         } as Clothing
       }))
       ;
+  }
+
+  getAllClothing(){
+    return this.http.get<ClothingGetAllResponse>(`${this.apiUrl}/clothing`);
   }
 }

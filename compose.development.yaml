@@ -11,5 +11,15 @@
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
+  reverse-proxy:
+    build:
+      context: Frontend/Web
+      dockerfile: Development.Dockerfile
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    environment:
+      - HTTP_PORT=8080
+      - HTTPS_PORT=8443
 volumes:
   pgdata:
