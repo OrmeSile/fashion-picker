@@ -1,4 +1,5 @@
 using FashionPicker.FileRepository.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace FashionPicker.FileRepository.Providers;
 
@@ -11,9 +12,9 @@ public class RepositoryFileInformationsProvider
         _context = context;
     }
 
-    public IEnumerable<RepositoryFileInformation> GetAllFileInformations()
+    public async Task<IEnumerable<RepositoryFileInformation>> GetAllFileInformations()
     {
-        return _context.RepositoryFileInformations.ToList();
+        return await _context.RepositoryFileInformations.ToListAsync();
     }
 
     public async Task<RepositoryFileInformation?> GetFileInformationById(Guid fileId)

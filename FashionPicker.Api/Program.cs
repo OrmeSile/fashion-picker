@@ -45,8 +45,6 @@ if (app.Environment.IsDevelopment()) app.MapOpenApi();
 
 app.UseCors(allowFrontendOrigin);
 
-app.UseHttpsRedirection();
-
 app.MapOutfitApiGroup();
 app.MapClothingApiGroup();
 

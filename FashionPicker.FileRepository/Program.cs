@@ -1,5 +1,6 @@
 using FashionPicker.FileRepository;
 using FashionPicker.FileRepository.Configuration;
+using FashionPicker.FileRepository.Endpoints;
 using FashionPicker.FileRepository.Interfaces;
 using FashionPicker.FileRepository.Providers;
 using FashionPicker.FileRepository.Services;
@@ -47,7 +48,6 @@ builder.Services
     .AddScoped<ImageHandler>();
 
 
-builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -61,7 +61,7 @@ if (app.Environment.IsDevelopment()) app.MapOpenApi();
 
 app.UseStaticFileRepositoryFiles();
 
-app.MapControllers();
+app.MapFileUploadGroup();
 app.UseHttpsRedirection();
 
 app.UseCors();
