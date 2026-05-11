@@ -36,12 +36,11 @@
     build:
       context: .
       dockerfile: Fashionpicker.ApiGateway/Dockerfile
-    ports:
-      - "8080:8080"
     env_file:
       - "${REVERSE_PROXY_ENV}"
 
   reverse-proxy:
+    container_name: reverse-proxy
     build:
       context: Frontend/Web
       dockerfile: Dockerfile
