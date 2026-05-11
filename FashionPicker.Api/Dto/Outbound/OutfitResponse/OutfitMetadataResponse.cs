@@ -1,4 +1,5 @@
 using FashionPicker.Api.Converters;
+using FashionPicker.Api.Dto.Outbound.ClothingResponse;
 
 namespace FashionPicker.Api.Dto.Outbound.OutfitResponse;
 
@@ -9,5 +10,6 @@ public record OutfitMetadataResponse(
     Guid Id,
     string Mood,
     bool Sport,
-    List<ImageDto> Images
+    List<ImageDto> Images,
+    List<ClothingMetadataResponse> Clothing
 );

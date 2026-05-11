@@ -14,6 +14,7 @@ public class OutfitRepository(OutfitDbContext outfitContext) : IOutfitRepository
             .Include(x => x.Images)
             .Include(x => x.Colors)
             .Include(x => x.Seasons)
+            .Include(x => x.Clothing)
             .ToListAsync();
     }
 

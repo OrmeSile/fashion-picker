@@ -33,7 +33,8 @@ internal static class OutfitConverter
                 model.Id,
                 model.Mood.ToDto(),
                 model.Sport,
-                model.Images.Select(modelImage => modelImage.ToDto()).ToList()
+                model.Images.Select(modelImage => modelImage.ToDto()).ToList(),
+                model.Clothing.Select(clothing => clothing.ToDto()).ToList()
             );
         }
     }
