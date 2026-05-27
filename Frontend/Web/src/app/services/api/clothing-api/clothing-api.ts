@@ -34,7 +34,16 @@ export class ClothingApi {
       ;
   }
 
-  getAllClothing(){
-    return this.http.get<ClothingGetAllResponse>(`${this.apiUrl}/clothing`);
+  getAllClothing() {
+    return this.http.get<ClothingGetAllResponse>(`${this.apiUrl}/clothing`)
+      .pipe(
+        map((res) => {
+          return {
+            clothing: res.clothing.map(clothing => ({
+              ...clothing, images: clothing.images.map(image => this.apiHelper.hydrateImageDto(image))
+            }))
+          }
+        }));
+
   }
 }

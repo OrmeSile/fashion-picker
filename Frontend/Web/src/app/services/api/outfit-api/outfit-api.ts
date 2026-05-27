@@ -25,7 +25,7 @@ export class OutfitApi {
       mood: outfit.mood,
       sport: outfit.sport,
       tags: outfit.tags,
-      clothing: outfit.clothing.map(c => c.id),
+      clothing: outfit.clothing,
     }
     const formData = new FormData();
     formData.append('outfit', new Blob([JSON.stringify(outfitDto)], {type: 'application/json'}));

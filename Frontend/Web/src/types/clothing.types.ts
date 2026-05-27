@@ -2,7 +2,7 @@ import {ImageDto, UUID} from './shared.types';
 
 type Clothing = {
   id: UUID;
-  clothingType: string;
+  clothingType: ClothingType;
   images: ImageDto[];
 };
 
@@ -17,6 +17,11 @@ type OutfitClothingPostResponse = {
   id: UUID;
 }
 
-type ClothingGetAllResponse = {clothing: ClothingDto[]}
+type ClothingFormGroups = {
+  [key in ClothingType]: {[key: UUID]: boolean}
+}
+type ClothingType = "Top" | "Bottom" | "Shoes" | "Jewelry" | "FullBody";
 
-export type {Clothing, LocalClothing, ClothingDto, OutfitClothingPostResponse, ClothingGetAllResponse}
+type ClothingGetAllResponse = { clothing: ClothingDto[] }
+
+export type {Clothing, LocalClothing, ClothingDto, OutfitClothingPostResponse, ClothingGetAllResponse, ClothingFormGroups}

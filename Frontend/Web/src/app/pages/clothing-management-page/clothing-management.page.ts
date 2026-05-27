@@ -1,4 +1,4 @@
-import {Component, computed, inject, linkedSignal, signal} from '@angular/core';
+import {Component, computed, inject, linkedSignal} from '@angular/core';
 import {DropZone} from '../../components/shared/drop-zone/drop-zone';
 import {FileHandler} from '../../services/file-handler/file-handler';
 import {ImageFile} from '../../../types/files.types';
@@ -6,7 +6,7 @@ import {UUID} from '../../../types/shared.types';
 import {ClothingPreviewCard} from '../../components/clothing-management/clothing-preview-card/clothing-preview-card';
 import {ClothingStore} from '../../stores/clothing-store/clothing.store';
 import {ClothingApi} from '../../services/api/clothing-api/clothing-api';
-import {LocalClothing} from '../../../types/clothing.types';
+import {ClothingDto, LocalClothing} from '../../../types/clothing.types';
 
 @Component({
   selector: 'fp-clothing-management-page',
@@ -24,8 +24,6 @@ export class ClothingManagementPage {
   clothingStore = inject(ClothingStore);
   clothingApi = inject(ClothingApi);
 
-  savedClothing = this.clothingStore.state;
-
   fileStates = linkedSignal<FileState[],FileState[]>({
     source: computed(() => this.fileHandler.files().map(file => ({file, loading: false, success: false}))),
     computation: (curr, prev) => {
@@ -36,23 +34,8 @@ export class ClothingManagementPage {
     }
   });
 
-
-  activeImage = signal<ImageFile | undefined>(undefined);
-
-  protected removeImage(id: UUID) {
-    this.fileHandler.removeFile(id);
-    if (this.activeImage()?.id === id) {
-      this.activeImage.set(this.fileStates()[0].file);
-    }
-  }
-
   protected handleDataTransfer($event: FileList) {
     this.fileHandler.addFiles($event);
-    this.setActiveImage(this.fileStates()[0].file);
-  }
-
-  protected setActiveImage(outfitFile: ImageFile) {
-    this.activeImage.set(outfitFile);
   }
 
   protected handleClothingTypeSelected(event: { selected: string; id: UUID}) {

@@ -1,5 +1,9 @@
   @if (activeImage()) {
-    <fp-outfit-metadata-form class="metadata-form" (submitted)="handleSubmitted($event)"/>
+    <fp-outfit-metadata-form
+      class="metadata-form"
+      (submitted)="handleSubmitted($event)"
+      [clothingInput]="clothingStore.state()"
+    />
   }
   <div class="panel center-panel" [class.active-selected]="activeImage()">
     @if (!fileHandler.files().length) {
@@ -7,19 +11,8 @@
     } @else {
       @if (activeImage() && imagesMetadata().length) {
         <div class="modal-container">
-          <img class="focused-image" src="{{activeImage()?.fileUrl}}"/>
+          <img class="focused-image" src="{{activeImage()?.fileUrl}}" alt=""/>
         </div>
       }
-<!--      <fp-image-album-grid-preview class="image-preview">-->
-<!--        @for (imageMetadata of imagesMetadata(); track imageMetadata.id) {-->
-<!--          <fp-preview-image-->
-<!--            [selected]="imageMetadata.id === activeImage()?.id"-->
-<!--            [imageUrl]="imageMetadata.fileUrl"-->
-<!--            (removeImage)="removeImage(imageMetadata.id)"-->
-<!--            (openImageDetails)="setActiveImage(imageMetadata)"-->
-<!--          />-->
-<!--        }-->
-<!--        <fp-drop-zone class="drop-card" (files)="handleDataTransfer($event)"/>-->
-<!--      </fp-image-album-grid-preview>-->
     }
   </div>

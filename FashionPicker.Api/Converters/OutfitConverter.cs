@@ -17,7 +17,8 @@ internal static class OutfitConverter
                 CreationDate = DateTime.UtcNow,
                 Tags = dto.Tags.Select(tag => tag.ToOutfitTagModel()).ToList(),
                 Mood = dto.Mood.ToMoodModel(),
-                Sport = dto.Sport
+                Sport = dto.Sport,
+                Clothing = dto.Clothing.Select(id => new Clothing{ Id = id }).ToList(),
             };
         }
     }

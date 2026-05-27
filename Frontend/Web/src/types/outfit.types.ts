@@ -1,6 +1,6 @@
 import {ImageDto, UUID} from './shared.types';
 import {ImageFile} from './files.types';
-import {Clothing, ClothingDto} from './clothing.types';
+import {Clothing, ClothingDto, ClothingFormGroups} from './clothing.types';
 
 type LocalOutfit = {
   id?: UUID,
@@ -10,7 +10,7 @@ type LocalOutfit = {
   tags?: string[],
   mood: Mood,
   sport: boolean,
-  clothing: Clothing[]
+  clothing: UUID[]
 };
 
 type Outfit = OutfitPostResponse & {};
@@ -28,11 +28,13 @@ type OutfitDTO = {
 
 type OutfitMetadataFormData = {
   seasons: SeasonsFormSelector;
-  colors: FormTag[];
   tags: FormTag[];
+  colors: FormTag[];
   mood: Mood;
   outfitDestination: OutfitDestinationFormSelector;
+  clothingGroups: ClothingFormGroups;
 }
+
 
 type OutfitPostResponse = {
   tags: string[],

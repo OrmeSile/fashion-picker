@@ -27,6 +27,12 @@ public class Outfit
         Images.Add(outfitImage);
     }
 
+    public void SetClothing(List<Clothing> clothing)
+    {
+        Clothing.Clear();
+        Clothing.AddRange(clothing);
+    }
+
     public void ReplaceTags(IEnumerable<OutfitTag> combinedTags)
     {
         Tags.Clear();

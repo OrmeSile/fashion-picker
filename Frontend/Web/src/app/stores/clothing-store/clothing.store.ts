@@ -1,8 +1,9 @@
-import {computed, Injectable, Signal, signal, WritableSignal} from '@angular/core';
+import {computed, inject, Injectable, Signal, signal, WritableSignal} from '@angular/core';
 import {Clothing} from '../../../types/clothing.types';
 import {UUID} from '../../../types/shared.types';
 import {Store, StoreReducer} from '../../../types/store.types';
 import {ClothingStoreAction} from '../../../types/store-actions.types';
+import {ClothingApi} from '../../services/api/clothing-api/clothing-api';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,13 @@ export class ClothingStore implements Store<Clothing[], ClothingStoreAction> {
 
   #stateInternal: WritableSignal<Clothing[]> = signal([]);
   state: Signal<Clothing[]> = computed(() => this.#stateInternal());
+
+  constructor() {
+    const clothingApi = inject(ClothingApi);
+    clothingApi.getAllClothing().subscribe(clothing => {
+      this.#stateInternal.set(clothing.clothing);
+    })
+  }
 
   dispatch(action: ClothingStoreAction): void{
     switch (action.type) {
@@ -23,8 +31,6 @@ export class ClothingStore implements Store<Clothing[], ClothingStoreAction> {
       default: throw new Error("Unknown action type");
     }
   }
-
-
 
   private addClothing: StoreReducer<Clothing[], Clothing[]> = (state: Clothing[], payload: Clothing[]): Clothing[] => {
     return [...state, ...payload];

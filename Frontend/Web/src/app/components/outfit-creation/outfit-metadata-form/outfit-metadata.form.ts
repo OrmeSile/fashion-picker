@@ -1,4 +1,4 @@
-import {Component, ElementRef, output, signal, viewChild} from '@angular/core';
+import {Component, computed, ElementRef, input, linkedSignal, output, viewChild} from '@angular/core';
 import {form, FormField} from '@angular/forms/signals';
 import {FormTag, OutfitMetadataFormData} from '../../../../types/outfit.types';
 import {OutfitTagControl} from '../../controls/outfit-tag-control/outfit-tag.control';
@@ -6,6 +6,7 @@ import {SeasonControl} from '../../controls/season-control/season.control';
 import {DestinationControl} from '../../controls/destination.control/destination.control';
 import {StyledFormFieldset} from '../../shared/styled-form-fieldset/styled-form-fieldset';
 import {MoodRadioControl} from '../../controls/modesty-radio.control/mood-radio.control';
+import {Clothing, ClothingFormGroups} from '../../../../types/clothing.types';
 
 @Component({
   selector: 'fp-outfit-metadata-form',
@@ -15,7 +16,7 @@ import {MoodRadioControl} from '../../controls/modesty-radio.control/mood-radio.
     SeasonControl,
     DestinationControl,
     StyledFormFieldset,
-    MoodRadioControl
+    MoodRadioControl,
   ],
   templateUrl: './outfit-metadata.form.html',
   styleUrl: './outfit-metadata.form.scss',
@@ -24,27 +25,55 @@ export class OutfitMetadataForm {
 
   submitted = output<OutfitMetadataFormData>();
 
-  addTagButtonRef = viewChild<ElementRef<HTMLInputElement>>('addTagButton');
-  addColorButtonRef = viewChild<ElementRef<HTMLInputElement>>('addColorButton');
+  clothingInput = input<Clothing[]>();
 
-  outfitMetadataModel = signal<OutfitMetadataFormData>({
-      seasons: {
-        spring: false,
-        summer: false,
-        autumn: false,
-        winter: false
-      },
-      tags: [],
-      colors: [],
-      mood: 'high',
-      outfitDestination: {
-        sport: false
+  clothingGroups = computed(() => {
+    return this.clothingInput()
+      ?.reduce<ClothingFormGroups>((prev: ClothingFormGroups, curr: Clothing) => {
+        if (!(curr.clothingType in prev)) {
+          return prev;
+        }
+        return ({
+          ...prev,
+          [curr.clothingType]: {
+            ...prev[curr.clothingType], [curr.id]: false
+          }
+        })
+      }, {Top: {}, Bottom: {}, Shoes: {}, Jewelry: {}, FullBody: {}})
+  });
+
+  outfitMetadataModel = linkedSignal({
+      source: this.clothingGroups,
+      computation: (baseModel) => {
+        return {
+          seasons: {
+            spring: false,
+            summer: false,
+            autumn: false,
+            winter: false
+          },
+          tags: [],
+          colors: [],
+          mood: 'high',
+          outfitDestination: {
+            sport: false
+          },
+          clothingGroups: baseModel ?? {
+            Top: {},
+            Bottom: {},
+            Shoes: {},
+            Jewelry: {},
+            FullBody: {}
+          }
+        } as OutfitMetadataFormData
       }
-
     }
-  )
+  );
 
   outfitMetadataForm = form(this.outfitMetadataModel);
+
+  addTagButtonRef = viewChild<ElementRef<HTMLInputElement>>('addTagButton');
+  addColorButtonRef = viewChild<ElementRef<HTMLInputElement>>('addColorButton');
 
   addEmptyTag() {
     const tagId = crypto.randomUUID();
@@ -89,11 +118,18 @@ export class OutfitMetadataForm {
     event.preventDefault();
 
     const outfitMetadata: OutfitMetadataFormData = {
-      colors: this.outfitMetadataForm.colors().value(),
-      tags: this.outfitMetadataForm.tags().value(),
-      seasons: this.outfitMetadataForm.seasons().value(),
-      mood: this.outfitMetadataForm.mood().value(),
-      outfitDestination: this.outfitMetadataForm.outfitDestination().value()
+      colors: this.outfitMetadataForm.colors()
+        .value(),
+      tags: this.outfitMetadataForm.tags()
+        .value(),
+      seasons: this.outfitMetadataForm.seasons()
+        .value(),
+      mood: this.outfitMetadataForm.mood()
+        .value(),
+      outfitDestination: this.outfitMetadataForm.outfitDestination()
+        .value(),
+      clothingGroups: this.outfitMetadataForm.clothingGroups()
+        .value(),
     };
 
     this.submitted.emit(outfitMetadata);
@@ -103,9 +139,6 @@ export class OutfitMetadataForm {
     event.preventDefault();
     event.stopPropagation();
   }
-
-  protected readonly console = console;
-
 
   protected removeColor(index: number) {
 
@@ -119,11 +152,14 @@ export class OutfitMetadataForm {
     })
   }
 
+  protected getSmallImagePathForClothingId(id: string) {
+    return this.clothingInput()
+      ?.find(x => x.id === id)?.images[0].small ?? "";
+  }
+
   protected handleColorEditFinished() {
     this.addColorButtonRef()
       ?.nativeElement
       .focus();
   }
-
-  protected readonly Object = Object;
 }

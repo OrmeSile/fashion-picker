@@ -2,10 +2,12 @@ import {Component, computed, inject, signal} from '@angular/core';
 import {OutfitMetadataForm} from '../../components/outfit-creation/outfit-metadata-form/outfit-metadata.form';
 import {FileHandler} from '../../services/file-handler/file-handler';
 import {ImageFile} from '../../../types/files.types';
-import {LocalOutfit, Outfit, OutfitMetadataFormData} from '../../../types/outfit.types';
+import {LocalOutfit, OutfitMetadataFormData} from '../../../types/outfit.types';
 import {OutfitStore} from '../../stores/outfit-store/outfit.store';
 import {OutfitApi} from '../../services/api/outfit-api/outfit-api';
 import {DropZone} from '../../components/shared/drop-zone/drop-zone';
+import {ClothingStore} from '../../stores/clothing-store/clothing.store';
+import {UUID} from '../../../types/shared.types';
 
 @Component({
   selector: 'fp-outfit-preview-page',
@@ -23,6 +25,7 @@ export class OutfitPreviewPage {
   private outfitStore = inject(OutfitStore);
   fileHandler = inject(FileHandler);
   private outfitApi = inject(OutfitApi);
+  protected clothingStore = inject(ClothingStore);
 
   imagesMetadata = computed(() => this.fileHandler.files());
 
@@ -39,6 +42,11 @@ export class OutfitPreviewPage {
 
   protected handleSubmitted(outfitMetadata: OutfitMetadataFormData) {
 
+    const clothingIds = Object.values(outfitMetadata.clothingGroups)
+      .flatMap(x => Object.entries(x))
+      .filter(([_, value]) => value)
+      .map(([key, _]) => key) as UUID[];
+
     const outfit: LocalOutfit = {
       id: undefined,
       colors: outfitMetadata.colors.map(color => color.value),
@@ -47,7 +55,7 @@ export class OutfitPreviewPage {
       mood: outfitMetadata.mood,
       sport: outfitMetadata.outfitDestination.sport,
       images: this.fileHandler.files(),
-      clothing: []
+      clothing: clothingIds
     }
 
     this.outfitApi.uploadOutfit(outfit)

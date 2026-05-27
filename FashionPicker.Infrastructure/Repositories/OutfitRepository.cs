@@ -39,6 +39,8 @@ public class OutfitRepository(OutfitDbContext outfitContext) : IOutfitRepository
 
         outfit.ReplaceTags(combinedTags);
 
+        var savedClothing = await outfitContext.Clothing.Where(c => outfit.Clothing.Select(x => x.Id).Contains(c.Id)).ToListAsync();
+        outfit.SetClothing(savedClothing);
         await outfitContext.Outfits.AddRangeAsync(outfit);
         await outfitContext.SaveChangesAsync();
         return outfit;

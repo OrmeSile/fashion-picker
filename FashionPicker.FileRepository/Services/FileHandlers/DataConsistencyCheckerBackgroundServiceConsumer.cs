@@ -5,7 +5,7 @@ namespace FashionPicker.FileRepository.Services.FileHandlers;
 public class DataConsistencyCheckerBackgroundServiceConsumer: BackgroundService
 {
     private Timer? _timer;
-    public IServiceProvider Services { get; }
+    private IServiceProvider Services { get; }
 
     public DataConsistencyCheckerBackgroundServiceConsumer(IServiceProvider services)
     {
