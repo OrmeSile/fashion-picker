@@ -13,7 +13,16 @@ type LocalOutfit = {
   clothing: UUID[]
 };
 
-type Outfit = OutfitPostResponse & {};
+type Outfit = {
+  tags: string[],
+  seasons: Season[],
+  colors: string[],
+  id: UUID,
+  mood: Mood,
+  sport: boolean,
+  images: ImageDto[],
+  clothing: ClothingDto[],
+}
 
 type OutfitDTO = {
   id?: UUID,
@@ -35,20 +44,6 @@ type OutfitMetadataFormData = {
   clothingGroups: ClothingFormGroups;
 }
 
-
-type OutfitPostResponse = {
-  tags: string[],
-  seasons: string[],
-  colors: string[],
-  id: UUID,
-  mood: Mood,
-  sport: boolean,
-  images: ImageDto[],
-  clothing: ClothingDto[],
-}
-
-
-
 type FormTag = {
   id: UUID;
   value: string;
@@ -68,4 +63,4 @@ type OutfitDestinationFormSelector = {
   [TOutfitDestination in OutfitDestination]: boolean;
 }
 
-export type {Outfit, LocalOutfit, OutfitDTO, OutfitMetadataFormData, FormTag, Season, Mood, OutfitPostResponse};
+export type {Outfit, LocalOutfit, OutfitDTO, OutfitMetadataFormData, FormTag, Season, Mood };

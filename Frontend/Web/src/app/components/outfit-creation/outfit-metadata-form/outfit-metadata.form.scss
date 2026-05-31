@@ -93,35 +93,3 @@
   display: flex;
 }
 
-.clothing-element-container{
-  filter: saturate(0);
-}
-
-.clothing-element-container:has(.clothing-checkbox:checked){
-  filter: none;
-}
-
-.clothing-checkbox {
-  display: none;
-}
-
-.clothing-label {
-  width: 80px;
-  height: 80px;
-  display: block;
-}
-
-.clothing-image{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.clothing-button{
-  display: none;
-}
-
-.clothing-button:checked ~ .clothing-group-elements-container{
-  height: 0;
-  overflow: hidden;
-}

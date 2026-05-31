@@ -1,9 +1,10 @@
 import {inject, Injectable} from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Clothing, ClothingDto, ClothingGetAllResponse, LocalClothing} from '../../../../types/clothing.types';
+import {Clothing, ClothingDto, LocalClothing} from '../../../../types/clothing.types';
 import {map} from 'rxjs';
 import {ApiHelper} from '../api-helper/api-helper';
+import {ClothingGetAllResponse} from '../../../../types/clothing.api.types';
 
 @Injectable({
   providedIn: 'root',

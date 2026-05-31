@@ -1,9 +1,11 @@
 import {inject, Injectable} from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {LocalOutfit, Outfit, OutfitDTO, OutfitPostResponse} from '../../../../types/outfit.types';
+import {LocalOutfit, Outfit, OutfitDTO } from '../../../../types/outfit.types';
 import {map, Observable} from 'rxjs';
 import {ApiHelper} from '../api-helper/api-helper';
+import {UUID} from '../../../../types/shared.types';
+import {OutfitGetAllResponse, OutfitGetResponse, OutfitPostResponse} from '../../../../types/outfit.api.types';
 
 @Injectable({
   providedIn: 'root',
@@ -34,15 +36,20 @@ export class OutfitApi {
     })
     const headers = new HttpHeaders({"enctype": "multipart/form-data"});
     return this.http.post<OutfitPostResponse>(`${this.apiUrl}/outfit`, formData, {headers: headers})
-      .pipe(map(outfitResponse => this.convertDtoToOutfit(outfitResponse)));
+      .pipe(map(outfitResponse => this.hydrateOutfit(outfitResponse)));
+  }
+
+  getOutfitById(id: UUID): Observable<Outfit> {
+    return this.http.get<OutfitGetResponse>(`${this.apiUrl}/outfit/${id}`)
+      .pipe(map(res => this.hydrateOutfit(res.outfit)));
   }
 
   getOutfits(): Observable<Outfit[]> {
-    return this.http.get<{ outfits: OutfitPostResponse[] }>(`${this.apiUrl}/outfit`)
-      .pipe(map(res => res.outfits.map(outfitResponse => this.convertDtoToOutfit(outfitResponse))));
+    return this.http.get<OutfitGetAllResponse>(`${this.apiUrl}/outfit`)
+      .pipe(map(res => res.outfits.map(outfitResponse => this.hydrateOutfit(outfitResponse))));
   }
 
-  private convertDtoToOutfit(outfit: OutfitPostResponse): Outfit {
+  private hydrateOutfit(outfit: Outfit): Outfit {
     return ({
       ...outfit,
       images: outfit.images.map(image => this.apiHelper.hydrateImageDto(image)),

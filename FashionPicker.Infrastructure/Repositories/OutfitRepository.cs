@@ -20,7 +20,13 @@ public class OutfitRepository(OutfitDbContext outfitContext) : IOutfitRepository
 
     public async Task<Outfit?> GetById(Guid id)
     {
-        return await outfitContext.Outfits.FindAsync(id);
+        return await outfitContext.Outfits
+            .Include(x => x.Tags)
+            .Include(x => x.Images)
+            .Include(x => x.Colors)
+            .Include(x => x.Seasons)
+            .Include(x => x.Clothing)
+            .FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<Outfit> AddOutfit(Outfit outfit)

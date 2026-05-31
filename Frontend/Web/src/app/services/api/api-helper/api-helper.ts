@@ -13,7 +13,7 @@ export class ApiHelper {
       ...dto,
       small: `${this.backendUrl}/${dto.small}`,
       medium: dto.medium ? `${this.backendUrl}/${dto.medium}` : dto.medium,
-      large: dto.large ? `${this.backendUrl}/${dto.large}` : dto.large,
+      big: dto.big ? `${this.backendUrl}/${dto.big}` : dto.big,
       original: `${this.backendUrl}/${dto.original}`,
     }
   }

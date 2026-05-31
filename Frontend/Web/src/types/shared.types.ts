@@ -17,7 +17,7 @@ type FileInformation = {
 type ImageDto = {
   small: string,
   medium?: string,
-  large?: string,
+  big?: string,
   original: string,
   mimeType: string,
 }

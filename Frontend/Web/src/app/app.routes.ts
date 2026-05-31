@@ -19,6 +19,10 @@ export const routes: Routes = [
     component: ClothingManagementPage
   },
   {
+    path: 'outfit/:id',
+    component: OutfitPreviewPage
+  },
+  {
     path: 'testbed',
     component: TestBedPage,
     canMatch: [developmentToggleGuard]

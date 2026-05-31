@@ -7,6 +7,6 @@ public static class JsonSerializerConfigurations
 
     public static JsonSerializerOptions CaseInsensitive = new JsonSerializerOptions
     {
-        PropertyNameCaseInsensitive = true
+        PropertyNameCaseInsensitive = true,
     };
 }

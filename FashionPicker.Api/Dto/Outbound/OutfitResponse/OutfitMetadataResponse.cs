@@ -3,7 +3,7 @@ using FashionPicker.Api.Dto.Outbound.ClothingResponse;
 
 namespace FashionPicker.Api.Dto.Outbound.OutfitResponse;
 
-public record OutfitMetadataResponse(
+internal record OutfitMetadataResponse(
     List<string> Tags,
     List<string> Seasons,
     List<string> Colors,

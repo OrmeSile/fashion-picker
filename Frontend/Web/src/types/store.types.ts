@@ -1,7 +1,7 @@
 import {Signal} from '@angular/core';
 
 interface Store<TState, TStoreAction> {
-  state: Signal<TState>;
+  state: Signal<TState[]>;
   dispatch(action: TStoreAction): void;
 }
 

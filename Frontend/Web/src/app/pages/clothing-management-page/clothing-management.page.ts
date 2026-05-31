@@ -6,7 +6,7 @@ import {UUID} from '../../../types/shared.types';
 import {ClothingPreviewCard} from '../../components/clothing-management/clothing-preview-card/clothing-preview-card';
 import {ClothingStore} from '../../stores/clothing-store/clothing.store';
 import {ClothingApi} from '../../services/api/clothing-api/clothing-api';
-import {ClothingDto, LocalClothing} from '../../../types/clothing.types';
+import {LocalClothing} from '../../../types/clothing.types';
 
 @Component({
   selector: 'fp-clothing-management-page',

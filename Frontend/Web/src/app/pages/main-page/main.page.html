@@ -15,6 +15,7 @@
       }
     </div>
     <div
+      (click)="openOutfitEditor(outfit.id)"
       class="image-grid"
       [class.single-image-grid]="outfit.images.length === 1"
       [class.two-images-grid]="outfit.images.length === 2"
@@ -34,9 +35,9 @@
           }
           <img
             class="image"
-            srcset="{{image.small}} 225w, {{image.medium}} 450w, {{image.large}} 900w"
+            srcset="{{image.small}} 225w, {{image.medium}} 450w, {{image.big}} 900w"
             sizes="(width < 900px) 225px, (min-width: 900px) 450px, 900px"
-            src="{{image.large}}"
+            src="{{image.big}}"
             alt=""/>
         </div>
       }

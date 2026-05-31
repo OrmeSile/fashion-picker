@@ -54,14 +54,9 @@
           <input type="checkbox" id="{{clothingGroup[0]}}-checkbox" class="clothing-button"/>
           <p class="clothing-group-name">{{ clothingGroup[0] }}</p>
           <ul class="clothing-group-elements-container">
-            @if (clothingGroup[1]) {
+            @if (clothingGroup) {
               @for (clothing of clothingGroup[1]; track $index) {
-                <li class="clothing-element-container">
-                <label class="clothing-label" [for]="clothing[0]">
-                  <img alt="" class="clothing-image" [src]="getSmallImagePathForClothingId(clothing[0])"/>
-                </label>
-                <input class="clothing-checkbox" type="checkbox" [id]="clothing[0]" [formField]="clothing[1]"/>
-                </li>
+                <fp-clothing-checkbox-control [formField]="clothing.selected" [clothing]="clothing().value()"/>
               }
             }
           </ul>

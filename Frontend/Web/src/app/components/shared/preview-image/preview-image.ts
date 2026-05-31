@@ -1,4 +1,4 @@
-import {Component, input, output, signal} from '@angular/core';
+import {Component, input, output} from '@angular/core';
 
 @Component({
   selector: 'fp-preview-image',
@@ -12,8 +12,6 @@ export class PreviewImage {
   selected = input<boolean>(false);
   removeImage = output<void>();
   openImageDetails = output<void>();
-
-  protected isActive = signal(false);
 
   protected handleRemoveImage(event: MouseEvent) {
     event.stopPropagation();

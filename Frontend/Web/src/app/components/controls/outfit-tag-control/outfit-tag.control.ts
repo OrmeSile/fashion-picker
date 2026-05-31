@@ -41,7 +41,7 @@ export class OutfitTagControl implements FormValueControl<string>, AfterViewInit
     this.value.set(target.value);
   }
 
-  protected handleBlur(event: Event) {
+  protected handleBlur(_: Event) {
     if (this.disabled())
       return;
 

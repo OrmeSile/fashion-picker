@@ -7,7 +7,6 @@ import {Directive, output} from '@angular/core';
     '(dragover)': 'onDragOver($event)',
     '(dragenter)': 'onDragEnter($event)',
     '(dragleave)': 'onDragLeave($event)',
-    '(click)': 'onClick($event)'
   }
 })
 export class DragDroppable {
@@ -37,9 +36,5 @@ export class DragDroppable {
   onDragLeave(event: DragEvent){
     event.preventDefault();
     this.isDragOver.emit(false);
-  }
-
-  protected onClick($event: PointerEvent) {
-
   }
 }

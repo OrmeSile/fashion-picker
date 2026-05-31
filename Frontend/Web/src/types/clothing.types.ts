@@ -13,15 +13,11 @@ type LocalClothing = {
 
 type ClothingDto = Clothing & {}
 
-type OutfitClothingPostResponse = {
-  id: UUID;
-}
+type FormClothing = Clothing & {selected: boolean}
 
-type ClothingFormGroups = {
-  [key in ClothingType]: {[key: UUID]: boolean}
-}
-type ClothingType = "Top" | "Bottom" | "Shoes" | "Jewelry" | "FullBody";
+type ClothingFormGroups = {[key in ClothingType]: FormClothing[]};
 
-type ClothingGetAllResponse = { clothing: ClothingDto[] }
+type ClothingType = "Top" | "Bottom" | "Shoes" | "Jewelry" | "Fullbody";
 
-export type {Clothing, LocalClothing, ClothingDto, OutfitClothingPostResponse, ClothingGetAllResponse, ClothingFormGroups}
+export type {Clothing, LocalClothing, ClothingDto, FormClothing, ClothingFormGroups}
+

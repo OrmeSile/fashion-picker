@@ -1,9 +1,12 @@
-  @if (activeImage()) {
-    <fp-outfit-metadata-form
-      class="metadata-form"
-      (submitted)="handleSubmitted($event)"
-      [clothingInput]="clothingStore.state()"
-    />
+@if (!initialState())
+{
+  @if(activeImage()){
+  <fp-outfit-metadata-form
+    class="metadata-form"
+    (submitted)="handleSubmitted($event)"
+    [initialState]="initialState()"
+    [clothing]="clothingStore.state()"
+  />
   }
   <div class="panel center-panel" [class.active-selected]="activeImage()">
     @if (!fileHandler.files().length) {
@@ -16,3 +19,18 @@
       }
     }
   </div>
+}
+@else if (initialState())
+{
+  <fp-outfit-metadata-form
+    class="metadata-form"
+    (submitted)="handleSubmitted($event)"
+    [initialState]="initialState()"
+    [clothing]="clothingStore.state()"
+  />
+  <div class="panel center-panel" [class.active-selected]="activeImage()">
+    <div class="modal-container">
+      <img class="focused-image" src="{{initialState()!.images[0].big}}" alt=""/>
+    </div>
+  </div>
+}

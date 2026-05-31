@@ -26,15 +26,27 @@ public static class OutfitEndpoints
         private void MapOutfitEndpoints()
         {
             group.MapGet("/", GetAllOutfits);
+            group.MapGet("/{id:Guid}", GetOutfit);
             group.MapPost("/", CreateOutfit);
         }
     }
 
-    private static async Task<Results<Ok<OutfitGetResponse>, NotFound>> GetAllOutfits(IOutfitRepository outfitRepository)
+    private static async Task<Results<Ok<OutfitGetAllResponse>, NotFound>> GetAllOutfits(IOutfitRepository outfitRepository)
     {
         var outfits = await outfitRepository.GetAll();
         var outfitDtos = outfits.Select(outfit => outfit.ToDto()).ToList();
-        var response = new OutfitGetResponse(outfitDtos);
+        var response = new OutfitGetAllResponse(outfitDtos);
+        return TypedResults.Ok(response);
+    }
+
+    private static async Task<Results<Ok<OutfitGetResponse>, NotFound>> GetOutfit(IOutfitRepository outfitRepository, Guid id)
+    {
+        var outfit = await outfitRepository.GetById(id);
+        if(outfit == null)
+            return TypedResults.NotFound();
+
+        var outfitDto = outfit.ToDto();
+        var response = new OutfitGetResponse(outfitDto);
         return TypedResults.Ok(response);
     }
 
