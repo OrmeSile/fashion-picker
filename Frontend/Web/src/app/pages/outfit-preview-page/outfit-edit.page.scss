@@ -1,3 +1,5 @@
+@use "navbar-handling" as *;
+
 :host{
   display: grid;
   grid-template-columns: 1fr;
@@ -8,7 +10,7 @@
   @media screen and (pointer: fine) {
     grid-template-columns: minmax(auto, 30vw) minmax(auto, 3fr);
     grid-template-rows: 1fr;
-    height: 100%;
+    height: $content-box-height-minus-navbar;
   }
 }
 

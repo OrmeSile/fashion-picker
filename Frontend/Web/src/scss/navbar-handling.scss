@@ -1,0 +1,5 @@
+$navbar-desktop-link-height: 3rem;
+$navbar-desktop-padding-bottom: 0.5rem;
+$navbar-desktop-padding-top: 0.5rem;
+$navbar-desktop-height: calc($navbar-desktop-link-height + $navbar-desktop-padding-top + $navbar-desktop-padding-bottom);
+$content-box-height-minus-navbar: calc(100vh - $navbar-desktop-height);

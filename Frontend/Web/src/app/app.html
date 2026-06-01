@@ -1,9 +1,2 @@
-<nav>
-  <a routerLink="" routerLinkActive="router-active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-  <a routerLink="/add" routerLinkActive="router-active">Add outfit</a>
-  <a routerLink="/clothing" routerLinkActive="router-active">Manage clothing</a>
-  @if(!environment.production){
-    <a routerLink="/testbed" routerLinkActive="router-active">Testbed</a>
-  }
-</nav>
+<fp-navbar class="navbar"/>
 <router-outlet/>

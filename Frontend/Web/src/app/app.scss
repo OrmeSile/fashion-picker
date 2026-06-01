@@ -2,9 +2,20 @@
   display: flex;
   flex-flow: column nowrap;
   width: 100vw;
-  height: 100vh;
+  padding-bottom: 6rem;
+  height: auto;
+  min-height: 100vh;
+  @media screen and (pointer: fine){
+    padding-bottom: 0;
+  }
 }
 
-.router-active{
-  color: white;
+.navbar{
+  position: fixed;
+  z-index: 1000;
+  bottom: 1rem;
+  background: none;
+  @media screen and (pointer: fine) {
+    position: initial;
+  }
 }

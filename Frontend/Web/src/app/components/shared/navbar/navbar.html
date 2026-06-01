@@ -1,0 +1,14 @@
+<a class="nav-link" routerLink="" routerLinkActive="router-active" [routerLinkActiveOptions]="{exact: true}">
+  <div class="link-content">Home</div>
+</a>
+<a class="nav-link" routerLink="/add" routerLinkActive="router-active">
+  <div class="link-content">Add outfit</div>
+</a>
+<a class="nav-link" routerLink="/clothing" routerLinkActive="router-active">
+ <div class="link-content">Manage clothing</div>
+</a>
+@if (!environment.production) {
+  <a class="nav-link" routerLink="/testbed" routerLinkActive="router-active">
+    <div class="link-content">Testbed</div>
+  </a>
+}

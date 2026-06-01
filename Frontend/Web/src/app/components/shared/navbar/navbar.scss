@@ -1,0 +1,44 @@
+@use "navbar-handling" as *;
+
+:host{
+  background: #777;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.nav-link{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #CCC;
+  height: 4rem;
+  width: 4rem;
+  border: solid black 1px;
+  border-radius: 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: #333;
+  @media screen and (pointer: fine) {
+    height: 3rem;
+    width: auto;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    border: none;
+    box-sizing: border-box;
+  }
+}
+
+.nav-link:is(.router-active){
+  border: solid #77F 3px;
+  background: white;
+  color: black;
+  @media screen and (pointer: fine) {
+    border: none;
+  }
+}
+
+.link-content{
+text-align: center;
+}
