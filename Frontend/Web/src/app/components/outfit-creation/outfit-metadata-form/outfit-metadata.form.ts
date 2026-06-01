@@ -35,7 +35,6 @@ export class OutfitMetadataForm {
 
   clothingFormGroups = computed(() => {
     return this.formClothing()?.reduce<ClothingFormGroups>((prev: ClothingFormGroups, curr: FormClothing) => {
-      console.log(prev, curr);
         return ({
           ...prev,
           [curr.clothingType]: [...prev[curr.clothingType], {...curr, selected: false}]

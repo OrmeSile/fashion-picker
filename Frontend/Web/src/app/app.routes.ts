@@ -1,9 +1,9 @@
 import {Routes} from '@angular/router';
 import {MainPage} from './pages/main-page/main.page';
-import {OutfitPreviewPage} from './pages/outfit-preview-page/outfit-preview.page';
 import {ClothingManagementPage} from './pages/clothing-management-page/clothing-management.page';
 import {TestBedPage} from './pages/test-bed-page/test-bed.page';
 import {developmentToggleGuard} from './guards/development-toggle-guard';
+import {OutfitEditPage} from './pages/outfit-preview-page/outfit-edit.page';
 
 export const routes: Routes = [
   {
@@ -12,7 +12,7 @@ export const routes: Routes = [
   },
   {
     path: 'add',
-    component: OutfitPreviewPage
+    component: OutfitEditPage
   },
   {
     path: 'clothing',
@@ -20,7 +20,7 @@ export const routes: Routes = [
   },
   {
     path: 'outfit/:id',
-    component: OutfitPreviewPage
+    component: OutfitEditPage
   },
   {
     path: 'testbed',

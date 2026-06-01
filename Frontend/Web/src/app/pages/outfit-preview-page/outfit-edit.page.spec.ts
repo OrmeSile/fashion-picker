@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OutfitPreview } from './outfit-preview';
+import { OutfitEditPage } from './outfit-edit.page';
 
-describe('OutfitPreview', () => {
-  let component: OutfitPreview;
-  let fixture: ComponentFixture<OutfitPreview>;
+describe('OutfitEditPage', () => {
+  let component: OutfitEditPage;
+  let fixture: ComponentFixture<OutfitEditPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OutfitPreview],
+      imports: [OutfitEditPage],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(OutfitPreview);
+    fixture = TestBed.createComponent(OutfitEditPage);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

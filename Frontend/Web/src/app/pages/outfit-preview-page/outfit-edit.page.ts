@@ -8,22 +8,22 @@ import {OutfitApi} from '../../services/api/outfit-api/outfit-api';
 import {DropZone} from '../../components/shared/drop-zone/drop-zone';
 import {ClothingStore} from '../../stores/clothing-store/clothing.store';
 import {UUID} from '../../../types/shared.types';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
-  selector: 'fp-outfit-preview-page',
+  selector: 'fp-outfit-edit-page',
   imports: [
     DropZone,
     OutfitMetadataForm,
     DropZone
   ],
   providers: [FileHandler],
-  templateUrl: './outfit-preview.page.html',
-  styleUrl: './outfit-preview.page.scss',
+  templateUrl: './outfit-edit.page.html',
+  styleUrl: './outfit-edit.page.scss',
 })
-export class OutfitPreviewPage implements OnInit {
+export class OutfitEditPage implements OnInit {
 
-
+  private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private outfitId: UUID | undefined = this.activatedRoute.snapshot.params['id'];
 
@@ -78,8 +78,9 @@ export class OutfitPreviewPage implements OnInit {
     }
 
     this.outfitApi.uploadOutfit(outfit)
-      .subscribe(res => {
+      .subscribe(async res => {
           this.outfitStore.dispatch({type: 'ADD_OUTFIT', payload: res});
+          await this.router.navigate(['/']);
         }
       );
   }
