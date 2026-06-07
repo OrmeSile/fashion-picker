@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MainPage } from './main-page';
+import { MainPage } from './main.page';
 
 describe('MainPage', () => {
   let component: MainPage;
