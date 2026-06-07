@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SunIcon } from './sun.icon';
+import { EyeClosedIcon } from './eye-closed.icon';
 
-describe('SunIcon', () => {
-  let component: SunIcon;
-  let fixture: ComponentFixture<SunIcon>;
+describe('EyeClosedIcon', () => {
+  let component: EyeClosedIcon;
+  let fixture: ComponentFixture<EyeClosedIcon>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SunIcon],
+      imports: [EyeClosedIcon],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SunIcon);
+    fixture = TestBed.createComponent(EyeClosedIcon);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

@@ -1,0 +1,63 @@
+:host{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.form{
+  background: #777;
+  width: 100%;
+  border: solid #79F 1px;
+  border-radius: 1rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  flex-flow: column nowrap;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.form-line{
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.input-field{
+  height: 3rem;
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+  border: none;
+  padding: 0 1rem;
+  flex-grow: 1;
+}
+
+.password-container{
+  position: relative;
+  justify-content: space-between;
+}
+
+
+.password-visibility-toggle-input{
+  display: none;
+}
+
+.password-visibility-toggle-container{
+  position: absolute;
+  display: flex;
+  height: 100%;
+  flex-grow: 1;
+  aspect-ratio: 1;
+  right: 0;
+}
+
+.password-visibility-toggle-label{
+  color: #555;
+  position: absolute;
+  aspect-ratio: 1;
+  z-index: 1000;
+  padding: 0.5rem;
+}

@@ -1,0 +1,21 @@
+<form class="form" (submit)="handleSubmit($event)">
+  <div class="form-line username-container">
+    <input class="input-field" id="username" type="text" [formField]="loginForm.username" placeholder="username"/>
+  </div>
+  <div class="form-line password-container">
+    <input class="input-field" id="password" [formField]="loginForm.password" [type]="loginModel().isPasswordVisible ? 'text' : 'password'" placeholder="password"/>
+    <div class="password-visibility-toggle-container">
+      <label class="password-visibility-toggle-label" for="password-visibility-toggle">
+        @if(loginModel().isPasswordVisible){
+          <svg eye-closed/>
+        } @else {
+          <svg eye-open/>
+        }
+      </label>
+      <input type="checkbox" id="password-visibility-toggle" class="password-visibility-toggle-input" [formField]="loginForm.isPasswordVisible"/>
+    </div>
+  </div>
+  <div class="form-line submit-container">
+    <input type="submit"/>
+  </div>
+</form>
