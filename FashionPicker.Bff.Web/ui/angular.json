@@ -25,9 +25,7 @@
           "options": {
             "index": "src/index.html",
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/scss"
-              ]
+              "includePaths": ["src/scss"]
             },
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
@@ -38,12 +36,8 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "polyfills": [
-              "@angular/localize/init"
-            ]
+            "styles": ["src/styles.scss"],
+            "polyfills": ["@angular/localize/init"]
           },
           "configurations": {
             "production": {
@@ -82,10 +76,14 @@
               "buildTarget": "Web:build:production"
             },
             "development": {
-              "buildTarget": "Web:build:development"
+              "buildTarget": "Web:build:development",
+              "ssl": true,
+              "sslKey": "./certs/localhost.key",
+              "sslCert": "./certs/localhost.crt"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {}
         },
         "test": {
           "builder": "@ngx-env/builder:unit-test",

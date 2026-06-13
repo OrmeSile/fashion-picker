@@ -12,12 +12,10 @@
     <div class="link-content">Testbed</div>
   </a>
 }
-@if (!authenticated) {
-  <a class="nav-link" (click)="login()">
-    <div class="link-content">Login</div>
-  </a>
-} @else {
-  <a class="nav-link" (click)="logout()">
-    <div class="link-content">Logout</div>
-  </a>
-}
+<a class="nav-link" href="/.auth/Login">
+  <div class="link-content">Login</div>
+</a>
+
+<a class="nav-link" (click)="me()">
+  <div class="link-content">Me</div>
+</a>

@@ -94,8 +94,9 @@ public static class ClothingEndpoints
         {
             return TypedResults.BadRequest(e.Message);
         }
-        catch (IOException _)
+        catch (IOException e)
         {
+            _ = e;
             return TypedResults.InternalServerError();
         }
         catch (OperationCanceledException e)

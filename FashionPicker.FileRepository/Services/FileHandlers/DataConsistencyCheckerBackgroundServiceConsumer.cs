@@ -19,6 +19,7 @@ public class DataConsistencyCheckerBackgroundServiceConsumer: BackgroundService
 
     private Task ExecuteDataConsistencyCheck(ValueType stoppingToken)
     {
+        _ = stoppingToken;
         using var scope = Services.CreateScope();
         var dataConsistencyChecker = scope.ServiceProvider.GetRequiredService<IDataConsistencyChecker>();
 

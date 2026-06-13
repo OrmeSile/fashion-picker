@@ -1,0 +1,12 @@
+{
+  "/api/v1/**": {
+    "target": "https://localhost:5106"
+  },
+  "/public/**": {
+    "target": "https://localhost:5106"
+  },
+  "/.auth/**": {
+    "secure": false,
+    "target": "https://localhost:5106"
+  }
+}
