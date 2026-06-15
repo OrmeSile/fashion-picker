@@ -4,7 +4,7 @@ namespace FashionPicker.Core.Repositories;
 
 public interface IClothingRepository
 {
-    Task<List<Clothing>> GetAll();
-    Task<List<Clothing>> GetAllWithOutfits(string clothingId);
+    Task<List<Clothing>> GetAllForUser(Guid userId);
+    Task<List<Clothing>> GetAllForUserWithOutfits(Guid userId, string clothingId);
     Task<Clothing> AddClothing(Clothing clothing);
 }

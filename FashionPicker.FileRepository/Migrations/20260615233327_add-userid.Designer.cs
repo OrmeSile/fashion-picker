@@ -3,17 +3,20 @@ using System;
 using FashionPicker.FileRepository.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace FileRepository.Migrations
+namespace FashionPicker.FileRepository.Migrations
 {
     [DbContext(typeof(FileRepositoryDbContext))]
-    partial class FileRepositoryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260615233327_add-userid")]
+    partial class adduserid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

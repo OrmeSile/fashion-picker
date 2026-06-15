@@ -17,9 +17,10 @@ public class LocalCmsAdapter : ICmsAdapter
         httpClient.BaseAddress = new Uri(fileRepositoryUrl);
     }
 
-    public async Task<RepositoryFileInformation> UploadFileAsync(MultipartFormDataContent formDataContent)
+    public async Task<RepositoryFileInformation> UploadFileAsync(MultipartFormDataContent formDataContent, Guid userId)
     {
-        var res = await httpClient.PostAsync("upload", formDataContent);
+
+        var res = await httpClient.PostAsync($"upload?userId={userId}", formDataContent);
 
         var successfulResponse = res.EnsureSuccessStatusCode();
         if (!successfulResponse.IsSuccessStatusCode)
@@ -35,9 +36,9 @@ public class LocalCmsAdapter : ICmsAdapter
         }
     }
 
-    public async Task<IEnumerable<RepositoryFileInformation>?> GetAllFileInformationsAsync()
+    public async Task<IEnumerable<RepositoryFileInformation>?> GetAllFileInformationsAsync(Guid userId)
     {
-        using var res = await httpClient.GetAsync("", CancellationToken.None);
+        using var res = await httpClient.GetAsync("?userId={userId}", CancellationToken.None);
         if (!res.IsSuccessStatusCode) return null;
 
         var responseBody = await res.Content.ReadFromJsonAsync<FileUploadGetResponse>(CancellationToken.None);

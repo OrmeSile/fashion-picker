@@ -14,7 +14,7 @@ public class MultipartFileService(IFileStreamManager streamManager, FileReposito
     }
 
 
-    public async Task<List<RepositoryFileInformation>> SaveFiles(string boundary, Stream contentStream, CancellationToken cancellationToken)
+    public async Task<List<RepositoryFileInformation>> SaveFiles(string boundary, Stream contentStream, Guid userId, CancellationToken cancellationToken)
     {
         var reader = new MultipartReader(boundary, contentStream);
 
@@ -61,6 +61,7 @@ public class MultipartFileService(IFileStreamManager streamManager, FileReposito
                         {
                             var entity = await streamManager.SaveFile(tempStream, cancellationToken);
                             entity.LogicalFileName = metadata?.FileName;
+                            entity.UserId = userId;
                             repositoryFilesInformation.Add(entity);
                         }, cancellationToken));
                     }
@@ -78,6 +79,7 @@ public class MultipartFileService(IFileStreamManager streamManager, FileReposito
         {
             var lastEntity = await streamManager.SaveFile(ms, cancellationToken);
             lastEntity.LogicalFileName = fileMetadata?.FileName;
+            lastEntity.UserId = userId;
             repositoryFilesInformation.Add(lastEntity);
         }, cancellationToken));
 

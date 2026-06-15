@@ -55,7 +55,8 @@ public static class OutfitEndpoints
         HttpRequest request,
         HttpContext httpContext,
         ICmsAdapter cmsAdapter,
-        IOutfitRepository outfitRepository
+        IOutfitRepository outfitRepository,
+        [FromQuery]Guid userId
     )
     {
         if (!request.ContentType?.StartsWith("multipart/form-data") ?? true)
@@ -108,7 +109,7 @@ public static class OutfitEndpoints
 
         var metadata = await ParseInboundJsonMetadata(metadataStream, cancellationToken) ?? throw new InvalidOperationException("missing metadata");
 
-        var fileInformation = await cmsAdapter.UploadFileAsync(multipartFormData);
+        var fileInformation = await cmsAdapter.UploadFileAsync(multipartFormData, userId);
 
         var outfit = metadata.ToModel();
         outfit.AddImages(fileInformation);

@@ -6,6 +6,7 @@ namespace FashionPicker.FileRepository.Entities;
 public class RepositoryFileInformation : IPhysicalFile
 {
     public Guid Id { get; init; }
+    [MaxLength(36)] public Guid UserId { get; set; }
     [MaxLength(20)] public required string MimeType { get; init; }
     [MaxLength(100)] public required string PhysicalFileName { get; init; }
     [MaxLength(300)] public required string? LogicalFileName { get; set; }

@@ -3,6 +3,7 @@ using FashionPicker.FileRepository.Providers;
 using FashionPicker.FileRepository.Services;
 using FileRepository.Api;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 
 namespace FashionPicker.FileRepository.Endpoints;
@@ -27,7 +28,7 @@ public static class FileUploadEndpoints
         }
     }
 
-    private static async Task<Results<Ok<FileUploadUploadResponse>, BadRequest<string>>> Upload(HttpRequest request, MultipartFileService fileService, HttpContext httpContext)
+    private static async Task<Results<Ok<FileUploadUploadResponse>, BadRequest<string>>> Upload(HttpRequest request, MultipartFileService fileService, HttpContext httpContext, [FromQuery]Guid userId)
     {
         if (!request.ContentType?.StartsWith("multipart/form-data") ?? true)
             return TypedResults.BadRequest("the request does not contain multipart/form-data");
@@ -38,7 +39,7 @@ public static class FileUploadEndpoints
 
         var cancellationToken = httpContext.RequestAborted;
 
-        var repositoryFileInformation = await fileService.SaveFiles(boundary, request.Body, cancellationToken);
+        var repositoryFileInformation = await fileService.SaveFiles(boundary, request.Body, userId, cancellationToken);
 
         var response = new FileUploadUploadResponse(repositoryFileInformation.Select(f => f.ToDto()).ToList());
         return TypedResults.Ok(response);

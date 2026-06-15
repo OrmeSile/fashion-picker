@@ -3,6 +3,7 @@ namespace FashionPicker.Core.Objects;
 public class Clothing
 {
     public Guid Id { get; init; }
+    public Guid UserId { get; set; }
     public ClothingType Type { get; init; }
     public List<ClothingImage> Images { get; init; } = [];
     public List<Outfit> Outfits { get; init; } = [];
@@ -17,7 +18,6 @@ public class Clothing
             BigSizeUrl = fileInformation.PathBig,
             OriginalSizeUrl = fileInformation.PathOriginal
         };
-
         Images.Add(clothingImage);
     }
 }

@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using Fashionpicker.ApiGateway.ApiAuth;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -53,7 +52,7 @@ app.UseHttpLogging();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapGet("/.auth/me-bff", async (HttpContext httpContext) =>
+app.MapGet("/.auth/me-bff", async httpContext =>
 {
     var res = await httpContext.AuthenticateAsync(JwtBearerDefaults.AuthenticationScheme);
 }).AllowAnonymous();

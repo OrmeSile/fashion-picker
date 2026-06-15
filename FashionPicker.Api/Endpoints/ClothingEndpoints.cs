@@ -5,6 +5,7 @@ using FashionPicker.Api.Dto.Outbound.ClothingResponse;
 using FashionPicker.Core.Adapters;
 using FashionPicker.Core.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Net.Http.Headers;
 
@@ -29,11 +30,11 @@ public static class ClothingEndpoints
         }
     }
 
-    private static async Task<Results<Ok<ClothingGetAllResponse>, NotFound>> GetAllClothing(IClothingRepository clothingRepository)
+    private static async Task<Results<Ok<ClothingGetAllResponse>, NotFound>> GetAllClothing(IClothingRepository clothingRepository, [FromQuery] Guid userId)
     {
-        var clothing = await clothingRepository.GetAll();
-        var outfitDtos = clothing.Select(c => c.ToDto()).ToList();
-        var response = new ClothingGetAllResponse(outfitDtos);
+        var clothing = await clothingRepository.GetAllForUser(userId);
+        var outfitDtoList = clothing.Select(c => c.ToDto()).ToList();
+        var response = new ClothingGetAllResponse(outfitDtoList);
         return TypedResults.Ok(response);
     }
 
@@ -41,7 +42,8 @@ public static class ClothingEndpoints
         HttpRequest request,
         HttpContext httpContext,
         ICmsAdapter cmsAdapter,
-        IClothingRepository clothingRepository
+        IClothingRepository clothingRepository,
+        [FromQuery] Guid userId
     )
     {
         if (!request.ContentType?.StartsWith("multipart/form-data") ?? true)
@@ -106,10 +108,11 @@ public static class ClothingEndpoints
 
         var metadata = await ParseInboundJsonMetadata(metadataStream, cancellationToken) ?? throw new InvalidOperationException("missing metadata");
 
-        var fileInformation = await cmsAdapter.UploadFileAsync(multipartFormData);
+        var fileInformation = await cmsAdapter.UploadFileAsync(multipartFormData, userId);
 
         var clothing = metadata.ToModel();
         clothing.AddImages(fileInformation);
+        clothing.UserId = userId;
 
         var savedClothing = await clothingRepository.AddClothing(clothing);
 

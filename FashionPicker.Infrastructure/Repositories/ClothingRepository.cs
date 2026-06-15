@@ -7,16 +7,20 @@ namespace FashionPicker.Infrastructure.Repositories;
 
 public class ClothingRepository(OutfitDbContext outfitDbContext) : IClothingRepository
 {
-    public async Task<List<Clothing>> GetAll()
+    public async Task<List<Clothing>> GetAllForUser(Guid userId)
     {
         return await outfitDbContext.Clothing
             .Include(c => c.Images)
+            .Where(c => c.UserId == userId)
             .ToListAsync();
     }
 
-    public async Task<List<Clothing>> GetAllWithOutfits(string clothingId)
+    public async Task<List<Clothing>> GetAllForUserWithOutfits(Guid userId, string clothingId)
     {
-        return await outfitDbContext.Clothing.Include(c => c.Outfits).ToListAsync();
+        return await outfitDbContext.Clothing
+            .Include(c => c.Outfits)
+            .Where(c => c.UserId == userId)
+            .ToListAsync();
     }
 
     public async Task<Clothing> AddClothing(Clothing clothing)
