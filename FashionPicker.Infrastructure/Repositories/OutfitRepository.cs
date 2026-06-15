@@ -18,6 +18,18 @@ public class OutfitRepository(OutfitDbContext outfitContext) : IOutfitRepository
             .ToListAsync();
     }
 
+    public async Task<List<Outfit>> GetAllForUser(Guid userId)
+    {
+        return await outfitContext.Outfits
+            .Where(o => o.UserId == userId)
+            .Include(x => x.Tags)
+            .Include(x => x.Images)
+            .Include(x => x.Colors)
+            .Include(x => x.Seasons)
+            .Include(x => x.Clothing)
+            .ToListAsync();
+    }
+
     public async Task<Outfit?> GetById(Guid id)
     {
         return await outfitContext.Outfits

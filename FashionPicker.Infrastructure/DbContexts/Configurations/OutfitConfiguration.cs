@@ -10,6 +10,8 @@ internal class OutfitConfiguration : IEntityTypeConfiguration<Outfit>
     {
         builder.HasKey(x => x.Id);
 
+        builder.Property(x => x.UserId).IsRequired();
+
         builder.Property(x => x.Description).HasMaxLength(500);
         builder.Property(x => x.CreationDate).IsRequired();
         builder.Property(x => x.Mood).HasConversion<string>().IsRequired();
