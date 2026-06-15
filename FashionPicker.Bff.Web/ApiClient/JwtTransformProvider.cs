@@ -1,7 +1,5 @@
-using System.Net.Http.Headers;
 using Duende.AccessTokenManagement.OpenIdConnect;
 using Duende.IdentityModel.Client;
-using Microsoft.AspNetCore.Authentication;
 using Yarp.ReverseProxy.Transforms;
 using Yarp.ReverseProxy.Transforms.Builder;
 

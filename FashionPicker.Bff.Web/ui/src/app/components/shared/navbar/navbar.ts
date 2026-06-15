@@ -21,8 +21,4 @@ export class Navbar {
   protected readonly environment = environment;
   private readonly userStore = inject(UserStore);
   protected loggedIn = computed(() => this.userStore.isLoggedIn());
-  async meBff() {
-    const res = await fetch('.auth/me');
-
-  }
 }

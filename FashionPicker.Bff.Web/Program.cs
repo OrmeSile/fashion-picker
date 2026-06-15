@@ -111,7 +111,8 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();
-app.MapNotFound("/{**segment}");
+
+app.MapFallbackToPage("/_Host");
 
 app.MapGet("/.auth/me", async context =>
 {
@@ -132,6 +133,5 @@ if (app.Environment.IsDevelopment())
     if (!string.IsNullOrEmpty(uiDevServer)) app.MapReverseProxy();
 }
 
-app.MapFallbackToPage("/_Host");
 
 app.Run();
