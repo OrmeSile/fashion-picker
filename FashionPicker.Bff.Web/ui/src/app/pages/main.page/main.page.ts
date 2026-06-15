@@ -33,10 +33,7 @@ export class MainPage implements OnInit {
   outfits = signal<Outfit[]>([]);
 
   ngOnInit(): void {
-    this.authApi.getUserInformation()
-      .subscribe(res => this.userStore.dispatch({type: 'SET_USER', payload: res}));
-    this.outfitApi.getOutfits()
-      .subscribe(outfits => this.outfits.set(outfits));
+
   }
 
   protected openOutfitEditor(id: UUID) {
