@@ -6,6 +6,7 @@ using FashionPicker.Api.Dto.Outbound.OutfitResponse;
 using FashionPicker.Core.Adapters;
 using FashionPicker.Core.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Net.Http.Headers;
 
@@ -31,9 +32,9 @@ public static class OutfitEndpoints
         }
     }
 
-    private static async Task<Results<Ok<OutfitGetAllResponse>, NotFound>> GetAllOutfits(IOutfitRepository outfitRepository)
+    private static async Task<Results<Ok<OutfitGetAllResponse>, NotFound>> GetAllOutfits([FromQuery]Guid userId, IOutfitRepository outfitRepository)
     {
-        var outfits = await outfitRepository.GetAll();
+        var outfits = await outfitRepository.GetAllForUser(userId);
         var outfitDtos = outfits.Select(outfit => outfit.ToDto()).ToList();
         var response = new OutfitGetAllResponse(outfitDtos);
         return TypedResults.Ok(response);

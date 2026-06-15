@@ -1,6 +1,9 @@
+using System.Security.Claims;
+using Duende.AccessTokenManagement.OpenIdConnect;
 using FashionPicker.Bff.Web;
 using FashionPicker.Bff.Web.ApiClient;
 using FashionPicker.Bff.Web.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +35,6 @@ services.AddAntiforgery(options =>
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
-services.AddHttpClient();
 services.AddOptions();
 
 services.AddAuthentication(options =>
@@ -45,23 +47,31 @@ services.AddAuthentication(options =>
     {
         configuration.GetSection("OpenIdConnectConfiguration").Bind(options);
         options.Authority = configuration["OidcConfiguration:Authority"];
+
         options.ClientId = configuration["OidcConfiguration:ClientId"];
         options.ClientSecret = configuration["OidcConfiguration:ClientSecret"];
 
-        options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.Scope.Add(OpenIdConnectScope.OpenIdProfile);
-        options.Scope.Add(OpenIdConnectScope.OfflineAccess);
-
-
         options.ResponseType = OpenIdConnectResponseType.Code;
+        options.ResponseMode = OpenIdConnectResponseMode.Query;
+
+        options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+
+        options.Scope.Clear();
+        options.Scope.Add(OpenIdConnectScope.OpenIdProfile);
+        options.Scope.Add(OpenIdConnectScope.OpenId);
+        options.Scope.Add(OpenIdConnectScope.Email);
+
+        options.Scope.Add(OpenIdConnectScope.OfflineAccess);
 
         options.SaveTokens = true;
         options.GetClaimsFromUserInfoEndpoint = true;
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            NameClaimType = "name"
+            NameClaimType = "name",
+            RoleClaimType = "role"
         };
     });
+services.AddOpenIdConnectAccessTokenManagement();
 
 services.AddControllersWithViews(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
 
@@ -102,6 +112,19 @@ app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllers();
 app.MapNotFound("/{**segment}");
+
+app.MapGet("/.auth/me", async context =>
+{
+    var user = await context.AuthenticateAsync();
+    if (!user.Succeeded)
+    {
+        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        return;
+    }
+    context.Response.StatusCode = StatusCodes.Status200OK;
+    await context.Response.WriteAsJsonAsync(new{user.Principal.Identity?.Name});
+}).AllowAnonymous();
+
 
 if (app.Environment.IsDevelopment())
 {

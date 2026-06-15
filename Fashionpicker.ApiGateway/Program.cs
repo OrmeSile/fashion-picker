@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Fashionpicker.ApiGateway.ApiAuth;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
@@ -23,12 +24,9 @@ builder.Services
     .AddCors(options =>
     {
         options.AddPolicy(
-            name: corsPolicyName,
-            policy =>
-            {
-                policy.WithOrigins("http://localhost:5106").AllowAnyHeader().AllowAnyMethod();
-            }
-            );
+            corsPolicyName,
+            policy => { policy.WithOrigins("http://localhost:5106").AllowAnyHeader().AllowAnyMethod(); }
+        );
     })
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
@@ -37,29 +35,27 @@ builder.Services
         options.MetadataAddress = builder.Configuration.GetSection("IdentityProvider")["MetadataAddress"] ?? null!;
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuerSigningKey =  true,
+            ValidateIssuerSigningKey = true,
             ValidateIssuer = true,
             ValidIssuer = builder.Configuration.GetSection("IdentityProvider")["Issuer"],
             ValidateAudience = true,
-            ValidAudience = builder.Configuration.GetSection("IdentityProvider")["Audience"],
+            ValidAudience = builder.Configuration.GetSection("IdentityProvider")["Audience"]
         };
     });
-
-builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ApiGateway"));
+builder.Services.AddReverseProxy()
+    .LoadFromConfig(builder.Configuration.GetSection("ApiGateway"))
+    .AddTransforms<UserIdExtractorProvider>();
 
 var app = builder.Build();
 
 app.UseCors(corsPolicyName);
-
 app.UseHttpLogging();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapGet("/me", async context =>
+app.MapGet("/.auth/me-bff", async (HttpContext httpContext) =>
 {
-    var user = await context.AuthenticateAsync();
-    var claims = user.Principal?.Claims.ToList();
-    await context.Response.WriteAsJsonAsync(claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+    var res = await httpContext.AuthenticateAsync(JwtBearerDefaults.AuthenticationScheme);
 }).AllowAnonymous();
 app.MapReverseProxy();
 app.Run();
