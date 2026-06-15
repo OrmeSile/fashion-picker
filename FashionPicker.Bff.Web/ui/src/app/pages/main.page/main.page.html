@@ -1,3 +1,8 @@
+@if(userStore.state()){
+  <div class="username">Logged in as {{userStore.state()?.name}}</div>
+} @else{
+  <div>Logged out</div>
+}
 <main class="outfit-grid">
 @for (outfit of outfits(); track $index) {
   <div class="outfit-container">

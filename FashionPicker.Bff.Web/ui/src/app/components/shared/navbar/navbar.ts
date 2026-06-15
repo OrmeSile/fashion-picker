@@ -1,6 +1,7 @@
-import {Component } from '@angular/core';
+import {Component, computed, inject} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {environment} from '../../../../environments/environment';
+import {UserStore} from '../../../stores/user-store/user.store';
 
 @Component({
   selector: 'fp-navbar',
@@ -18,10 +19,10 @@ import {environment} from '../../../../environments/environment';
 
 export class Navbar {
   protected readonly environment = environment;
+  private readonly userStore = inject(UserStore);
+  protected loggedIn = computed(() => this.userStore.isLoggedIn());
+  async meBff() {
+    const res = await fetch('.auth/me');
 
-  protected async me(){
-    const res = await fetch("/me");
-    const json = await res.json();
-    console.log(json);
   }
 }

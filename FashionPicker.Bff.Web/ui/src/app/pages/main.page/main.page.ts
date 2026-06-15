@@ -8,6 +8,9 @@ import {Outfit} from '../../../types/outfit.types';
 import {OutfitApi} from '../../services/api/outfit-api/outfit-api';
 import {UUID} from '../../../types/shared.types';
 import {Router} from '@angular/router';
+import {AuthApi} from '../../services/api/auth-api/auth-api';
+import {UserStore} from '../../stores/user-store/user.store';
+import {User} from '../../../types/User.types';
 
 @Component({
   selector: 'fp-main-page',
@@ -24,11 +27,14 @@ import {Router} from '@angular/router';
 export class MainPage implements OnInit {
 
   private router = inject(Router);
-
+  private authApi = inject(AuthApi);
+  protected userStore = inject(UserStore);
   private outfitApi = inject(OutfitApi);
   outfits = signal<Outfit[]>([]);
 
   ngOnInit(): void {
+    this.authApi.getUserInformation()
+      .subscribe(res => this.userStore.dispatch({type: 'SET_USER', payload: res}));
     this.outfitApi.getOutfits()
       .subscribe(outfits => this.outfits.set(outfits));
   }

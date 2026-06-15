@@ -1,12 +1,11 @@
 import {Signal} from '@angular/core';
 
 interface Store<TState, TStoreAction> {
-  state: Signal<TState[]>;
+  state: Signal<TState | TState[] | undefined>;
   dispatch(action: TStoreAction): void;
 }
 
-
-interface StoreAction<TAction, TPayload> {
+interface StoreAction<TAction, TPayload = undefined> {
   type: TAction,
   payload: TPayload
 }

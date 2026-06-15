@@ -5,6 +5,7 @@
   height: auto;
   display: flex;
   justify-content: center;
+  flex-flow: column nowrap;
 }
 
 .outfit-grid {
@@ -129,3 +130,7 @@
   grid-row: span 2;
 }
 
+.username{
+  color: white;
+display: flex;
+}

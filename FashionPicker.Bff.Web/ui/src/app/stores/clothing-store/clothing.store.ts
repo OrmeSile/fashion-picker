@@ -32,11 +32,15 @@ export class ClothingStore implements Store<Clothing, ClothingStoreAction> {
     }
   }
 
-  #addClothing: StoreReducer<Clothing[], Clothing[]> = (state: Clothing[], payload: Clothing[]): Clothing[] => {
+  #addClothing: StoreReducer<Clothing[], Clothing[]> = (state: Clothing[], payload?: Clothing[]): Clothing[] => {
+    if(!payload)
+      return state;
     return [...state, ...payload];
   }
 
-  #removeClothing: StoreReducer<Clothing[], UUID> = (state: Clothing[], payload: UUID) => {
+  #removeClothing: StoreReducer<Clothing[], UUID> = (state: Clothing[], payload?: UUID) => {
+    if(!payload)
+      return state;
     return state.filter(clothing => clothing.id !== payload);
   };
 }

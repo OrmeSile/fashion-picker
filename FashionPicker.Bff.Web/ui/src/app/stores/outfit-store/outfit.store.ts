@@ -22,13 +22,19 @@ export class OutfitStore implements Store<Outfit, OutfitStoreAction> {
     }
   }
 
-  #addOutfit: StoreReducer<Outfit[], Outfit> = (state: Outfit[], payload: Outfit): Outfit[] => {
+  #addOutfit: StoreReducer<Outfit[], Outfit> = (state: Outfit[], payload?: Outfit | undefined): Outfit[] => {
+    if (!payload)
+      return state;
     return [...state, payload];
   }
-  #addOutfits: StoreReducer<Outfit[], Outfit[]> = (state: Outfit[], payload: Outfit[]): Outfit[] => {
+  #addOutfits: StoreReducer<Outfit[], Outfit[]> = (state: Outfit[], payload?: Outfit[] | undefined): Outfit[] => {
+    if(!payload)
+      return state;
     return [...state, ...payload];
   }
-  #updateOutfit:  StoreReducer<Outfit[], Outfit> = (state, payload) => {
+  #updateOutfit:  StoreReducer<Outfit[], Outfit> = (state: Outfit[], payload?: Outfit | undefined): Outfit[] => {
+    if(!payload)
+      return state;
     return state.map(outfit => outfit.id === payload.id ? payload : outfit);
   }
 }
