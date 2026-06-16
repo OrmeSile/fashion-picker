@@ -1,8 +1,7 @@
 import {Component, computed, inject, linkedSignal} from '@angular/core';
 import {DropZone} from '../../components/shared/drop-zone/drop-zone';
 import {FileHandler} from '../../services/file-handler/file-handler';
-import {ImageFile} from '../../../types/files.types';
-import {UUID} from '../../../types/shared.types';
+import {FileState, UUID} from '../../../types/shared.types';
 import {ClothingPreviewCard} from '../../components/clothing-management/clothing-preview-card/clothing-preview-card';
 import {ClothingStore} from '../../stores/clothing-store/clothing.store';
 import {ClothingApi} from '../../services/api/clothing-api/clothing-api';
@@ -55,4 +54,3 @@ export class ClothingManagementPage {
   }
 }
 
-type FileState = {file: ImageFile, loading: boolean, success: boolean};

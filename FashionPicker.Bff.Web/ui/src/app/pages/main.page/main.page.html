@@ -21,6 +21,8 @@
     </div>
     <div
       (click)="openOutfitEditor(outfit.id)"
+      (keydown)="openOutfitEditor(outfit.id)"
+      tabindex="0"
       class="image-grid"
       [class.single-image-grid]="outfit.images.length === 1"
       [class.two-images-grid]="outfit.images.length === 2"

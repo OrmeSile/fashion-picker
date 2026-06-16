@@ -1,5 +1,5 @@
 <input class="input" id="season-checkbox-{{label()}}" type="checkbox" [checked]="checked()"/>
-<label class="" [attr.data-season]="season()" [class.checked]="checked()" (click)="toggle()" for="season-checkbox-{{label()}}">
+<label tabindex="0" [attr.data-season]="season()" [class.checked]="checked()" (click)="toggle()" (keydown)="toggle()" for="season-checkbox-{{label()}}">
   @if (season() === 'spring') {
     <fp-spring-flower-icon class="beveled-button-img"/>
   } @else if (season() === 'summer') {

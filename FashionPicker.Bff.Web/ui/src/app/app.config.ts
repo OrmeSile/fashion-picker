@@ -1,4 +1,4 @@
-import {ApplicationConfig, CSP_NONCE, provideBrowserGlobalErrorListeners, provideZoneChangeDetection} from '@angular/core';
+import {ApplicationConfig, CSP_NONCE, provideBrowserGlobalErrorListeners} from '@angular/core';
 import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';

@@ -1,6 +1,6 @@
 <div class="container">
   <img src="{{imageUrl()}}" alt="" class="vignette">
-  <div (click)="handleOpenImageDetails($event)" class="interaction-overlay">
+  <div tabindex="0" (click)="handleOpenImageDetails($event)" (keydown)="handleOpenImageDetails($event)" class="interaction-overlay">
     <button class="button-remove" (click)="handleRemoveImage($event)">
       <svg
         class="cross"

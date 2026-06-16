@@ -18,7 +18,7 @@ export class PreviewImage {
     this.removeImage.emit();
   }
 
-  protected handleOpenImageDetails(event: MouseEvent) {
+  protected handleOpenImageDetails(event: Event) {
     event.stopPropagation();
     this.openImageDetails.emit();
   }

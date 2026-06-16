@@ -1,5 +1,5 @@
 <li class="clothing-element-container">
-  <label class="clothing-label" [for]="clothing().id" (click)="toggle()">
+  <label class="clothing-label" [for]="clothing().id" tabindex="-1" (click)="toggle()" (keydown)="toggle()">
     <img alt="" class="clothing-image" [src]="clothing().images[0].small"/>
   </label>
   <input class="clothing-checkbox" [checked]="checked()" type="checkbox" [id]="clothing().id"/>

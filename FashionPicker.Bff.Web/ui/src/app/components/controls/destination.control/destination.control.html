@@ -1,4 +1,4 @@
 <input class="input" id="destination-checkbox-{{label()}}" type="checkbox" [checked]="checked()"/>
-<label class="label" [class.checked]="checked()" (click)="toggle()" for="season-checkbox-{{label()}}">
+<label tabindex="0" class="label" [class.checked]="checked()" (click)="toggle()" (keydown)="toggle()" for="season-checkbox-{{label()}}">
   {{label()}}
 </label>

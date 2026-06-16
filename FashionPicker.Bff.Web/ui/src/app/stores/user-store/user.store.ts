@@ -1,4 +1,4 @@
-import {computed, Injectable, signal, Signal} from '@angular/core';
+import {computed, Injectable, signal} from '@angular/core';
 import {Store} from '../../../types/store.types';
 import {UserStoreAction} from '../../../types/store-actions.types';
 

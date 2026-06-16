@@ -13,7 +13,7 @@ import {FormClothing} from '../../../../types/clothing.types';
 export class ClothingCheckboxControl implements FormCheckboxControl, OnInit {
 
   ngOnInit(): void {
-    this.checked.update(_ => this.clothing().selected);
+    this.checked.update(() => this.clothing().selected);
   }
 
   readonly clothing = input.required<FormClothing>();
@@ -22,4 +22,6 @@ export class ClothingCheckboxControl implements FormCheckboxControl, OnInit {
   toggle(){
     this.checked.update((val) => !val);
   }
+
+  protected readonly onkeydown = onkeydown;
 }

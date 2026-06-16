@@ -76,7 +76,7 @@ export class OutfitMetadataForm {
 
       const seasons = this.emptyStateWithClothingGroups().seasons;
 
-      for (let season of outfit.seasons)
+      for (const season of outfit.seasons)
         seasons[season] = true;
 
       const clothingGroups = this.emptyStateWithClothingGroups().clothingGroups;

@@ -1,13 +1,11 @@
 import {UUID} from './shared.types';
 
-type TechnicalOutfitMetadata = {
+interface TechnicalOutfitMetadata {
   id: UUID,
   fileUrl: string
-};
-
-type CustomisableOutfitMetadata = {
-  [key: string]: string[]
 }
+
+type CustomisableOutfitMetadata = Record<string, string[]>;
 
 type OutfitMetadata = TechnicalOutfitMetadata & CustomisableOutfitMetadata;
 

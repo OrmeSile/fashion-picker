@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {OutfitTagControl} from '../../components/controls/outfit-tag-control/outfit-tag.control';
 import {SnowflakeIcon} from '../../components/icons/snowflake.icon/snowflake.icon';
 import {SummerSunImageIcon} from '../../components/icons/summer-sun-image.icon/summer-sun-image.icon';
@@ -10,7 +10,6 @@ import {UUID} from '../../../types/shared.types';
 import {Router} from '@angular/router';
 import {AuthApi} from '../../services/api/auth-api/auth-api';
 import {UserStore} from '../../stores/user-store/user.store';
-import {User} from '../../../types/User.types';
 
 @Component({
   selector: 'fp-main-page',
@@ -24,17 +23,13 @@ import {User} from '../../../types/User.types';
   templateUrl: './main.page.html',
   styleUrl: './main.page.scss',
 })
-export class MainPage implements OnInit {
+export class MainPage {
 
   private router = inject(Router);
   private authApi = inject(AuthApi);
   protected userStore = inject(UserStore);
   private outfitApi = inject(OutfitApi);
   outfits = signal<Outfit[]>([]);
-
-  ngOnInit(): void {
-
-  }
 
   protected openOutfitEditor(id: UUID) {
     void this.router.navigate(['/outfit', id]);

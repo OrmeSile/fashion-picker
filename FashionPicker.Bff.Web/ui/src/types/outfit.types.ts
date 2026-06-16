@@ -1,8 +1,8 @@
 import {ImageDto, UUID} from './shared.types';
 import {ImageFile} from './files.types';
-import {Clothing, ClothingDto, ClothingFormGroups} from './clothing.types';
+import {ClothingDto, ClothingFormGroups} from './clothing.types';
 
-type LocalOutfit = {
+interface LocalOutfit {
   id?: UUID,
   seasons?: SeasonsFormSelector,
   images: ImageFile[],
@@ -11,9 +11,9 @@ type LocalOutfit = {
   mood: Mood,
   sport: boolean,
   clothing: UUID[]
-};
+}
 
-type Outfit = {
+interface Outfit {
   tags: string[],
   seasons: Season[],
   colors: string[],
@@ -24,7 +24,7 @@ type Outfit = {
   clothing: ClothingDto[],
 }
 
-type OutfitDTO = {
+interface OutfitDTO {
   id?: UUID,
   seasons?: string[],
   colors?: string[],
@@ -32,10 +32,10 @@ type OutfitDTO = {
   mood: Mood,
   sport: boolean,
   clothing: UUID[]
-};
+}
 
 
-type OutfitMetadataFormData = {
+interface OutfitMetadataFormData {
   seasons: SeasonsFormSelector;
   tags: FormTag[];
   colors: FormTag[];
@@ -44,7 +44,7 @@ type OutfitMetadataFormData = {
   clothingGroups: ClothingFormGroups;
 }
 
-type FormTag = {
+interface FormTag {
   id: UUID;
   value: string;
 }
@@ -53,14 +53,10 @@ type Mood = 'low' | 'medium' | 'high';
 
 type Season = 'spring' | 'summer' | 'autumn' | 'winter';
 
-type SeasonsFormSelector = {
-  [TSeason in Season]: boolean;
-};
+type SeasonsFormSelector = Record<Season, boolean>;
 
 type OutfitDestination = 'sport';
 
-type OutfitDestinationFormSelector = {
-  [TOutfitDestination in OutfitDestination]: boolean;
-}
+type OutfitDestinationFormSelector = Record<OutfitDestination, boolean>
 
 export type {Outfit, LocalOutfit, OutfitDTO, OutfitMetadataFormData, FormTag, Season, Mood };

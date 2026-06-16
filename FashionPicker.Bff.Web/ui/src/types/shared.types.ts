@@ -1,8 +1,8 @@
-import {WritableSignal} from '@angular/core';
+import {ImageFile} from './files.types';
 
 type UUID = ReturnType<typeof crypto.randomUUID>;
 
-type FileInformation = {
+interface FileInformation {
   physicalFileName: string;
   logicalfileName: string;
   pathSmall: string;
@@ -14,11 +14,18 @@ type FileInformation = {
   extension: string;
 }
 
-type ImageDto = {
+interface ImageDto {
   small: string,
   medium?: string,
   big?: string,
   original: string,
   mimeType: string,
 }
-export type {UUID, FileInformation, ImageDto };
+
+interface FileState {
+  file: ImageFile,
+  loading: boolean,
+  success: boolean
+}
+
+export type {UUID, FileInformation, ImageDto, FileState};
