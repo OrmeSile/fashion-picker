@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using Duende.AccessTokenManagement.OpenIdConnect;
 using FashionPicker.Bff.Web;
 using FashionPicker.Bff.Web.ApiClient;
