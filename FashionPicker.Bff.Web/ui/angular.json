@@ -24,6 +24,10 @@
         "build": {
           "builder": "@ngx-env/builder:application",
           "options": {
+            "outputPath": {
+              "base": "../wwwroot",
+              "browser": ""
+            },
             "index": "src/index.html",
             "stylePreprocessorOptions": {
               "includePaths": ["src/scss"]

@@ -28,7 +28,7 @@ public static class StaticFileRepositoryOptionsManager
         return app.UseStaticFiles(provider);
     }
 
-    /// <summaryd
+    /// <summary>
     /// Creates the necessary directory structure for the static file repository if it does not already exist.
     /// </summary>
     /// <param name="builder">The WebApplicationBuilder instance used to configure services.</param>

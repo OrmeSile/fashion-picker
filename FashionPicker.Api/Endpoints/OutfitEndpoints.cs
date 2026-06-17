@@ -12,7 +12,7 @@ using Microsoft.Net.Http.Headers;
 
 namespace FashionPicker.Api.Endpoints;
 
-public static class OutfitEndpoints
+public static class  OutfitEndpoints
 {
     extension(WebApplication app)
     {
@@ -112,6 +112,7 @@ public static class OutfitEndpoints
         var fileInformation = await cmsAdapter.UploadFileAsync(multipartFormData, userId);
 
         var outfit = metadata.ToModel();
+        outfit.UserId =  userId;
         outfit.AddImages(fileInformation);
 
         var savedOutfit = await outfitRepository.AddOutfit(outfit);

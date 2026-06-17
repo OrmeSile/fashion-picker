@@ -4,12 +4,10 @@ import {MainPage} from './pages/main.page/main.page';
 import {OutfitEditPage} from './pages/outfit-preview.page/outfit-edit.page';
 import {ClothingManagementPage} from './pages/clothing-management.page/clothing-management.page';
 import {TestBedPage} from './pages/test-bed.page/test-bed.page';
-import {LoginPage} from './pages/login.page/login.page';
 import {NotFoundPage} from './pages/not-found.page/not-found.page';
 
 export const routes: Routes = [
   {path: '', component: MainPage},
-  {path: 'login', component: LoginPage},
   {path: 'add', component: OutfitEditPage},
   {path: 'clothing', component: ClothingManagementPage},
   {path: 'outfit/:id', component: OutfitEditPage},

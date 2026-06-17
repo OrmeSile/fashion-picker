@@ -3,7 +3,7 @@ namespace FashionPicker.Core.Objects;
 public class Outfit
 {
     public Guid Id { get; init; }
-    public Guid UserId { get; init; }
+    public Guid UserId { get; set; }
     public required List<OutfitTag> Tags { get; init; } = [];
     public required DateTime CreationDate { get; init; }
     public string? Description { get; init; }

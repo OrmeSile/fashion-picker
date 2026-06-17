@@ -22,7 +22,7 @@ var stsServer = configuration["OidcConfiguration:Authority"];
 
 services.AddSecurityHeaderPolicies()
     .SetPolicySelector(ctx =>
-        ctx.HttpContext.Request.Path.StartsWithSegments("/api")
+        ctx.HttpContext.Request.Path.StartsWithSegments("/api/v1")
             ? ApiSecurityHeadersDefinitions.GetHeaderPolicyCollection(builder.Environment.IsDevelopment())
             : SecurityHeadersDefinitions.GetHeaderPolicyCollection(builder.Environment.IsDevelopment(), stsServer));
 
@@ -131,6 +131,8 @@ if (app.Environment.IsDevelopment())
     var uiDevServer = app.Configuration.GetValue<string>("AngularDevServerUrl");
     if (!string.IsNullOrEmpty(uiDevServer)) app.MapReverseProxy();
 }
+else
+    app.MapReverseProxy();
 
 
 app.Run();

@@ -42,9 +42,9 @@
           }
           <img
             class="image"
-            srcset="{{image.small}} 225w, {{image.medium}} 450w, {{image.big}} 900w"
+            srcset="{{image.small}} 225w, {{image.medium ?? image.small}} 450w, {{image.big ?? image.medium ?? image.small}} 900w"
             sizes="(width < 900px) 225px, (min-width: 900px) 450px, 900px"
-            src="{{image.big}}"
+            src="{{image.original}}"
             alt=""/>
         </div>
       }

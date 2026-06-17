@@ -28,6 +28,9 @@
       </Content>
       <Content Include="Pages\.auth\Logout.cshtml" />
       <Content Include="Pages\.auth\SignedOut.cshtml" />
+      <Content Update="wwwroot\Web\prerendered-routes.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
@@ -37,6 +40,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ui\src\app\stores\user-store\" />
+      <Folder Include="ui\dist\"/>
     </ItemGroup>
 </Project>

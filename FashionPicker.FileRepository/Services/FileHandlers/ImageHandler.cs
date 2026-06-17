@@ -48,8 +48,8 @@ public class ImageHandler : IFileHandler
             LogicalFileName = null,
             Tags = [],
             PathSmall = fileNames[ImageSize.Small].FileUrl,
-            PathMedium = fileNames[ImageSize.Medium].FileUrl,
-            PathBig = fileNames[ImageSize.Large].FileUrl,
+            PathMedium = fileNames.GetValueOrDefault(ImageSize.Medium).FileUrl,
+            PathBig = fileNames.GetValueOrDefault(ImageSize.Large).FileUrl,
             PathOriginal = fileNames[ImageSize.Original].FileUrl
         };
         return repoFileInfo;
@@ -62,26 +62,37 @@ public class ImageHandler : IFileHandler
         var saveLocationFolder = Path.Combine(absoluteBasePath, _staticFileOptions.Value.SaveLocation, fileName);
 
         Directory.CreateDirectory(saveLocationFolder);
-        var fileNames = Enum.GetValues<ImageSize>().Select(size =>
-        {
-            var (fullFileName, filePath, fileUrl) = GenerateFileInformation(size, fileName, extension, saveLocationFolder);
-            return (size, fullFileName, filePath, fileUrl);
-        }).ToDictionary(k => k.size, v => (v.fullFileName, v.filePath, v.fileUrl));
 
         var resizedImages = _imageOptimizer.ResizeImage(originalImage);
 
+        var fileNames = new Dictionary<ImageSize, (string FullFileName, string FilePath, string FileUrl)>();
+
         var writeOperations = new Dictionary<ImageSize, (byte[] Data, string Path)>();
 
-        writeOperations[ImageSize.Original] = (resizedImages.Original, fileNames[ImageSize.Original].filePath);
+        var (originalFullFileName, originalFilePath, originalFileUrl) = GenerateFileInformation(ImageSize.Original, fileName, extension, saveLocationFolder);
+        fileNames[ImageSize.Original] = (originalFullFileName, originalFilePath, originalFileUrl);
+        writeOperations[ImageSize.Original] = (resizedImages.Original, originalFilePath);
 
         if (resizedImages.Small != null)
-            writeOperations[ImageSize.Small] = (resizedImages.Small, fileNames[ImageSize.Small].filePath);
+        {
+            var (fullFileName, filePath, fileUrl) = GenerateFileInformation(ImageSize.Small, fileName, extension, saveLocationFolder);
+            fileNames[ImageSize.Small] = (fullFileName, filePath, fileUrl);
+            writeOperations[ImageSize.Small] = (resizedImages.Small, filePath);
+        }
 
         if (resizedImages.Medium != null)
-            writeOperations[ImageSize.Medium] = (resizedImages.Medium, fileNames[ImageSize.Medium].filePath);
+        {
+            var (fullFileName, filePath, fileUrl) = GenerateFileInformation(ImageSize.Medium, fileName, extension, saveLocationFolder);
+            fileNames[ImageSize.Medium] = (fullFileName, filePath, fileUrl);
+            writeOperations[ImageSize.Medium] = (resizedImages.Medium, filePath);
+        }
 
         if (resizedImages.Big != null)
-            writeOperations[ImageSize.Large] = (resizedImages.Big, fileNames[ImageSize.Large].filePath);
+        {
+            var (fullFileName, filePath, fileUrl) = GenerateFileInformation(ImageSize.Large, fileName, extension, saveLocationFolder);
+            fileNames[ImageSize.Large] = (fullFileName, filePath, fileUrl);
+            writeOperations[ImageSize.Large] = (resizedImages.Big, filePath);
+        }
 
         return (writeOperations, fileNames);
     }

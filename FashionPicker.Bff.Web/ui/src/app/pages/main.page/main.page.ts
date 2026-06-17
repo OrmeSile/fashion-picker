@@ -1,4 +1,4 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {OutfitTagControl} from '../../components/controls/outfit-tag-control/outfit-tag.control';
 import {SnowflakeIcon} from '../../components/icons/snowflake.icon/snowflake.icon';
 import {SummerSunImageIcon} from '../../components/icons/summer-sun-image.icon/summer-sun-image.icon';
@@ -8,7 +8,6 @@ import {Outfit} from '../../../types/outfit.types';
 import {OutfitApi} from '../../services/api/outfit-api/outfit-api';
 import {UUID} from '../../../types/shared.types';
 import {Router} from '@angular/router';
-import {AuthApi} from '../../services/api/auth-api/auth-api';
 import {UserStore} from '../../stores/user-store/user.store';
 
 @Component({
@@ -23,15 +22,18 @@ import {UserStore} from '../../stores/user-store/user.store';
   templateUrl: './main.page.html',
   styleUrl: './main.page.scss',
 })
-export class MainPage {
+export class MainPage implements OnInit {
 
   private router = inject(Router);
-  private authApi = inject(AuthApi);
   protected userStore = inject(UserStore);
   private outfitApi = inject(OutfitApi);
   outfits = signal<Outfit[]>([]);
 
   protected openOutfitEditor(id: UUID) {
     void this.router.navigate(['/outfit', id]);
+  }
+
+  ngOnInit(): void {
+    this.outfitApi.getOutfits().subscribe(outfits => {this.outfits.set(outfits);});
   }
 }

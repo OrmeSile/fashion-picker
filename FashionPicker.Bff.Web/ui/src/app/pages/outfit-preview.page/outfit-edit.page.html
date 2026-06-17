@@ -30,7 +30,7 @@
   />
   <div class="panel center-panel" [class.active-selected]="activeImage()">
     <div class="modal-container">
-      <img class="focused-image" src="{{initialState()!.images[0].big}}" alt=""/>
+      <img class="focused-image" src="{{initialState()!.images[0].big ?? initialState()!.images[0].original}}" alt=""/>
     </div>
   </div>
 }

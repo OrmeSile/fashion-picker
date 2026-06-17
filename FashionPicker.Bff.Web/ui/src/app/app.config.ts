@@ -2,8 +2,7 @@ import {ApplicationConfig, CSP_NONCE, provideBrowserGlobalErrorListeners} from '
 import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
-import {provideHttpClient, withFetch, withInterceptors} from '@angular/common/http';
-import {secureApiInterceptor} from './secure-api.interceptor';
+import {provideHttpClient, withFetch} from '@angular/common/http';
 
 const nonce = (
   document.querySelector('meta[name="CSP_NONCE"]') as HTMLMetaElement
@@ -11,7 +10,7 @@ const nonce = (
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(withFetch(), withInterceptors([secureApiInterceptor])),
+    provideHttpClient(withFetch()),
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     {provide: CSP_NONCE, useValue: nonce},
