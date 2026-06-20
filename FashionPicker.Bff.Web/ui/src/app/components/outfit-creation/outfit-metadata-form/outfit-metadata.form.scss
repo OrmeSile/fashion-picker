@@ -46,7 +46,6 @@
 }
 
 .tag-cloud, .color-cloud {
-  justify-content: center;
   display: flex;
   flex-flow: row wrap;
   row-gap: 0.5rem;
@@ -55,7 +54,7 @@
 }
 
 .add-button {
-  --base-beveled-button-color: #ccc;
+  --base-beveled-button-color: #fd8db9;
   background-size: 4rem;
   border-radius: 2rem;
   padding: 0 1rem;

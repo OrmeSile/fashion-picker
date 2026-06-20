@@ -41,5 +41,16 @@
 
     <ItemGroup>
       <Folder Include="ui\dist\"/>
+      <Folder Include="wwwroot\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\icons\angry-eyes.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\icons\blinking-eyes.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\icons\bouton-automne.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\icons\bouton-ete.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\icons\bouton-hiver.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\icons\bouton-printemps.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\icons\normal-eyes.png" />
     </ItemGroup>
 </Project>

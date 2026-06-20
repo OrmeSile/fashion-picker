@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, input, model, output, viewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, input, model, output, signal, viewChild} from '@angular/core';
 import {FormValueControl} from '@angular/forms/signals';
 import {FocusOptions} from '@angular/cdk/a11y';
 
@@ -12,7 +12,9 @@ import {FocusOptions} from '@angular/cdk/a11y';
 export class OutfitTagControl implements FormValueControl<string>, AfterViewInit {
 
   value = model('');
-  readonly inputElementRef = viewChild<ElementRef<HTMLInputElement>>('focusTarget');
+  readonly inputElementRef = viewChild.required<ElementRef<HTMLInputElement>>('focusTarget');
+  readonly spanElementRef = viewChild.required<ElementRef<HTMLSpanElement>>('sizingSpan');
+  readonly sizingSpanWidth = signal(0);
   readonly disabled = input<boolean>(false);
 
   readonly deleteCalled = output<void>();
@@ -33,12 +35,13 @@ export class OutfitTagControl implements FormValueControl<string>, AfterViewInit
   }
 
   protected handleInput(event: Event) {
-    if (this.disabled()) {
+    if (this.disabled())
       return;
-    }
 
     const target = event.target as HTMLInputElement;
     this.value.set(target.value);
+    const {width} = this.spanElementRef().nativeElement.getBoundingClientRect();
+    this.sizingSpanWidth.set(width + 20);
   }
 
   protected handleBlur() {

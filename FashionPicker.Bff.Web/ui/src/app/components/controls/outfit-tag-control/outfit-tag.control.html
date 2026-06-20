@@ -6,10 +6,12 @@
   type="text"
   [value]="value()"
   (input)="handleInput($event)"
+  [style.width]="`${sizingSpanWidth()}px`"
   (keydown.enter)="handleKeydownEnter($event)"
   (keydown.escape)="handleKeydownEscape($event)"
   (blur)="handleBlur()"
 />
+<span #sizingSpan class="sizing-span">{{value()}}</span>
 @if (!disabled()) {
   <div class="actions-container">
     <div
