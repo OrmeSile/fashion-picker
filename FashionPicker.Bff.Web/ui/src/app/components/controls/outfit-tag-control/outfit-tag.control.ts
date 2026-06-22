@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, input, model, output, signal, viewChild} from '@angular/core';
+import {AfterViewInit, Component, computed, ElementRef, input, linkedSignal, model, output, viewChild} from '@angular/core';
 import {FormValueControl} from '@angular/forms/signals';
 import {FocusOptions} from '@angular/cdk/a11y';
 
@@ -14,7 +14,17 @@ export class OutfitTagControl implements FormValueControl<string>, AfterViewInit
   value = model('');
   readonly inputElementRef = viewChild.required<ElementRef<HTMLInputElement>>('focusTarget');
   readonly spanElementRef = viewChild.required<ElementRef<HTMLSpanElement>>('sizingSpan');
-  readonly sizingSpanWidth = signal(0);
+
+  private readonly spanBoundingRectWidth = linkedSignal({
+    source: this.value,
+    computation: () => this.spanElementRef()
+      .nativeElement
+      .getBoundingClientRect().width
+  });
+
+
+  readonly sizingSpanWidth = computed(() => this.spanBoundingRectWidth() + 20);
+
   readonly disabled = input<boolean>(false);
 
   readonly deleteCalled = output<void>();
@@ -22,6 +32,9 @@ export class OutfitTagControl implements FormValueControl<string>, AfterViewInit
   readonly editFinished = output<void>();
 
   ngAfterViewInit(): void {
+    this.spanBoundingRectWidth.set(this.spanElementRef()
+      .nativeElement
+      .getBoundingClientRect().width);
     if (this.disabled())
       return;
 
@@ -40,8 +53,6 @@ export class OutfitTagControl implements FormValueControl<string>, AfterViewInit
 
     const target = event.target as HTMLInputElement;
     this.value.set(target.value);
-    const {width} = this.spanElementRef().nativeElement.getBoundingClientRect();
-    this.sizingSpanWidth.set(width + 20);
   }
 
   protected handleBlur() {
