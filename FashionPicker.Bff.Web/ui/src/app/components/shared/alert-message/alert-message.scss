@@ -1,0 +1,13 @@
+:host{
+  background: #FAA;
+  width: 20rem;
+  display: flex;
+}
+
+.alert-message-text{
+  flex: 1;
+}
+
+.alert-close{
+  flex: 0;
+}
