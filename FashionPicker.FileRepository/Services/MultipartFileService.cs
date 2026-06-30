@@ -7,18 +7,10 @@ namespace FashionPicker.FileRepository.Services;
 
 public class MultipartFileService(IFileStreamManager streamManager, FileRepositoryDbContext dbContext)
 {
-    public async Task<RepositoryFileInformation> SaveFile(Stream stream, CancellationToken cancellationToken)
-    {
-        var res = await streamManager.SaveFile(stream, cancellationToken);
-        return res;
-    }
-
-
     public async Task<List<RepositoryFileInformation>> SaveFiles(string boundary, Stream contentStream, Guid userId, CancellationToken cancellationToken)
     {
         var reader = new MultipartReader(boundary, contentStream);
 
-        FileMetadata? fileMetadata = null;
 
         var ms = new MemoryStream();
         string? currentFileName = null;
@@ -35,42 +27,31 @@ public class MultipartFileService(IFileStreamManager streamManager, FileReposito
             if (!MediaTypeHeaderValue.TryParse(section.ContentType, out var sectionType))
                 throw new InvalidOperationException("Invalid content type in section " + section.ContentType);
 
-            if (sectionType.MediaType == "application/json")
+            if (contentDisposition.Name != currentFileName)
             {
-                var metadata = await ParseJsonMetadata(section.Body, cancellationToken);
-
-                fileMetadata ??= metadata ?? throw new InvalidOperationException("missing metadata.");
-            }
-            else
-            {
-                if (contentDisposition.Name != currentFileName)
+                if (currentFileName != null)
                 {
-                    if (currentFileName != null)
+                    var tempStream = new MemoryStream();
+
+                    ms.Position = 0;
+                    await ms.CopyToAsync(tempStream, cancellationToken);
+                    tempStream.Position = 0;
+
+                    await ms.FlushAsync(cancellationToken);
+                    ms.Position = 0;
+
+                    tasks.Add(Task.Run(async () =>
                     {
-                        var metadata = fileMetadata;
-                        var tempStream = new MemoryStream();
-
-                        ms.Position = 0;
-                        await ms.CopyToAsync(tempStream, cancellationToken);
-                        tempStream.Position = 0;
-
-                        await ms.FlushAsync(cancellationToken);
-                        ms.Position = 0;
-
-                        tasks.Add(Task.Run(async () =>
-                        {
-                            var entity = await streamManager.SaveFile(tempStream, cancellationToken);
-                            entity.LogicalFileName = metadata?.FileName;
-                            entity.UserId = userId;
-                            repositoryFilesInformation.Add(entity);
-                        }, cancellationToken));
-                    }
-
-                    currentFileName = contentDisposition.Name.ToString();
+                        var entity = await streamManager.SaveFile(tempStream, cancellationToken);
+                        entity.UserId = userId;
+                        repositoryFilesInformation.Add(entity);
+                    }, cancellationToken));
                 }
 
-                await section.Body.CopyToAsync(ms, CancellationToken.None);
+                currentFileName = contentDisposition.Name.ToString();
             }
+
+            await section.Body.CopyToAsync(ms, CancellationToken.None);
         }
 
         ms.Position = 0;
@@ -78,7 +59,6 @@ public class MultipartFileService(IFileStreamManager streamManager, FileReposito
         tasks.Add(Task.Run(async () =>
         {
             var lastEntity = await streamManager.SaveFile(ms, cancellationToken);
-            lastEntity.LogicalFileName = fileMetadata?.FileName;
             lastEntity.UserId = userId;
             repositoryFilesInformation.Add(lastEntity);
         }, cancellationToken));
@@ -86,6 +66,7 @@ public class MultipartFileService(IFileStreamManager streamManager, FileReposito
         await Task.WhenAll(tasks);
 
         dbContext.RepositoryFileInformations.AddRange(repositoryFilesInformation);
+
         await dbContext.SaveChangesAsync(CancellationToken.None);
         return repositoryFilesInformation;
     }

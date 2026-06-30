@@ -1,14 +1,11 @@
-import {Component, computed, inject, OnInit, signal} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {OutfitMetadataForm} from '../../components/outfit-creation/outfit-metadata-form/outfit-metadata.form';
 import {FileHandler} from '../../services/file-handler/file-handler';
-import {ImageFile} from '../../../types/files.types';
-import {LocalOutfit, Outfit, OutfitMetadataFormData} from '../../../types/outfit.types';
-import {OutfitStore} from '../../stores/outfit-store/outfit.store';
-import {OutfitApi} from '../../services/api/outfit-api/outfit-api';
+import {OutfitMetadataFormData} from '../../../types/outfit.types';
 import {DropZone} from '../../components/shared/drop-zone/drop-zone';
-import {ClothingStore} from '../../stores/clothing-store/clothing.store';
 import {UUID} from '../../../types/shared.types';
 import {ActivatedRoute, Router} from '@angular/router';
+import {OutfitEdit} from '../../services/outfit-edit/outfit-edit';
 
 @Component({
   selector: 'fp-outfit-edit-page',
@@ -17,7 +14,7 @@ import {ActivatedRoute, Router} from '@angular/router';
     OutfitMetadataForm,
     DropZone
   ],
-  providers: [FileHandler],
+  providers: [FileHandler, OutfitEdit],
   templateUrl: './outfit-edit.page.html',
   styleUrl: './outfit-edit.page.scss',
 })
@@ -27,61 +24,21 @@ export class OutfitEditPage implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private outfitId: UUID | undefined = this.activatedRoute.snapshot.params['id'];
 
-  private outfitStore = inject(OutfitStore);
-  fileHandler = inject(FileHandler);
-  private outfitApi = inject(OutfitApi);
-  protected clothingStore = inject(ClothingStore);
-
-  imagesMetadata = computed(() => this.fileHandler.files());
-
-  protected readonly activeImage = signal<ImageFile | undefined>(undefined);
-  protected readonly initialState = signal<Outfit | undefined>(undefined);
+  protected outfitEditHandler = inject(OutfitEdit);
 
   ngOnInit(): void {
-    if(!this.outfitId)
+    if (!this.outfitId)
       return;
-    const outfit = this.outfitStore.state().find(x => x.id === this.outfitId);
-    if(outfit)
-      return this.initialState.set(outfit);
-
-    this.outfitApi.getOutfitById(this.outfitId).subscribe(outfit => {
-      this.outfitStore.dispatch({type: 'ADD_OUTFIT', payload: outfit});
-      this.initialState.set(this.outfitStore.state().find(x => x.id === this.outfitId));
-    });
+    this.outfitEditHandler.setOutfitId(this.outfitId);
   }
 
-  protected handleDataTransfer($event: FileList) {
-    this.fileHandler.addFiles($event);
-    this.setActiveImage(this.imagesMetadata()[0]);
+  protected handleDataTransfer(fileList: FileList) {
+    this.outfitEditHandler.addImages(fileList);
   }
 
-  protected setActiveImage(metadata: ImageFile) {
-    this.activeImage.set(metadata);
-  }
-
-  protected handleSubmitted(outfitMetadata: OutfitMetadataFormData) {
-
-    const clothingIds = Object.values(outfitMetadata.clothingGroups)
-      .flat()
-      .filter(x => x.selected)
-      .flatMap(x => x.id);
-
-    const outfit: LocalOutfit = {
-      id: undefined,
-      colors: outfitMetadata.colors.map(color => color.value),
-      tags: outfitMetadata.tags.map(tag => tag.value),
-      seasons: outfitMetadata.seasons,
-      mood: outfitMetadata.mood,
-      sport: outfitMetadata.outfitDestination.sport,
-      images: this.fileHandler.files(),
-      clothing: clothingIds
-    }
-
-    this.outfitApi.uploadOutfit(outfit)
-      .subscribe(async res => {
-          this.outfitStore.dispatch({type: 'ADD_OUTFIT', payload: res});
-          await this.router.navigate(['/']);
-        }
-      );
+  protected async handleSubmitted(outfitMetadata: OutfitMetadataFormData) {
+    this.outfitEditHandler.saveChanges(outfitMetadata).subscribe(() =>
+      void this.router.navigate(['/'])
+    );
   }
 }

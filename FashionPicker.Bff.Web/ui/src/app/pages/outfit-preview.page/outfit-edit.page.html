@@ -1,36 +1,33 @@
-@if (!initialState())
-{
-  @if(activeImage()){
+@if (this.outfitEditHandler.isInEditMode()) {
   <fp-outfit-metadata-form
     class="metadata-form"
     (submitted)="handleSubmitted($event)"
-    [initialState]="initialState()"
-    [clothing]="clothingStore.state()"
+    [initialState]="this.outfitEditHandler.outfit()"
+    [clothing]="this.outfitEditHandler.clothingStore.state()"
   />
+  <div class="panel center-panel" [class.active-selected]="this.outfitEditHandler.activeImage()">
+    <div class="modal-container">
+      <img class="focused-image" src="{{this.outfitEditHandler.outfit()!.images[0].big ?? this.outfitEditHandler.outfit()!.images[0].original}}" alt=""/>
+    </div>
+  </div>
+} @else {
+  @if (this.outfitEditHandler.activeImage()) {
+    <fp-outfit-metadata-form
+      class="metadata-form"
+      (submitted)="handleSubmitted($event)"
+      [initialState]="this.outfitEditHandler.outfit()"
+      [clothing]="this.outfitEditHandler.clothingStore.state()"
+    />
   }
-  <div class="panel center-panel" [class.active-selected]="activeImage()">
-    @if (!fileHandler.files().length) {
+  <div class="panel center-panel" [class.active-selected]="this.outfitEditHandler.activeImage()">
+    @if (!this.outfitEditHandler.fileHandler.files().length) {
       <fp-drop-zone class="drop-zone" (files)="handleDataTransfer($event)"/>
     } @else {
-      @if (activeImage() && imagesMetadata().length) {
+      @if (this.outfitEditHandler.activeImage() && this.outfitEditHandler.imagesMetadata().length) {
         <div class="modal-container">
-          <img class="focused-image" src="{{activeImage()?.fileUrl}}" alt=""/>
+          <img class="focused-image" src="{{this.outfitEditHandler.activeImage()?.fileUrl}}" alt=""/>
         </div>
       }
     }
-  </div>
-}
-@else if (initialState())
-{
-  <fp-outfit-metadata-form
-    class="metadata-form"
-    (submitted)="handleSubmitted($event)"
-    [initialState]="initialState()"
-    [clothing]="clothingStore.state()"
-  />
-  <div class="panel center-panel" [class.active-selected]="activeImage()">
-    <div class="modal-container">
-      <img class="focused-image" src="{{initialState()!.images[0].big ?? initialState()!.images[0].original}}" alt=""/>
-    </div>
   </div>
 }

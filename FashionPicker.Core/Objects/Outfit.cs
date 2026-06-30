@@ -3,16 +3,16 @@ namespace FashionPicker.Core.Objects;
 public class Outfit
 {
     public Guid Id { get; init; }
-    public Guid UserId { get; set; }
-    public required List<OutfitTag> Tags { get; init; } = [];
     public required DateTime CreationDate { get; init; }
-    public string? Description { get; init; }
     public List<OutfitImage> Images { get; init; } = [];
-    public List<Season> Seasons { get; init; } = [];
-    public List<OutfitColor> Colors { get; init; } = [];
-    public Mood Mood { get; init; }
-    public bool Sport { get; init; }
-    public List<Clothing> Clothing { get; init; } = [];
+    public Guid UserId { get; set; }
+    public required List<OutfitTag> Tags { get; set; } = [];
+    public string? Description { get; set; }
+    public List<Season> Seasons { get; set; } = [];
+    public List<OutfitColor> Colors { get; set; } = [];
+    public Mood Mood { get; set; }
+    public bool Sport { get; set; }
+    public List<Clothing> Clothing { get; set; } = [];
 
     public void AddImages(RepositoryFileInformation fileInformation)
     {
@@ -28,15 +28,27 @@ public class Outfit
         Images.Add(outfitImage);
     }
 
-    public void SetClothing(List<Clothing> clothing)
+    public void AddTags(List<OutfitTag> combinedTags)
     {
-        Clothing.Clear();
-        Clothing.AddRange(clothing);
+        Tags = Tags.Union(combinedTags, new TagEqualityComparer()).ToList();
     }
 
-    public void ReplaceTags(IEnumerable<OutfitTag> combinedTags)
+}
+
+file class TagEqualityComparer : EqualityComparer<OutfitTag>
+{
+    public override bool Equals(OutfitTag? t1, OutfitTag? t2)
     {
-        Tags.Clear();
-        Tags.AddRange(combinedTags);
+        if (t1 is null && t2 is null)
+            return true;
+        if(t1 is null || t2 is null)
+            return false;
+
+        return (t1.Value == t2.Value && t1.Id == t2.Id);
+    }
+
+    public override int GetHashCode(OutfitTag tag)
+    {
+        return tag.GetHashCode();
     }
 }
