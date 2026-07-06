@@ -1,0 +1,16 @@
+:host{
+  width: 20rem;
+  height: 30rem;
+  display: flex;
+  flex-flow: column-reverse nowrap;
+  gap: 1rem;
+}
+.information{
+  background: #AFA;
+}
+.warning{
+  background: #FDA;
+}
+.error{
+  background: #FAA;
+}

@@ -28,4 +28,10 @@ interface FileState {
   success: boolean
 }
 
-export type {UUID, FileInformation, ImageDto, FileState};
+interface AlertMessage {
+  id: number,
+  type: "information" | "error" | "warning",
+  text: string,
+}
+
+export type {UUID, FileInformation, ImageDto, FileState, AlertMessage};

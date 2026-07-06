@@ -1,7 +1,9 @@
 :host{
-  background: #FAA;
+  background: #CCC;
   width: 20rem;
   display: flex;
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
 .alert-message-text{

@@ -2,10 +2,11 @@ import {inject, Injectable} from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {LocalOutfit, Outfit, OutfitDTO} from '../../../../types/outfit.types';
-import {map, Observable} from 'rxjs';
+import {map, Observable, tap} from 'rxjs';
 import {ApiHelper} from '../api-helper/api-helper';
 import {UUID} from '../../../../types/shared.types';
 import {OutfitGetAllResponse, OutfitGetResponse, OutfitPostResponse} from '../../../../types/outfit.api.types';
+import {AlertMessageQueue} from '../../alert-message-queue/alert-message-queue';
 
 @Injectable({
   providedIn: 'root',
@@ -16,17 +17,26 @@ export class OutfitApi {
   private readonly http = inject(HttpClient);
   private readonly apiHelper = inject(ApiHelper);
   private readonly multipartHeaders = new HttpHeaders({"enctype": "multipart/form-data"});
+  private readonly messageQueue = inject(AlertMessageQueue);
 
   uploadOutfit(outfit: LocalOutfit): Observable<Outfit> {
     const formData = this.prepareOutfit(outfit);
     return this.http.post<OutfitPostResponse>(`${this.apiUrl}/outfit`, formData, {headers: this.multipartHeaders})
-      .pipe(map(outfitResponse => this.hydrateOutfit(outfitResponse)));
+      .pipe(map(outfitResponse => this.hydrateOutfit(outfitResponse)),
+        tap({
+          error: () => this.messageQueue.sendInformation("outfit creation failed"),
+          complete: () => this.messageQueue.sendInformation("outfit added successfully.")
+        }));
   }
 
   editOutfit(outfit: LocalOutfit) {
     const formData = this.prepareOutfit(outfit);
     return this.http.put<OutfitPostResponse>(`${this.apiUrl}/outfit/${outfit.id}`, formData, {headers: this.multipartHeaders})
-      .pipe(map(outfitResponse => this.hydrateOutfit(outfitResponse)));
+      .pipe(map(outfitResponse => this.hydrateOutfit(outfitResponse)),
+        tap({
+          error: () => this.messageQueue.sendInformation("outfit update failed"),
+          complete: () => this.messageQueue.sendInformation("outfit updated successfully."),
+        }));
   }
 
   getOutfitById(id: UUID): Observable<Outfit> {

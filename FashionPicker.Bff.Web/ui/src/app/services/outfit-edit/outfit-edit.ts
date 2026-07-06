@@ -7,6 +7,7 @@ import {ClothingStore} from '../../stores/clothing-store/clothing.store';
 import {ImageFile} from '../../../types/files.types';
 import {LocalOutfit, Outfit, OutfitMetadataFormData} from '../../../types/outfit.types';
 import {map, tap} from 'rxjs';
+import {AlertMessageQueue} from '../alert-message-queue/alert-message-queue';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class OutfitEdit {
 
   private outfitApi = inject(OutfitApi);
   private outfitStore = inject(OutfitStore);
+  private messageQueue = inject(AlertMessageQueue);
 
   public fileHandler = inject(FileHandler);
   public clothingStore = inject(ClothingStore);
@@ -54,14 +56,10 @@ export class OutfitEdit {
 
     if (this.isInEditMode()) {
       return this.outfitApi.editOutfit(outfit)
-        .pipe(tap(outfit => {
-          this.outfitStore.dispatch({type: 'UPDATE_OUTFIT', payload: outfit});
-        }));
+        .pipe(tap(outfit => this.outfitStore.dispatch({type: 'UPDATE_OUTFIT', payload: outfit})));
     } else {
       return this.outfitApi.uploadOutfit(outfit)
-        .pipe(tap(res => {
-          this.outfitStore.dispatch({type: 'ADD_OUTFIT', payload: res});
-        }));
+        .pipe(tap(res => this.outfitStore.dispatch({type: 'ADD_OUTFIT', payload: res})));
     }
   }
 

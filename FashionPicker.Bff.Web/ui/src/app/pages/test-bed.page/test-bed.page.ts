@@ -17,7 +17,15 @@ export class TestBedPage {
     this.messageQueue.sendInformation("This is an information message");
   }
 
-  protected sendMessage() {
+  protected sendInfo() {
     this.messageQueue.sendInformation("This is an information message");
+  }
+
+  protected sendWarning() {
+    this.messageQueue.sendWarning("This is a warning message");
+  }
+
+  protected sendError() {
+    this.messageQueue.sendError("This is an error message");
   }
 }

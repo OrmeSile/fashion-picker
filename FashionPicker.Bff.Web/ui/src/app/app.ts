@@ -4,10 +4,11 @@ import {environment} from '../environments/environment';
 import {Navbar} from './components/shared/navbar/navbar';
 import {AuthApi} from './services/api/auth-api/auth-api';
 import {UserStore} from './stores/user-store/user.store';
+import {AlertMessageOverlay} from './components/shared/alert-message-overlay/alert-message-overlay';
 
 @Component({
   selector: 'fp-root',
-  imports: [RouterOutlet, Navbar],
+  imports: [RouterOutlet, Navbar, AlertMessageOverlay],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
